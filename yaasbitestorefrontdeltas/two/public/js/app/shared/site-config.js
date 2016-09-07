@@ -76,7 +76,7 @@ angular.module('ds.shared')
                 },
 
                 products: {
-                    baseUrl: 'https://' + apiPath + '/hybris/product/v1/' + tenantId,
+                    baseUrl: 'https://' + apiPath + '/hybris/product/v2/' + tenantId,
                     pageSize: 10
                 },
 
@@ -102,9 +102,12 @@ angular.module('ds.shared')
 
                 // ADJUSTED_AS_NEEDED: Added a new endpoint for the Tips Service
                 tipsEndpoint: { 
-                    // NEEDS_ADJUSTING : Define the end-point of your Tips Service 
-                    baseUrl: 'https://yaasbite2.cfapps.us10.hana.ondemand.com'               
+                    // NEEDS_ADJUSTING : Define the end-point of your Tips Service e.g. http://localhost:8080
+                    baseUrl: 'http://localhost:8080'               
                 }
+                // END_OF_ADJUSTED_AS_NEEDED: Added a new endpoint for the Tips Service
+     
+     
             };
 
             this.schemas = {

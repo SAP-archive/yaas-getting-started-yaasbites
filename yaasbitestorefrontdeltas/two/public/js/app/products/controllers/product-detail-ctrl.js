@@ -19,13 +19,23 @@ angular.module('ds.products')
      */
     .controller('ProductDetailCtrl', ['$scope', '$rootScope', 
         'TipsSvc', // ADJUSTED_AS_NEEDED : the products detail view will be using our TipsSvc; so introduce it as a dependency
-        'CartSvc', 'product', 'lastCatId', 'settings', 'GlobalData', 'CategorySvc','$filter', 'ProductAttributeSvc', '$modal', 'shippingZones', 'Notification', 'CommittedMediaFilter',
+        'CartSvc', 'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
         function($scope, $rootScope, 
             TipsSvc, // ADJUSTED_AS_NEEDED : the products detail view will be using our TipsSvc; so introduce it as a dependency
-            CartSvc, product, lastCatId, settings, GlobalData, CategorySvc, $filter, ProductAttributeSvc, $modal, shippingZones, Notification, CommittedMediaFilter) {
+            CartSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
             var modalInstance;
+                        
+            $scope.activeTab = 'description';
+            $scope.openTab = function (tabName) {
+                $scope.activeTab = tabName;
+            };
             
-            $scope.product = product;
+            $scope.productMixins = ProductExtensionHelper.resolveMixins(product.product);
+            $scope.productMixinsDefinitions = product.product.metadata.mixins;
+                        
+            $scope.product = productFactory.fromProduct(product.product, product.prices, variants.length === 0);
+            $scope.variants = variants;
+
             $scope.shippingZones = shippingZones;
             $scope.noShippingRates = true;
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
@@ -34,6 +44,15 @@ angular.module('ds.products')
             $scope.breadcrumbData = angular.copy($scope.category);
 
             $scope.taxConfiguration = GlobalData.getCurrentTaxConfiguration();
+
+            /*
+             we need to shorten the tax label if it contains more than 60 characters, and give users the option of
+             clicking a 'see more' link to view the whole label.
+             */
+            if ($scope.taxConfiguration && $scope.taxConfiguration.label && $scope.taxConfiguration.label.length > 60) {
+                $scope.taxConfiguration.shortenedLabel = $scope.taxConfiguration.label.substring(0, 59);
+                $scope.taxConfiguration.seeMoreClicked = false;
+            }
 
             if(!!lastCatId) {
                 if(lastCatId === 'allProducts'){
@@ -72,16 +91,6 @@ angular.module('ds.products')
 
             $scope.currencySymbol = GlobalData.getCurrencySymbol();
             $scope.error=null;
-
-            if (angular.isArray($scope.product.product.media)) {
-                $scope.product.product.media = CommittedMediaFilter.filter($scope.product.product.media);
-            } else {
-                $scope.product.product.media = [];
-            }
-            
-            if ($scope.product.product.media.length === 0) {
-                $scope.product.product.media.push({ id: settings.placeholderImageId, url: settings.placeholderImage });
-            }
 
             //input default values must be defined in controller, not html, if tied to ng-model
             $scope.productDetailQty = 1;
@@ -124,7 +133,8 @@ angular.module('ds.products')
             $scope.addToCartFromDetailPage = function () {
                 $scope.error = false;
                 $scope.buyButtonEnabled = false;
-                CartSvc.addProductToCart(product.product, product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
+                // todo: this should be fixed to use $scope.product
+                CartSvc.addProductToCart(product.product, $scope.product.prices, $scope.productDetailQty, { closeCartAfterTimeout: true, opencartAfterEdit: false })
                 .then(function(){
                     var productsAddedToCart = $filter('translate')('PRODUCTS_ADDED_TO_CART');
                     Notification.success({message: $scope.productDetailQty + ' ' + productsAddedToCart, delay: 3000});
@@ -143,8 +153,21 @@ angular.module('ds.products')
                 }
             };
 
-            $scope.hasAnyOfAttributesSet = function(product){
-                return ProductAttributeSvc.hasAnyOfAttributesSet(product);
+
+            function filterPricesForVariant(variantId) {
+                return variantPrices.filter(function (price) {
+                    var foundVariantId = price.itemYrn.split(';').pop();
+                    return variantId === foundVariantId;
+                });
+            }
+
+            $scope.onActiveVariantChanged = function (activeVariant) {
+                if (_.isObject(activeVariant)) {
+                    var prices = filterPricesForVariant(activeVariant.id);
+                    $scope.product = productFactory.fromProductVariant(product.product, activeVariant, prices);
+                } else {
+                    $scope.product = productFactory.fromProduct(product.product, product.prices, false);
+                }
             };
 
             // ADJUSTED_AS_NEEDED : A button on the product detail page will call this method
@@ -163,4 +186,7 @@ angular.module('ds.products')
                     }
                 );
             };
+            // END_OF_ADJUSTED_AS_NEEDED : A button on the product detail page will call this method
+
 }]);
+

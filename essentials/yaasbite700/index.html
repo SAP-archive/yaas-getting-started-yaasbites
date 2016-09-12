@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<link href="https://builder.yaas.io/public/css/styles.css" rel="stylesheet">
+	<script src="https://builder.yaas.io/public/js/vendor/jquery/dist/jquery.min.js"></script>
+	<script src="https://builder.yaas.io/public/js/vendor/underscore/underscore.js">	</script>
+	<script src="https://builder.yaas.io/public/js/vendor/angular/angular.js">	</script>
+	<script src="https://builder.yaas.io/public/js/vendor/restangular/dist/restangular.js">	</script>
+	<script src="https://builder.yaas.io/public/js/builder.js">	</script>
+	<script src="https://builder.yaas.io/public/js/builder_editors_v2.js">	</script>
+	<script src="js/yaasBitesBuilderModule.js">	</script>
+	<title>YaasBitesBuilderModule</title>
+</head>
+<body>
+	<script>
+           Builder.initialize(function(){
+               $("#header").append("Welcome " + Builder.currentAccountId + "!");
+               $("#location").append(Builder.currentLocation);
+               $("#token").append(Builder.authManager);
+           });
+	</script>
+	<div ng-app="yaasBitesBuilderModuleApp" ng-controller="tipsCtrl" >
+		<h3>yaasBitesBuilderModuleApp</h3> 
+		<a ng-click="getTips()">Get all Tips</a><br>
+		<pre>{{restResponse|json}}</pre>		
+	</div>
+</body>
+</html>

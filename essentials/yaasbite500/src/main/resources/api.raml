@@ -1,0 +1,49 @@
+#%RAML 0.8
+---
+title: TipControllerRAMLFile
+baseUri: http://localhost
+version: v1
+documentation:
+  - title: TipControllerRAMLFile
+    content: This project focuses on showing how to verify your raml is correctly written, and matches the calls made in your test
+      
+schemas:
+  - tip: !include schemas/tip.json  
+  - tips: !include schemas/tips.json
+    
+/tips:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+  post:
+    body:
+      application/json:
+    responses:
+      201:
+        body:
+          application/json:   
+  /{id}:
+    uriParameters:
+      id:
+        description: the id of the tip to modify
+        example: 1
+        type: integer
+
+    put:
+      description: Updates a tip
+      body:
+        application/json:
+          example: !include examples/tip-example.json
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/tip-example.json
+    delete:
+      description: Delete a tip
+      responses:
+        204:
+   
+          

@@ -1,0 +1,8 @@
+---
+applications:
+- name: yaasbite7bm
+  instances: 1
+  memory: 256M
+  domain: cfapps.us10.hana.ondemand.com 
+  buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git#v1.1.0
+  

@@ -1,0 +1,9 @@
+# This file is used to push your web application to cloud foundry. 
+---
+applications:
+- name: yaasbiteysdk # NEEDS_ADJUSTING
+  path: target/yaasbiteysdk-1.0-SNAPSHOT.war
+  domain: cfapps.us10.hana.ondemand.com
+  instances: 1
+  memory: 384M
+ 

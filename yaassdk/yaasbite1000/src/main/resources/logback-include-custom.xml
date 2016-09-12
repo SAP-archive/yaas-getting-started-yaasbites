@@ -1,0 +1,3 @@
+<included>
+	<logger name="com.hybris.bites" level="DEBUG" />
+</included>

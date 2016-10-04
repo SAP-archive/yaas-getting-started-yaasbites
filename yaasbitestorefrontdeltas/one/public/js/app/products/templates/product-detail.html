@@ -42,7 +42,7 @@
                             {{taxConfiguration.label}}
                         </div>
                         <div ng-if="taxConfiguration.label.length > 60 && !taxConfiguration.seeMoreClicked">
-                            {{taxConfiguration.shortenedLabel}}... 
+                            {{taxConfiguration.shortenedLabel}}...
                             <a ng-click="taxConfiguration.seeMoreClicked = true">{{'MORE' | translate}}</a>
                         </div>
                     </div>
@@ -77,8 +77,8 @@
                                 </div>
 
 
-                           
-                            
+
+
                                 <!-- add to cart -->
                                 <div class="col-md-8 col-md-offset-2">
                                     <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
@@ -97,11 +97,11 @@
                         <h3 class="pageTitle">Can't Decide? </h3>
                         <h3 class="pageTitle">Ask "Mr Tip"!</h3>
                         <div >
-                          <button id="tips-button" class="btn btn-primary" ng-click="getRandomTip()">What do you think Mr Tip?<br>
-                          {{randomTip}}</button><br>                            
+                          <button id="tips-button" class="btn btn-primary" ng-click="getRandomTip()">What do you think, Mr Tip?<br>
+                          {{randomTip}}</button><br>
                         </div>
                         <br><br>
-                        <!-- END_OF_ADJUSTED_AS_NEEDED : A button on the product detail page will call this method -->      
+                        <!-- END_OF_ADJUSTED_AS_NEEDED : A button on the product detail page will call this method -->
 
                         <!-- unavialable button -->
                         <div class="row" ng-if="!product.prices[0]">

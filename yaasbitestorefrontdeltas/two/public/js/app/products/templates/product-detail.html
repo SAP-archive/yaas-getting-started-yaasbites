@@ -42,7 +42,7 @@
                             {{taxConfiguration.label}}
                         </div>
                         <div ng-if="taxConfiguration.label.length > 60 && !taxConfiguration.seeMoreClicked">
-                            {{taxConfiguration.shortenedLabel}}... 
+                            {{taxConfiguration.shortenedLabel}}...
                             <a ng-click="taxConfiguration.seeMoreClicked = true">{{'MORE' | translate}}</a>
                         </div>
                     </div>
@@ -95,11 +95,11 @@
 
  <!-- ADJUSTED_AS_NEEDED : A button and feedback for our Tips Service-->
                             <div >
-                              <button id="tips-button" class="btn btn-primary " ng-click="getRandomTip()">What do you think Mr Tip?<br>
-                              {{randomTip}}</button><br>                            
+                              <button id="tips-button" class="btn btn-primary " ng-click="getRandomTip()">What do you think, Mr Tip?<br>
+                              {{randomTip}}</button><br>
                             </div>
 <!-- END_OF_ADJUSTED_AS_NEEDED : A button and feedback for our Tips Service-->
- 
+
 
                         <!-- unavialable button -->
                         <div class="row" ng-if="!product.prices[0]">

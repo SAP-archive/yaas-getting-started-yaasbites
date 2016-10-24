@@ -60,9 +60,11 @@ public class TipController {
     	synchronized(repo){
     		if (repo.exists(id)){
     			Tip oldTip = repo.findOne(id);
-    			oldTip.setTip(t.getTip());
-    			repo.save(oldTip);
-    			return new ResponseEntity<String>( HttpStatus.OK); 
+				if (oldTip.getTenant().equals(tenant)){
+					oldTip.setTip(t.getTip());
+    				repo.save(oldTip);
+    				return new ResponseEntity<String>( HttpStatus.OK); 
+				}				
     		}
     	}  	
     	return ResponseEntity

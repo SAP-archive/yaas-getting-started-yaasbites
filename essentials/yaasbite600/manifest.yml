@@ -1,7 +1,7 @@
 # This file is used to push your web application to cloud foundry. 
 ---
 applications:
-- name: yaasbite6 # // NEEDS_ADJUSTING
+- name: klyaasbite6 # // NEEDS_ADJUSTING
   domain: cfapps.us10.hana.ondemand.com 
   instances: 1
   memory: 384M

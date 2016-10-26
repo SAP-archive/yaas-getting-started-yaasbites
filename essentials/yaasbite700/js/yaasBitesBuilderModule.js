@@ -2,7 +2,7 @@ var yaasBitesBuilderModuleApp = angular.module('yaasBitesBuilderModuleApp', ["bu
 
 
 yaasBitesBuilderModuleApp.config(function(RestangularProvider) {
-	var SERVICES_API_PROXY="https://api.yaas.io/yaasgulps/yaasbites4/v1" ; // NEEDS_ADJUSTING
+	var SERVICES_API_PROXY="https://api.eu.yaas.io/yb0160913/service600/service600" ; // NEEDS_ADJUSTING
 	RestangularProvider.setBaseUrl(SERVICES_API_PROXY);
 });
 

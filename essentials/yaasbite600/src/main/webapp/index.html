@@ -24,10 +24,14 @@ app.config(function(RestangularProvider) {
 
 app.controller('tipsController', function($scope, Restangular, $http ) {	
 		
-	$scope.SERVICES_API_PROXY="https://api.yaas.io/yb20160720/yaasbite6service/v1" // NEEDS_ADJUSTING TO YOUR SERVICE'S API_PROXY URL, BUT KEEP THE HTTPS PROTOCOL
-	$scope.SERVICES_CLOUD_URI="https://yaasbite6.cfapps.us10.hana.ondemand.com" // NEEDS_ADJUSTING TO YOUR SERVICE'S CLOUD URL, BUT KEEP THE HTTPS PROTOCOL
-	$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token"		
-	$scope.CLIENT_ID = "8WQ41i3e29JfB4ZGs9Y8eLalDdKSpswJ"; // NEEDS_ADJUSTING TO THE CLIENT_ID OF YOUR CLIENT
+	$scope.SERVICES_API_PROXY="https://api.eu.yaas.io/yb0160913/service600/service600" // NEEDS_ADJUSTING TO YOUR SERVICE'S API_PROXY URL, BUT KEEP THE HTTPS PROTOCOL
+	$scope.SERVICES_CLOUD_URI="https://klyaasbite6.cfapps.us10.hana.ondemand.com" // NEEDS_ADJUSTING TO YOUR SERVICE'S CLOUD URL, BUT KEEP THE HTTPS PROTOCOL
+	
+	// NEEDS_ADJUSTING - DO YOU WANT A TOKEN FOR THE E.U. OR FOR THE U.S.? 
+	$scope.OAUTH_URL = "https://api.eu.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE E.U.
+	//$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE U.S.
+	
+	$scope.CLIENT_ID = "1vMxmq9TjAkwIIvKvTyhNUVgj0Ge7skx"; // NEEDS_ADJUSTING TO THE CLIENT_ID OF YOUR CLIENT
 
 	$scope.loggingIn = function() {	
 		var ACCESS_TOKEN_IN_URL_PREFIX = "access_token=";

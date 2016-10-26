@@ -1,6 +1,6 @@
 ---
 applications:
-- name: yaasbite7bm
+- name: yaasbite7bm  # // NEEDS_ADJUSTING
   instances: 1
   memory: 256M
   domain: cfapps.us10.hana.ondemand.com 

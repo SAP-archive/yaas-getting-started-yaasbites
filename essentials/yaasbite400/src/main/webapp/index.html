@@ -27,8 +27,13 @@ app.controller('tipsController', function($scope, Restangular, $http ) {
 		
 	$scope.LOCAL_URL="http://localhost:8080" // PERHAPS NEEDS_ADJUSTING IF YOU CHANGE YOUR DEFAULT PORTS
 	$scope.CLOUD_URL="https://klyaasbite4.cfapps.us10.hana.ondemand.com" // NEEDS_ADJUSTING BUT KEEP HTTPS PROTOCOL
-	$scope.SERVICES_API_PROXY_URL="https://api.yaas.io/yaasbites77/yaasbite0711/v1" // NEEDS_ADJUSTING BUT KEEP HTTPS PROTOCOL
-	$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token"		
+	$scope.SERVICES_API_PROXY_URL="https://api.eu.yaas.io/yb0160913/oct26s1/oct26s1" // NEEDS_ADJUSTING BUT KEEP HTTPS PROTOCOL
+	
+	
+	// NEEDS_ADJUSTING - DO YOU WANT A TOKEN FOR THE E.U. OR FOR THE U.S.? 
+	$scope.OAUTH_URL = "https://api.eu.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE E.U.
+	//$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE U.S.
+	
 	
 	$scope.setBaseUrl = function(useTenant){			
 		if ($scope.serverLocation==="local")

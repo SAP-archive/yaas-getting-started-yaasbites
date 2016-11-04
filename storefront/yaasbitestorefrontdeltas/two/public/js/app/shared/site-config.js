@@ -67,6 +67,10 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/customer/v1/' + tenantId
                 },
 
+                customerlogin: {
+                    baseUrl: 'https://' + apiPath + '/hybris/customerlogin/v1'
+                },
+
                 orders: {
                     baseUrl: 'https://' + apiPath + '/hybris/order/v1/' + tenantId
                 },
@@ -81,7 +85,7 @@ angular.module('ds.shared')
                 },
 
                 productDetails: {
-                    baseUrl: 'https://' + apiPath + '/hybris/productdetails/v1/' + tenantId
+                    baseUrl: 'https://' + apiPath + '/hybris/productdetails/v2/' + tenantId
                 },
 
                 shippingCosts: {
@@ -101,13 +105,12 @@ angular.module('ds.shared')
                 },
 
                 // ADJUSTED_AS_NEEDED: Added a new endpoint for the Tips Service
-                tipsEndpoint: { 
+                tipsEndpoint: {
                     // NEEDS_ADJUSTING : Define the end-point of your Tips Service e.g. http://localhost:8080
-                    baseUrl: 'http://localhost:8080'               
+                    baseUrl: 'http://localhost:8080'
                 }
                 // END_OF_ADJUSTED_AS_NEEDED: Added a new endpoint for the Tips Service
-     
-     
+
             };
 
             this.schemas = {

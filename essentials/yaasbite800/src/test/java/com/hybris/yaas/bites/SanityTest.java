@@ -76,10 +76,7 @@ public class SanityTest {
        		oaw.setClientSecret(yaaSClientsClient_Secret);
        		dsw.setYaaSClientsClient_Secret(yaaSClientsClient_Secret);
        	  }
-    	
-    	
-    	
-    	
+    	    	
         headersWithJustTenant = new HttpHeaders();
         headersWithJustTenant.add("hybris-tenant", TENANT);
         headersWithTenantAndScope = new HttpHeaders();

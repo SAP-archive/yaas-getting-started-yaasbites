@@ -35,8 +35,8 @@ public class DocuServiceWrapper {
     private String appId;
     @Value("${docuRepoType}")
     private String type;
-    @Value("${yaaSClientsIClient_ID}")
-    private String yaaSClientsIClient_ID;
+    @Value("${yaaSClientsClient_ID}")
+    private String yaaSClientsClient_ID;
     @Value("${yaaSClientsClient_Secret}")
     private String yaaSClientsClient_Secret;
     @Value("${docuRepoScopes}")
@@ -165,5 +165,29 @@ public class DocuServiceWrapper {
             throw new CallingYaaSServiceException();
         return tokenMap.get("access_token");
     }
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public String getYaaSClientsClient_ID() {
+		return yaaSClientsClient_ID;
+	}
+
+	public void setYaaSClientsClient_ID(String yaaSClientsClient_ID) {
+		this.yaaSClientsClient_ID = yaaSClientsClient_ID;
+	}
+
+	public String getYaaSClientsClient_Secret() {
+		return yaaSClientsClient_Secret;
+	}
+
+	public void setYaaSClientsClient_Secret(String yaaSClientsClient_Secret) {
+		this.yaaSClientsClient_Secret = yaaSClientsClient_Secret;
+	}
 }
 

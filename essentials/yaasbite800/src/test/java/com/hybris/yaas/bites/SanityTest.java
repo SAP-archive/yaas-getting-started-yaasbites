@@ -41,8 +41,8 @@ public class SanityTest {
     private String appId;
     @Value("${docuRepoType}")
     private String type;
-    @Value("${yaaSClientsIClient_ID}")
-    private String yaaSClientsIClient_ID;
+    @Value("${yaaSClientsClient_ID}")
+    private String yaaSClientsClient_ID;
     @Value("${yaaSClientsClient_Secret}")
     private String yaaSClientsClient_Secret;
     @Value("${docuRepoScopes}")
@@ -58,9 +58,28 @@ public class SanityTest {
     private final TestRestTemplate restTemplate = new TestRestTemplate();
     private HttpEntity<Tip> emptyEntityWithTenantHeader;
 
-
     @Before
     public void setUpTenantInHeadaer() {
+    	
+    	if (System.getProperty("yaaSClientsIdentifierFromCLI")!=null){
+    		appId=System.getProperty("yaaSClientsIdentifierFromCLI");
+    		oaw.setAppId(appId);
+    		dsw.setAppId(appId);
+    	}
+    	if (System.getProperty("yaaSClientsClient_IDFromCLI")!=null){
+    		yaaSClientsClient_ID=System.getProperty("yaaSClientsClient_IDFromCLI");
+    		oaw.setClientId(yaaSClientsClient_ID);
+    		dsw.setYaaSClientsClient_ID(yaaSClientsClient_ID);
+    	}
+    	if (System.getProperty("yaaSClientsClient_SecretFromCLI")!=null){
+    		yaaSClientsClient_Secret=System.getProperty("yaaSClientsClient_SecretFromCLI");
+       		oaw.setClientSecret(yaaSClientsClient_Secret);
+       		dsw.setYaaSClientsClient_Secret(yaaSClientsClient_Secret);
+       	  }
+    	
+    	
+    	
+    	
         headersWithJustTenant = new HttpHeaders();
         headersWithJustTenant.add("hybris-tenant", TENANT);
         headersWithTenantAndScope = new HttpHeaders();

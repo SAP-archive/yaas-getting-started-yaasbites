@@ -26,7 +26,7 @@ public class OAuthWrapper {
     private String appId;
 	@Value("${docuRepoType}")
     private String type;
-	@Value("${yaaSClientsIClient_ID}")
+	@Value("${yaaSClientsClient_ID}")
 	private String clientId;
 	@Value("${yaaSClientsClient_Secret}")
 	private String clientSecret;
@@ -79,5 +79,29 @@ public class OAuthWrapper {
 		} catch (RestClientException e) {
 			throw new CallingYaaSServiceException();
 		}
-    } 	
+    }
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public String getClientSecret() {
+		return clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	} 	
 }

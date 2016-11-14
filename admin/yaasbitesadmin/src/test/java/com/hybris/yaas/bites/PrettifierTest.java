@@ -18,13 +18,13 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 	private static String sourceDirectories[] = {
 			"../../essentials/yaasbite100/src/"
 	};
-	private static String targetFile = "src/main/webapp/Content.html";
+	private static String targetFile = "src/main/webapp/demotests/Content.html";
 	
 	private static List<File> listOfFiles = new ArrayList<File>();
 	private static StringBuffer mainHtml = new StringBuffer();
 	private static StringBuffer contentHtml = new StringBuffer();
 	
-	private static String targetDir = "src/main/webapp";
+	private static String targetDir = "src/main/webapp/demotests";
 	private static String pagePrefix = "<html><head><script src='https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=default'></script><link rel='stylesheet' type='text/css' href='https://www.yaas.io/globalresources/v3/css/global.min.css' media='screen, projection, print'><link rel='stylesheet' href='https://devportal.yaas.io/styles/devportal-yaas.css'></head><body onload='prettyPrint()'><a name='Top'/>";
 	private static String codePrefix = "<a name='%s'/><pre class=prettyprint><code class='language-java '>/* %s */ <a href='#Top'>Top</a>\n";
 	private static String codePostfix = "</code></pre>";
@@ -59,7 +59,7 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 		mainHtml.append( pagePrefix );
 		mainHtml.append( contentHtml );;
 		for(File f : listOfFiles){
-			if (f.getName().contains(".java")){
+			if (f.getName().contains(".java") || f.getName().contains(".xml")  || f.getName().contains(".html")){
 				String fileName = f.toURI().toString().substring( f.toURI().toString().indexOf("../../")+6);
 				
 				String codePrefixWithContent = String.format( codePrefix, fileName, fileName );

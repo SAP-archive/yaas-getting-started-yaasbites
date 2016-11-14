@@ -1,0 +1,118 @@
+<html><head><script src='https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=default'></script><link rel='stylesheet' type='text/css' href='https://www.yaas.io/globalresources/v3/css/global.min.css' media='screen, projection, print'><link rel='stylesheet' href='https://devportal.yaas.io/styles/devportal-yaas.css'></head><body onload='prettyPrint()'><a name='Top'/><h2>YaaS Bites Source Code</h2><h3>Content</h3><a href='#essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Application.java'>essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Application.java</a><br><a href='#essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Greeting.java'>essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Greeting.java</a><br><a href='#essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java'>essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java</a><br><a href='#essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java'>essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java</a><br><a name='essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Application.java'/><pre class=prettyprint><code class='language-java '>/* essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Application.java */ <a href='#Top'>Top</a>
+package com.hybris.yaas.bites;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+</code></pre><a name='essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Greeting.java'/><pre class=prettyprint><code class='language-java '>/* essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/Greeting.java */ <a href='#Top'>Top</a>
+package com.hybris.yaas.bites;
+
+public class Greeting {
+
+	private long id;
+    private String content;
+ 
+    public Greeting(){
+    }
+    
+    public Greeting(long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+    
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Greeting other = (Greeting) obj;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
+}
+
+</code></pre><a name='essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java'/><pre class=prettyprint><code class='language-java '>/* essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java */ <a href='#Top'>Top</a>
+package com.hybris.yaas.bites;
+
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+    private final String TEMPLATE = "Greetings from Bayern, Most Honorable %s!";
+    private final Logger LOG = LoggerFactory.getLogger(GreetingController.class);
+    private final AtomicLong counter = new AtomicLong();
+    
+    @RequestMapping( "/greeting" )
+    public ResponseEntity<Greeting> greetings( @RequestParam( value="name", defaultValue="User") String name) {
+    	LOG.debug("======= In /greetings with name: "+ name );    	
+    	return new ResponseEntity<Greeting>(new Greeting(counter.incrementAndGet(), 
+    			String.format(TEMPLATE, name)), HttpStatus.OK); 
+    }
+
+}
+</code></pre><a name='essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java'/><pre class=prettyprint><code class='language-java '>/* essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java */ <a href='#Top'>Top</a>
+package com.hybris.yaas.bites;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(Application.class)
+@WebIntegrationTest("server.port=8080")
+public class SanityTest {
+
+	private final String HOMEPAGE = "http://localhost:8080/greeting";
+	
+	@Test(timeout = 60000) 
+	public void siteIsAwakeAndWorking() throws Exception {	
+		
+		final TestRestTemplate restTemplate = new TestRestTemplate();
+        Greeting greeting1 = restTemplate.getForObject(HOMEPAGE, Greeting.class);
+        assertEquals(greeting1, new Greeting( 1, "Greetings from Bayern, Most Honorable User!"));      
+               
+        Greeting greeting2  = restTemplate.getForObject(HOMEPAGE+"?name=Bod", Greeting.class);
+        assertEquals(greeting2, new Greeting( 2, "Greetings from Bayern, Most Honorable Bod!"));   
+ 
+	}
+
+}
+</code></pre></body></html>

@@ -1,8 +1,8 @@
 Running these tests will <br>
 <br>
-Check the links<br>
+Check the links in the YaaS Bites html files<br>
 
-Create an html prettified version of the code under webapps/demotests<br>
+Create an html prettified version of the code under yaas-getting-started-yaasbites/admin/yaasbitesadmin/src/main/webapp/demotestsbr>
 <br>
 If you run with mvn cf:push, this will upload the code to  https://yaasbiteadmin.cfapps.us10.hana.ondemand.com/demotests/Content.html<br>
 <br>

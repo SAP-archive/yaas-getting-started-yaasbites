@@ -51,20 +51,20 @@ public class PubSubClient {
 		return response.getStatusCode();
 	}
 
-	public HttpStatus deleteTopic(String appId, String topic) {
+	public HttpStatus deleteTopic(String topic) {
 		ResponseEntity<String> response =
 			clean().
-			endpoint(pubsubURI + "/topics/" + appId + "/" + topic).
+			endpoint(pubsubURI + "/topics/" + yclientIdentifier + "/" + topic).
 			token(getOAuthToken()).
 			expects(String.class).
 			delete();
 		return response.getStatusCode();
 	}
 
-	public HttpStatus postMessage(String appId, String topic, String message) {
+	public HttpStatus postMessage( String topic, String message) {
 		ResponseEntity<String> response = 
 			clean().
-			endpoint(pubsubURI + "/topics/" + appId + "/" + topic + "/publish").
+			endpoint(pubsubURI + "/topics/" + yclientIdentifier + "/" + topic + "/publish").
 			body("{\"payload\": \"" + message + "\" }").
 			token(getOAuthToken()).
 			expects(String.class).
@@ -72,10 +72,10 @@ public class PubSubClient {
 		return response.getStatusCode();
 	}
 
-	public Optional<PubSubJsonOutput> readMessage(String appId, String topic) {
+	public Optional<PubSubJsonOutput> readMessage( String topic) {
 		ResponseEntity<String> response = 
 			clean().
-			endpoint(pubsubURI + "/topics/" + appId + "/" + topic + "/read").
+			endpoint(pubsubURI + "/topics/" + yclientIdentifier + "/" + topic + "/read").
 			token(getOAuthToken()).
 			expects(String.class).
 			post();
@@ -87,10 +87,10 @@ public class PubSubClient {
 		return Optional.of(o);
 	}
 
-	public HttpStatus commitMessage(String appId, String topic, String pubsubMessageId) {
+	public HttpStatus commitMessage( String topic, String pubsubMessageId) {
 		ResponseEntity<String> response = 
 			clean().
-			endpoint(pubsubURI + "/topics/" + appId + "/" + topic + "/commit").
+			endpoint(pubsubURI + "/topics/" + yclientIdentifier + "/" + topic + "/commit").
 			body("{\"token\": \"" + pubsubMessageId + "\" }").
 			token(getOAuthToken()).
 			expects(String.class).

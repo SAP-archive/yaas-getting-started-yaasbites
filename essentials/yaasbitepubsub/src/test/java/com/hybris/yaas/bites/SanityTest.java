@@ -39,31 +39,31 @@ public class SanityTest {
 		assertEquals( HttpStatus.CREATED, httpStatusForCreateTopic );
 		Thread.sleep(msSleepTime);
 
-		HttpStatus httpStatusForPostMessage1 = psc.postMessage( clientIdentifier, pubsubTopic, businessEvent1);
+		HttpStatus httpStatusForPostMessage1 = psc.postMessage(  pubsubTopic, businessEvent1);
 		assertEquals( HttpStatus.CREATED,  httpStatusForPostMessage1 );
 		Thread.sleep(msSleepTime);
 		
-		HttpStatus httpStatusForPostMessage2 = psc.postMessage( clientIdentifier, pubsubTopic, businessEvent2);
+		HttpStatus httpStatusForPostMessage2 = psc.postMessage(  pubsubTopic, businessEvent2);
 		assertEquals( HttpStatus.CREATED,  httpStatusForPostMessage2 );
 		Thread.sleep(msSleepTime);
 		
-		Optional<PubSubJsonOutput> pubsubJsonOutput1 = psc.readMessage( clientIdentifier, pubsubTopic);			
+		Optional<PubSubJsonOutput> pubsubJsonOutput1 = psc.readMessage(  pubsubTopic);			
 		assertEquals( pubsubJsonOutput1.get().getEvents().get(0).get("payload"), businessEvent1);
 		Thread.sleep(msSleepTime);
 		
-		HttpStatus httpStatusForCommitMessage1 = psc.commitMessage( clientIdentifier, pubsubTopic, pubsubJsonOutput1.get().getToken() );
+		HttpStatus httpStatusForCommitMessage1 = psc.commitMessage(  pubsubTopic, pubsubJsonOutput1.get().getToken() );
 		assertEquals( HttpStatus.OK, httpStatusForCommitMessage1 );
 		Thread.sleep(msSleepTime);
 
-		Optional<PubSubJsonOutput> pubsubJsonOutput2 = psc.readMessage( clientIdentifier, pubsubTopic);			
+		Optional<PubSubJsonOutput> pubsubJsonOutput2 = psc.readMessage(  pubsubTopic);			
 		assertEquals( pubsubJsonOutput2.get().getEvents().get(0).get("payload"), businessEvent2);
 		Thread.sleep(msSleepTime);
 		
-		HttpStatus httpStatusForCommitMessage2 = psc.commitMessage( clientIdentifier, pubsubTopic, pubsubJsonOutput2.get().getToken() );
+		HttpStatus httpStatusForCommitMessage2 = psc.commitMessage(  pubsubTopic, pubsubJsonOutput2.get().getToken() );
 		assertEquals( HttpStatus.OK, httpStatusForCommitMessage2 );
 		Thread.sleep(msSleepTime);
 
-		HttpStatus httpStatusForDeleteMessage = psc.deleteTopic( clientIdentifier, pubsubTopic );
+		HttpStatus httpStatusForDeleteMessage = psc.deleteTopic(  pubsubTopic );
 		assertEquals( HttpStatus.ACCEPTED, httpStatusForDeleteMessage );
     }
 }

@@ -56,6 +56,7 @@ public class LinkCheckerEngine {
 		"https://www.yaas.io/legal/#privacy",
 		"https://www.yaas.io/legal/#terms",
 		"https://builder.yaas.io//#/?selectedPath=%2FMy%20Profile%2FProfile",
+		"https://builder.yaas.io/#/?selectedPath=%2FMy%20Profile%2FProfile",
 		"https://api.eu.yaas.io/yaasgulps/sdf/v1", // Is just an example string in the bites
 		"https://api.yaas.io/yaasgulps/sdf/v1/tips", // Is just an example string in the bites,
 		"https://yaasbite6.cfapps.us10.hana.ondemand.com/index.html",  // Is just an example string in the bites,

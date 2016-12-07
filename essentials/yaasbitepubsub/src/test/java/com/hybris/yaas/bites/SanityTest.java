@@ -3,6 +3,7 @@ package com.hybris.yaas.bites;
 import static org.junit.Assert.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +27,7 @@ public class SanityTest {
 	@Value("${yaaSClientsIdentifier}")
 	private String clientIdentifier;
 	
-	@Value("${topic}")
-	private String pubsubTopic;
+	private String aUniqueTopicName= UUID.randomUUID().toString();
 	
 	private String businessEvent1 = "{'Tip':'Do not eat fireworks', 'AuthorsEmail': 'bob.builder@sap.com'}";
 	private String businessEvent2 = "{'Tip':'Do not eat haggis', 'AuthorsEmail': 'bob.builder@sap.com'}";
@@ -35,35 +35,36 @@ public class SanityTest {
 
 	@Test
     public void pubsubHappyPath() throws Exception {		
-		HttpStatus httpStatusForCreateTopic = psc.createTopic( pubsubTopic );
+		
+		HttpStatus httpStatusForCreateTopic = psc.createTopic( aUniqueTopicName );
 		assertEquals( HttpStatus.CREATED, httpStatusForCreateTopic );
 		Thread.sleep(msSleepTime);
 
-		HttpStatus httpStatusForPostMessage1 = psc.postMessage(  pubsubTopic, businessEvent1);
+		HttpStatus httpStatusForPostMessage1 = psc.postMessage(  aUniqueTopicName, businessEvent1);
 		assertEquals( HttpStatus.CREATED,  httpStatusForPostMessage1 );
 		Thread.sleep(msSleepTime);
 		
-		HttpStatus httpStatusForPostMessage2 = psc.postMessage(  pubsubTopic, businessEvent2);
+		HttpStatus httpStatusForPostMessage2 = psc.postMessage(  aUniqueTopicName, businessEvent2);
 		assertEquals( HttpStatus.CREATED,  httpStatusForPostMessage2 );
 		Thread.sleep(msSleepTime);
 		
-		Optional<PubSubJsonOutput> pubsubJsonOutput1 = psc.readMessage(  pubsubTopic);			
+		Optional<PubSubJsonOutput> pubsubJsonOutput1 = psc.readMessage(  aUniqueTopicName);			
 		assertEquals( pubsubJsonOutput1.get().getEvents().get(0).get("payload"), businessEvent1);
 		Thread.sleep(msSleepTime);
 		
-		HttpStatus httpStatusForCommitMessage1 = psc.commitMessage(  pubsubTopic, pubsubJsonOutput1.get().getToken() );
+		HttpStatus httpStatusForCommitMessage1 = psc.commitMessage(  aUniqueTopicName, pubsubJsonOutput1.get().getToken() );
 		assertEquals( HttpStatus.OK, httpStatusForCommitMessage1 );
 		Thread.sleep(msSleepTime);
 
-		Optional<PubSubJsonOutput> pubsubJsonOutput2 = psc.readMessage(  pubsubTopic);			
+		Optional<PubSubJsonOutput> pubsubJsonOutput2 = psc.readMessage(  aUniqueTopicName);			
 		assertEquals( pubsubJsonOutput2.get().getEvents().get(0).get("payload"), businessEvent2);
 		Thread.sleep(msSleepTime);
 		
-		HttpStatus httpStatusForCommitMessage2 = psc.commitMessage(  pubsubTopic, pubsubJsonOutput2.get().getToken() );
+		HttpStatus httpStatusForCommitMessage2 = psc.commitMessage(  aUniqueTopicName, pubsubJsonOutput2.get().getToken() );
 		assertEquals( HttpStatus.OK, httpStatusForCommitMessage2 );
 		Thread.sleep(msSleepTime);
 
-		HttpStatus httpStatusForDeleteMessage = psc.deleteTopic(  pubsubTopic );
+		HttpStatus httpStatusForDeleteMessage = psc.deleteTopic(  aUniqueTopicName );
 		assertEquals( HttpStatus.ACCEPTED, httpStatusForDeleteMessage );
     }
 }

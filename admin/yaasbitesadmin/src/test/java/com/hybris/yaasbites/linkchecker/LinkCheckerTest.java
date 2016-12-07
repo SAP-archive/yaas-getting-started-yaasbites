@@ -15,7 +15,7 @@ public class LinkCheckerTest {
     {
     	LinkCheckerEngine engine = new LinkCheckerEngine();
 		engine.acceptArgs(new String[]	 {
-			"https://yaasbiteindex.cfapps.us10.hana.ondemand.com",
+			"https://yaasbitesadmin.cfapps.us10.hana.ondemand.com",
 			"forTestingLinkChecker/badLinks.html"
 		});
 

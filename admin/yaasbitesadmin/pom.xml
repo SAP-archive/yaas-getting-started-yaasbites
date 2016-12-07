@@ -71,7 +71,7 @@
         	<target>https://api.cf.us10.hana.ondemand.com</target>
 			<org>project1adidas</org>
 			<space>stage</space>
-			<appname>yaasbiteadmin</appname>
+			<appname>yaasbitesadmin</appname>
 			
 		</configuration> 
 	</plugin>

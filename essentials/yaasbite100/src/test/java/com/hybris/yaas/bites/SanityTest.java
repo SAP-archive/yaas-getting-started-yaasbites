@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //YaaSBiteSnippetStart greetingTest
 public class SanityTest {
 	private final String HOMEPAGE = "http://localhost:8080/greeting";	
-	@Test(timeout = 60000) // YaaSBiteSnippetStart greetingEndpoint
+	@Test(timeout = 120000) 
 	public void siteIsAwakeAndWorking() throws Exception {	
 		final TestRestTemplate restTemplate = new TestRestTemplate();
         Greeting greeting1 = restTemplate.getForObject(HOMEPAGE, Greeting.class);

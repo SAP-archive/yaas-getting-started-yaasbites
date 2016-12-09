@@ -61,8 +61,7 @@ public class LinkCheckerEngine {
 		"https://api.yaas.io/yaasgulps/sdf/v1/tips", // Is just an example string in the bites,
 		"https://yaasbite6.cfapps.us10.hana.ondemand.com/index.html",  // Is just an example string in the bites,
 		"https://github.com/mgonto/Restangular#starter-guide", // I expect they will correct and rename to starter-guide	
-		"https://api.yaas.io/hybris/product/v2/me/products", // Should be blocked
-		
+		"https://api.yaas.io/hybris/product/v2/me/products", // Should be blocked	
 		"https://devportal.yaas.io/tools/apibestpractices/ApiDefinitionWithRaml.html" // Have commited hot fix so can remove once merged
 	));
 
@@ -145,7 +144,7 @@ public class LinkCheckerEngine {
 		} catch (Exception e) {
 			response = e.getMessage();
 		}
-		System.out.println("Unreachable from " +source + " : " + url + " "+response);
+		System.out.println("Unreachable link from " +source + " : *" + url + "* "+response);
 		
 		pagesWithErrors.add( "Unreachable: "+url + ", reponse=" + response);
 		return false;

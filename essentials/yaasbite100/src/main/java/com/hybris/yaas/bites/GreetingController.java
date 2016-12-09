@@ -19,7 +19,7 @@ public class GreetingController {
     
     @RequestMapping( "/greeting" )
     public ResponseEntity<Greeting> greetings( @RequestParam( value="name", defaultValue="User") String name) {
-    	LOG.debug("======= In /greetings with name: "+ name );    	
+    	LOG.debug("======= In /greetings with name variable: "+ name );    	
     	return new ResponseEntity<Greeting>(new Greeting(counter.incrementAndGet(), 
     			String.format(TEMPLATE, name)), HttpStatus.OK); 
     }

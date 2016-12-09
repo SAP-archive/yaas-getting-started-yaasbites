@@ -4,7 +4,8 @@ import java.io.File;
 
 import org.junit.Test;
 
-import com.hybris.yaasbites.linkchecker.util.CodePrettifierEngine;
+import com.hybris.yaas.bites.linkchecker.util.CodePrettifierEngine;
+
 
 public class PrettifierTest {	// Using https://github.com/google/code-prettify
 	private static String sourceDirectories[] = {

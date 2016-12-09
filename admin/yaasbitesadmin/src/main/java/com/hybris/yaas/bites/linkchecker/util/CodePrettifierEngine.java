@@ -1,4 +1,4 @@
-package com.hybris.yaasbites.linkchecker.util;
+package com.hybris.yaas.bites.linkchecker.util;
 
 import java.io.BufferedWriter;
 import java.io.File;

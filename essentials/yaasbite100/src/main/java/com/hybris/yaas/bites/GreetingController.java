@@ -15,13 +15,10 @@ public class GreetingController {
 
     private final String TEMPLATE = "Greetings from Bayern, Most Honorable %s!";
     private final Logger LOG = LoggerFactory.getLogger(GreetingController.class);
-    private final AtomicLong counter = new AtomicLong();
-    
     @RequestMapping( "/greeting" )
     public ResponseEntity<Greeting> greetings( @RequestParam( value="name", defaultValue="User") String name) {
     	LOG.debug("======= In /greetings with the name : "+ name );    	
-    	return new ResponseEntity<Greeting>(new Greeting(counter.incrementAndGet(), 
-    			String.format(TEMPLATE, name)), HttpStatus.OK); 
+    	return new ResponseEntity<Greeting>(new Greeting( String.format(TEMPLATE, name) ), HttpStatus.OK); 
     }
 }
 //YaaSBiteSnippetEnd

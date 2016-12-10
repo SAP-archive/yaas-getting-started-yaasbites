@@ -2,19 +2,13 @@ package com.hybris.yaas.bites;
 
 public class Greeting {
 
-	private long id;
     private String content;
  
     public Greeting(){
     }
     
-    public Greeting(long id, String content) {
-        this.id = id;
+    public Greeting(String content) {
         this.content = content;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getContent() {
@@ -34,8 +28,6 @@ public class Greeting {
 			if (other.content != null)
 				return false;
 		} else if (!content.equals(other.content))
-			return false;
-		if (id != other.id)
 			return false;
 		return true;
 	}

@@ -43,7 +43,7 @@ public class CodePrettifierEngine {
 				snippet = snippet.substring(snippet.indexOf("\n") + 1);
 				snippet = snippet.substring(0, snippet.lastIndexOf("\n"));
 				String prettified = convertStringToHTML(snippet);
-				String prefix = "<b>"+f.getAbsolutePath().substring( f.getAbsolutePath().indexOf("/yaasbite"))+"</b><br>";
+				String prefix = "<b>"+f.getAbsolutePath().substring( f.getAbsolutePath().indexOf("/essentials/"))+"</b><br>";
 				String trimmed = prefix.concat( prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7) );
 				
 				filesAndHTML.put(f, trimmed);

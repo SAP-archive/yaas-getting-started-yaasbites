@@ -1,4 +1,4 @@
-package com.hybris.yaas.bites.linkchecker.util;
+package com.hybris.yaas.bites.linkchecker;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

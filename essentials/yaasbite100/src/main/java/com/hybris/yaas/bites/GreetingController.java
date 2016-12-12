@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 //YaaSBiteSnippetStart greetingEndpoint
 @RestController
 public class GreetingController {
-
     private final String TEMPLATE = "Greetings from Bayern, Most Honorable %s!";
     private final Logger LOG = LoggerFactory.getLogger(GreetingController.class);
     @RequestMapping( "/greeting" )

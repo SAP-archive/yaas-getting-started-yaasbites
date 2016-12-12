@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import com.hybris.yaas.bites.linkchecker.util.CodePrettifierEngine;
+import com.hybris.yaas.bites.prettifier.CodePrettifierEngine;
 
 
 public class PrettifierTest {	// Using https://github.com/google/code-prettify

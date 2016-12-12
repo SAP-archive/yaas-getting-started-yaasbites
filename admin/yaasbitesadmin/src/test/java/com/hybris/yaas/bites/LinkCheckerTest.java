@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.hybris.yaas.bites.linkchecker.util.LinkCheckerEngine;
+import com.hybris.yaas.bites.linkchecker.LinkCheckerEngine;
 
 public class LinkCheckerTest {
 	@Test

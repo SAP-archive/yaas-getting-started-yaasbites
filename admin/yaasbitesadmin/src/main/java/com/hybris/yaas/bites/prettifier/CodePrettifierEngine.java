@@ -1,4 +1,4 @@
-package com.hybris.yaas.bites.linkchecker.util;
+package com.hybris.yaas.bites.prettifier;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -43,7 +43,9 @@ public class CodePrettifierEngine {
 				snippet = snippet.substring(snippet.indexOf("\n") + 1);
 				snippet = snippet.substring(0, snippet.lastIndexOf("\n"));
 				String prettified = convertStringToHTML(snippet);
-				String trimmed = prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7);
+				String prefix = f.getAbsolutePath()+"<br>";
+				String trimmed = prefix.concat( prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7) );
+				
 				filesAndHTML.put(f, trimmed);
 
 				String name = snippetName.trim() + ".html";

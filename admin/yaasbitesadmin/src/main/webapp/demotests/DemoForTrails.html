@@ -1,20 +1,57 @@
 <html>
 <head>
+<style type="text/css">
+		body {
+    		font-family: Arial, Helvetica, sans-serif;
+		}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script></head>
 <body>
-This page could for example be a trail, in which we would like to include some real snippets of code from the latest Green Tests in our code base.
+<h3>A Trail Step with Dynamically included Test Code</h3>
 
-For example 
+<b>Challenge:</b>
+<ul>
+<li>We want to dynamically include green test code directly from our code-base in an html page</li>
+<li>Manually copy pasting code samples is very evil, as it goes out of date</li>
+<li>It would be cool if the code were colored to be more readble - see for example the <a href="http://doc.akka.io/docs/akka/snapshot/java/untyped-actors.html">Akka Tutorials</a>.</li>
+</ul>
 
-Some comments
+<b>Solution</b><br><br>
+
+
+These files have been extracted, prettified and inserted in this page dynamically:<br><br>
+
 <div STYLE="background-color: #edf1f5; border:1px solid lightgray" id="snippetGreetingTest" name="snippetGreetingTest"></div>
-Some comments
-Some comments
+<br>and a second file:<br><br>
 <div STYLE="background-color: #edf1f5; border:1px solid lightgray" id="snippetGreetingEndpoint" name="snippetGreetingEndpoint"></div>
-Some comments
 
+<br><br>
+The original java files that were scanned for these examples are found at
+<ul>
+<li><a href="https://github.com/SAP/yaas-getting-started-yaasbites/blob/master/essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java">https://github.com/SAP/yaas-getting-started-yaasbites/blob/master/essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java</a></li>
+<li><a href="https://github.com/SAP/yaas-getting-started-yaasbites/blob/master/essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java">https://github.com/SAP/yaas-getting-started-yaasbites/blob/master/essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java</a></li>
+</ul>
 
-<li>You can show or hide the code samples by <a id="showHideCode" href="#">clicking here</a>.</li>
+<b>Details of solution</b><br>
+
+I have a GO pipeline that 
+<ol>
+<li>pulls sourcecoude from github</li> 
+<li>Triggers a mvn test that <ol><li>
+<li>scans any given java file for code snippets surrounded by the two comments <code>//YaaSBiteSnippetStart someName</code> and <code>//YaaSBiteSnippetEnd</code></li>
+<li>extracts that code and prettifies it to html using java2html</li>
+<li>writes the code to respective files in webapp</li>
+<li>deploys this webapp to the cloud so that the prettified files are available via urls</li>
+<li>the target pages reference these files using jquery such as <code>$('#snippetGreetingEndpoint').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingEndpoint.html');
+</code>,</li>
+<li>When this page is loaded, it loads the latest prettifed code and includes it above.</li>
+</ol>
+</ol>
+
+Note:
+<ol>
+<li>You can show or hide the code samples by <a id="showHideCode" href="#">clicking here</a></li>
+</ol>
 
 
 <script>// <![CDATA[

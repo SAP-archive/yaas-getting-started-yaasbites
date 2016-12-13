@@ -1,0 +1,32 @@
+<html>
+<head>
+<script src="jquery-3.1.1.min.js"></script>
+</head>
+<body>
+This page could for example be a trail, in which we would like to include some real snippets of code from the latest Green Tests in our code base.
+
+For example 
+
+Some comments
+<div STYLE="background-color: #edf1f5; border:1px solid lightgray" id="snippetGreetingTest" name="snippetGreetingTest"></div>
+Some comments
+Some comments
+<div STYLE="background-color: #edf1f5; border:1px solid lightgray" id="snippetGreetingEndpoint" name="snippetGreetingEndpoint"></div>
+Some comments
+
+
+<li>You can show or hide the code samples by <a id="showHideCode" href="#">clicking here</a>.</li>
+
+
+<script>// <![CDATA[
+
+$( "#showHideCode" ).click(function() {
+    $('[id^=snippet]').toggle();
+});
+
+$('#snippetGreetingEndpoint').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingEndpoint.html');
+$('#snippetGreetingTest').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingTest.html');
+window.scrollTo(0,0);
+// ]]></script>
+</body>
+</html>

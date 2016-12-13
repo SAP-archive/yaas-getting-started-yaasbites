@@ -21,7 +21,7 @@ public class SanityTest {
         Greeting greeting1 = restTemplate.getForObject(HOMEPAGE, Greeting.class);
         assertEquals(greeting1, new Greeting( "Greetings from Bayern, Most Honorable User!"));                
         Greeting greeting2  = restTemplate.getForObject(HOMEPAGE+"?name=Bod", Greeting.class);
-        assertEquals(greeting2, new Greeting(  "Greetings from Bayern, Most Honorable Bod!"));   
+        assertEquals(greeting2, new Greeting( "Greetings from Bayern, Most Honorable Bod!"));   
 	}
 	//YaaSBiteSnippetEnd 
 }

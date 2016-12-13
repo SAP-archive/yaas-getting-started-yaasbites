@@ -18,14 +18,11 @@ public class SanityTest {
 	
 	@Test(timeout = 60000) 
 	public void siteIsAwakeAndWorking() throws Exception {	
-		
+		//YaaSBiteSnippetStart sanityTest	
 		final TestRestTemplate restTemplate = new TestRestTemplate();
         Greeting greeting1 = restTemplate.getForObject(HOMEPAGE, Greeting.class);
         assertEquals(greeting1, new Greeting(  GreetingController.TEMPLATE ));      
-               
- //       Greeting greeting2  = restTemplate.getForObject(HOMEPAGE+"?name=Bod", Greeting.class);
- //       assertEquals(greeting2, new Greeting( 2, "Greetings from Bayern, Most Honorable Bod!"));   
- 
+        //YaaSBiteSnippetEnd
 	}
 
 }

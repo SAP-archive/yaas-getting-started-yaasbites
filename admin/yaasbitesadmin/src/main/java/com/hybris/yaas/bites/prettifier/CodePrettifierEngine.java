@@ -38,11 +38,16 @@ public class CodePrettifierEngine {
 		if (matcher.find()) {
 			for (int g = 0; g < matcher.groupCount(); g++) {
 				String snippet = matcher.group(0);
+				
 				String snippetName = snippet.substring(snippet.indexOf("YaaSBiteSnippetStart") + 20,
 						snippet.indexOf("\n") + 1);
 				snippet = snippet.substring(snippet.indexOf("\n") + 1);
 				snippet = snippet.substring(0, snippet.lastIndexOf("\n"));
-				String prettified = convertStringToHTML(snippet);
+				
+				String shiftedLeft = shiftLeft(snippet);		
+				
+				
+				String prettified = convertStringToHTML(shiftedLeft);
 				String prefix = "<b>"+f.getAbsolutePath().substring( f.getAbsolutePath().indexOf("/essentials/"))+"</b><br>";
 				String trimmed = prefix.concat( prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7) );
 				
@@ -61,26 +66,34 @@ public class CodePrettifierEngine {
 	public String convertJavaFileToHTMLFile(File f, String relativeTargetDir) throws Exception {
 		String content = Files.readAllLines(Paths.get(f.toURI())).stream().reduce("",
 				(x, y) -> x.concat("\n").concat(y));
-		String prettified = convertStringToHTML(content);
+		String shiftedLeft = shiftLeft(content);
+		String prettified = convertStringToHTML(shiftedLeft);
 		String trimmed = prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7);
-		String shiftedLeft = shiftLeft(trimmed);
 		
 		BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(relativeTargetDir + "/" + f.getName())));
-		bwr.write(shiftedLeft);
+		bwr.write(trimmed);
 		bwr.flush();
 		bwr.close();
 
 		return prettified;
 	}
 
-	private String shiftLeft(String in){
-		int spacesInTopLeft = 0;		
+	public String shiftLeft(String in){
+		int topLeftSpaces = in.indexOf(in.trim());
+		String spacesTopLeft = new String(new char[topLeftSpaces]).replace('\0', ' ');
+		
+		int tabsTopLeft = 0;
 		for (char c : in.toCharArray()) {
-		    if (c == ' ') {
-		    	spacesInTopLeft++;
+		    if (c == '\t') {
+		    	tabsTopLeft+=1;
 		    }
+		    else
+		    	break;
 		}
-		String out = in.replaceAll("\n  ", "\nXXX");
+		if(tabsTopLeft>0)
+			spacesTopLeft = new String(new char[topLeftSpaces]).replace('\0', '\t');		
+		in = in.trim();
+		String out = in.replaceAll("\n"+spacesTopLeft, "\n");
 		return out;
 	}
 	

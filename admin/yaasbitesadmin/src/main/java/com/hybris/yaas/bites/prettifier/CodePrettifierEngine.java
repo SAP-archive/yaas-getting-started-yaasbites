@@ -37,22 +37,16 @@ public class CodePrettifierEngine {
 
 		if (matcher.find()) {
 			for (int g = 0; g < matcher.groupCount(); g++) {
-				String snippet = matcher.group(0);
-				
+				String snippet = matcher.group(0);		
 				String snippetName = snippet.substring(snippet.indexOf("YaaSBiteSnippetStart") + 20,
 						snippet.indexOf("\n") + 1);
 				snippet = snippet.substring(snippet.indexOf("\n") + 1);
-				snippet = snippet.substring(0, snippet.lastIndexOf("\n"));
-				
-				String shiftedLeft = shiftLeft(snippet);		
-				
-				
+				snippet = snippet.substring(0, snippet.lastIndexOf("\n"));		
+				String shiftedLeft = shiftLeft(snippet);					
 				String prettified = convertStringToHTML(shiftedLeft);
 				String prefix = "<b>"+f.getAbsolutePath().substring( f.getAbsolutePath().indexOf("/essentials/"))+"</b><br>";
-				String trimmed = prefix.concat( prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7) );
-				
+				String trimmed = prefix.concat( prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7) );			
 				filesAndHTML.put(f, trimmed);
-
 				String name = snippetName.trim() + ".html";
 				BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(relativeTargetDir + "/" + name)));
 				bwr.write(trimmed);
@@ -68,7 +62,7 @@ public class CodePrettifierEngine {
 				(x, y) -> x.concat("\n").concat(y));
 		String shiftedLeft = shiftLeft(content);
 		String prettified = convertStringToHTML(shiftedLeft);
-		String trimmed = prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7);
+		String trimmed = prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7);	
 		
 		BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(relativeTargetDir + "/" + f.getName())));
 		bwr.write(trimmed);

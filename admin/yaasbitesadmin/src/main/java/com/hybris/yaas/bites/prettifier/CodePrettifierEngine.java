@@ -63,15 +63,27 @@ public class CodePrettifierEngine {
 				(x, y) -> x.concat("\n").concat(y));
 		String prettified = convertStringToHTML(content);
 		String trimmed = prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7);
+		String shiftedLeft = shiftLeft(trimmed);
 		
 		BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(relativeTargetDir + "/" + f.getName())));
-		bwr.write(trimmed);
+		bwr.write(shiftedLeft);
 		bwr.flush();
 		bwr.close();
 
 		return prettified;
 	}
 
+	private String shiftLeft(String in){
+		int spacesInTopLeft = 0;		
+		for (char c : in.toCharArray()) {
+		    if (c == ' ') {
+		    	spacesInTopLeft++;
+		    }
+		}
+		String out = in.replaceAll("\n  ", "\nXXX");
+		return out;
+	}
+	
 	private String convertStringToHTML(String in) throws Exception {
 		// Create a reader of the raw input text
 		StringReader stringReader = new StringReader(in);

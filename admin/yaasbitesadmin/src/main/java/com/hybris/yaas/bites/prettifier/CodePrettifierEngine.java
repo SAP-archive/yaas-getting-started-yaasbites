@@ -15,7 +15,10 @@ import java.util.regex.Pattern;
 import de.java2html.converter.JavaSource2HTMLConverter;
 import de.java2html.javasource.JavaSource;
 import de.java2html.javasource.JavaSourceParser;
+import de.java2html.javasource.JavaSourceType;
 import de.java2html.options.JavaSourceConversionOptions;
+import de.java2html.options.JavaSourceStyleEntry;
+import de.java2html.util.RGB;
 
 /**
  * 
@@ -101,7 +104,16 @@ public class CodePrettifierEngine {
 		// Create a converter and write the JavaSource object as Html
 		JavaSource2HTMLConverter converter = new JavaSource2HTMLConverter();
 		StringWriter writer = new StringWriter();
-		converter.convert(source, JavaSourceConversionOptions.getDefault(), writer);
+
+		JavaSourceConversionOptions options =
+				  JavaSourceConversionOptions.getDefault();
+				options.setShowLineNumbers(false);
+			
+		options.getStyleTable().put(
+				  JavaSourceType.KEYWORD,
+				  new JavaSourceStyleEntry(RGB.ORANGE, false, false));
+		
+		converter.convert(source, /*JavaSourceConversionOptions.getDefault()*/options, writer);
 
 		String out = writer.toString();
 		out.substring(out.indexOf("<code>"), out.indexOf("</code>") + 7);

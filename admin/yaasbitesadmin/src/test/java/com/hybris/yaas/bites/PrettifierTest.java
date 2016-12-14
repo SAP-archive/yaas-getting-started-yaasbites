@@ -8,10 +8,8 @@ import org.junit.Test;
 
 import com.hybris.yaas.bites.prettifier.CodePrettifierEngine;
 
-
 public class PrettifierTest {	// Using https://github.com/google/code-prettify	
 	private static CodePrettifierEngine pe = new CodePrettifierEngine();	
-	
 	
 	@Test
 	public void convertJavaToHTML() throws Exception {	

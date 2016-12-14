@@ -111,7 +111,7 @@ public class CodePrettifierEngine {
 			
 		options.getStyleTable().put(
 				  JavaSourceType.KEYWORD,
-				  new JavaSourceStyleEntry(RGB.ORANGE, false, false));
+				  new JavaSourceStyleEntry(RGB.MAGENTA, false, false));
 		
 		converter.convert(source, /*JavaSourceConversionOptions.getDefault()*/options, writer);
 

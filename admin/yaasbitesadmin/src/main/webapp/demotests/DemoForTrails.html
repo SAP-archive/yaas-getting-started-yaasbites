@@ -59,8 +59,8 @@ $( "#showHideCode" ).click(function() {
     $('[id^=snippet]').toggle();
 });
 
-$('#snippetGreetingEndpoint').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingEndpoint.html'+ (new Date()).getTime());
-$('#snippetGreetingTest').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingTest.html'+ (new Date()).getTime());
+$('#snippetGreetingEndpoint').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingEndpoint.html?nocache='+ (new Date()).getTime());
+$('#snippetGreetingTest').load('https://yaasbitesadmin.cfapps.us10.hana.ondemand.com/demotests/greetingTest.html?nocache='+ (new Date()).getTime());
 window.scrollTo(0,0);
 // ]]></script>
 </body>

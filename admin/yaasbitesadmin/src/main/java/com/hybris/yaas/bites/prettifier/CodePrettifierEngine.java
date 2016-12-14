@@ -111,9 +111,9 @@ public class CodePrettifierEngine {
 			
 		options.getStyleTable().put(
 				  JavaSourceType.KEYWORD,
-				  new JavaSourceStyleEntry(RGB.MAGENTA, false, false));
+				  new JavaSourceStyleEntry(RGB.DARK_GRAY, false, false));
 		
-		converter.convert(source, /*JavaSourceConversionOptions.getDefault()*/options, writer);
+		converter.convert(source, options, writer);
 
 		String out = writer.toString();
 		out.substring(out.indexOf("<code>"), out.indexOf("</code>") + 7);

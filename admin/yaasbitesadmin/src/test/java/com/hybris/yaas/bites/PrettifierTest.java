@@ -18,7 +18,7 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 		Map<String, String> snippets = pe.getSnippets( 
 			new URL("https://raw.githubusercontent.com/SAP/yaas-getting-started-yaasbites/master/admin/yaasbitesadmin/src/test/java/com/hybris/yaas/bites/SanityTest.java"));
 		pe.saveSnippets( "src/main/webapp/demotests", snippets);
-		assertTrue(new File("src/main/webapp/demotests/greetingTest.html").exists());
+		//assertTrue(new File("src/main/webapp/demotests/greetingTest.html").exists());
 		
 		snippets = pe.getSnippets( 
 			new File("../../essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java"));

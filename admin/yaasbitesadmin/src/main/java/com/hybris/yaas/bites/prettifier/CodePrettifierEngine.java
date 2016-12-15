@@ -15,6 +15,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hybris.yaas.bites.GreetingController;
 
 import de.java2html.converter.JavaSource2HTMLConverter;
 import de.java2html.javasource.JavaSource;
@@ -25,7 +29,8 @@ import de.java2html.options.JavaSourceStyleEntry;
 import de.java2html.util.RGB;
 
 public class CodePrettifierEngine {
-
+	private final Logger LOG = LoggerFactory.getLogger(CodePrettifierEngine.class);
+	
 	public Map<String, String> getSnippets( File f ) throws Exception{
 		String content = Files.readAllLines(Paths.get(f.toURI())).stream().reduce("",
 				(x, y) -> x.concat("\n").concat(y));
@@ -62,6 +67,7 @@ public class CodePrettifierEngine {
 
 	public void saveSnippets( String targetDir, Map<String, String> snippets ) throws Exception{	
 		for (String name : snippets.keySet()){
+			LOG.debug("SAVING SNIPPET "+targetDir + "/" + name+".html");
 			BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(targetDir + "/" + name+".html")));
 			bwr.write(snippets.get(name));
 			bwr.flush();

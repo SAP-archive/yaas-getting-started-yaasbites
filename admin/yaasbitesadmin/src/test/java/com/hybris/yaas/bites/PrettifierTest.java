@@ -16,7 +16,7 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 	@Test
 	public void convertGithubSnippetsToHTML() throws Exception {	
 		Map<String, String> snippets = pe.getSnippets( 
-			new URL("https://raw.githubusercontent.com/SAP/yaas-getting-started-yaasbites/master/admin/yaasbitesadmin/src/test/java/com/hybris/yaas/bites/SanityTest.java?nocache="+System.currentTimeMillis()));
+			new URL("https://raw.githubusercontent.com/SAP/yaas-getting-started-yaasbites/master/essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java?nocache="+System.currentTimeMillis()));
 		pe.saveSnippets( "src/main/webapp/demotests", snippets);
 		assertTrue(new File("src/main/webapp/demotests/greetingTest.html").exists());
 		

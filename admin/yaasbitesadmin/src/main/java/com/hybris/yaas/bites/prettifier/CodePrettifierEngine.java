@@ -3,14 +3,18 @@ package com.hybris.yaas.bites.prettifier;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
 
 import de.java2html.converter.JavaSource2HTMLConverter;
 import de.java2html.javasource.JavaSource;
@@ -20,61 +24,51 @@ import de.java2html.options.JavaSourceConversionOptions;
 import de.java2html.options.JavaSourceStyleEntry;
 import de.java2html.util.RGB;
 
-/**
- * 
- * Locate broken links and broken images in the web pages you specify On Stash @
- * https://stash.hybris.com/projects/YBIT/repos/linkchecker/browse
- * 
- * @author Ken Lomax
- *
- */
-
 public class CodePrettifierEngine {
 
-	public Map<File, String> convertJavaSnippetsToHTMLFile(File f, String relativeTargetDir) throws Exception {
-		Map<File, String> filesAndHTML = new HashMap<File, String>();
+	public Map<String, String> getSnippets( File f ) throws Exception{
 		String content = Files.readAllLines(Paths.get(f.toURI())).stream().reduce("",
 				(x, y) -> x.concat("\n").concat(y));
-		Pattern pattern = Pattern.compile("YaaSBiteSnippetStart(.*)YaaSBiteSnippetEnd", Pattern.DOTALL);
-		Matcher matcher = pattern.matcher(content);
+		Map<String, String> snippets = convertStringOfSnippetsToHTMLBlocks(content);
+		return snippets;
+	}
+	
+	public Map<String, String>  getSnippets( URL url ) throws Exception{
+		InputStream input = url.openStream();
+		String content = (IOUtils.toString( input )) ;
+	    IOUtils.closeQuietly(input);
+	    Map<String, String> snippets = convertStringOfSnippetsToHTMLBlocks(content);
+		return snippets;
+	}
 
+	public Map<String, String> convertStringOfSnippetsToHTMLBlocks(String in) throws Exception {
+		Pattern pattern = Pattern.compile("YaaSBiteSnippetStart(.*)YaaSBiteSnippetEnd", Pattern.DOTALL);
+		Matcher matcher = pattern.matcher(in);
+		Map<String, String> prettifiedSnippets = new HashMap<>();
 		if (matcher.find()) {
 			for (int g = 0; g < matcher.groupCount(); g++) {
 				String snippet = matcher.group(0);		
-				String snippetName = snippet.substring(snippet.indexOf("YaaSBiteSnippetStart") + 20,
-						snippet.indexOf("\n") + 1);
+				String snippetName = snippet.substring(snippet.indexOf("YaaSBiteSnippetStart") + 20, snippet.indexOf("\n") + 1).trim();
 				snippet = snippet.substring(snippet.indexOf("\n") + 1);
 				snippet = snippet.substring(0, snippet.lastIndexOf("\n"));		
-				String shiftedLeft = shiftLeft(snippet);					
-				String prettified = convertStringToHTML(shiftedLeft);
-				String prefix = "File: "+f.getAbsolutePath().substring( f.getAbsolutePath().indexOf("/essentials/"))+"<br>";
-				String trimmed = prefix.concat( prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7) );			
-				filesAndHTML.put(f, trimmed);
-				String name = snippetName.trim() + ".html";
-				BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(relativeTargetDir + "/" + name)));
-				bwr.write(trimmed);
-				bwr.flush();
-				bwr.close();
+				snippet = shiftLeft(snippet);					
+				snippet = convertStringToHTML(snippet);
+				snippet = snippet.substring(snippet.indexOf("<code>"), snippet.indexOf("</code>") + 7);		
+				prettifiedSnippets.put(snippetName, snippet);
 			}
 		}
-		return filesAndHTML;
+		return prettifiedSnippets;
 	}
 
-	public String convertJavaFileToHTMLFile(File f, String relativeTargetDir) throws Exception {
-		String content = Files.readAllLines(Paths.get(f.toURI())).stream().reduce("",
-				(x, y) -> x.concat("\n").concat(y));
-		String shiftedLeft = shiftLeft(content);
-		String prettified = convertStringToHTML(shiftedLeft);
-		String trimmed = prettified.substring(prettified.indexOf("<code>"), prettified.indexOf("</code>") + 7);	
-		
-		BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(relativeTargetDir + "/" + f.getName())));
-		bwr.write(trimmed);
-		bwr.flush();
-		bwr.close();
-
-		return prettified;
+	public void saveSnippets( String targetDir, Map<String, String> snippets ) throws Exception{	
+		for (String name : snippets.keySet()){
+			BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(targetDir + "/" + name+".html")));
+			bwr.write(snippets.get(name));
+			bwr.flush();
+			bwr.close();			
+		}
 	}
-
+	
 	public String shiftLeft(String in){
 		int topLeftSpaces = in.indexOf(in.trim());
 		String spacesTopLeft = new String(new char[topLeftSpaces]).replace('\0', ' ');

@@ -1,8 +1,10 @@
 package com.hybris.yaas.bites;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.URL;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -12,11 +14,16 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 	private static CodePrettifierEngine pe = new CodePrettifierEngine();	
 	
 	@Test
-	public void convertJavaToHTML() throws Exception {	
-		pe.convertJavaSnippetsToHTMLFile( new File("../../essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java"), "src/main/webapp/demotests");
-		assertTrue(new File("src/main/webapp/demotests/greetingEndpoint.html").exists());
-		pe.convertJavaSnippetsToHTMLFile( new File("../../essentials/yaasbite100/src/test/java/com/hybris/yaas/bites/SanityTest.java"), "src/main/webapp/demotests");
-		assertTrue(new File("src/main/webapp/demotests/greetingTest.html").exists());
+	public void convertGithubSnippetsToHTML() throws Exception {	
+		Map<String, String> snippets = pe.getSnippets( 
+			new URL("https://raw.githubusercontent.com/SAP/yaas-getting-started-yaasbites/master/admin/yaasbitesadmin/src/test/java/com/hybris/yaas/bites/SanityTest.java"));
+		pe.saveSnippets( "src/main/webapp/demotests", snippets);
+//		assertTrue(new File("src/main/webapp/demotests/sanityTest.html").exists());
+		
+		snippets = pe.getSnippets( 
+			new File("../../essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java"));
+		pe.saveSnippets( "src/main/webapp/demotests", snippets);
+//		assertTrue(new File("src/main/webapp/demotests/greetingEndpoint.html").exists());
 	}
 
 }

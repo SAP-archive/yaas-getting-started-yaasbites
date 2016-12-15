@@ -25,7 +25,7 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 		assertTrue(new File("src/main/webapp/demotests/greetingTest.html").exists());
 		
 		snippets = pe.getSnippets( 
-			new File("../../essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java?nocache="+System.currentTimeMillis()));
+			new File("../../essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java"));
 		pe.saveSnippets( "src/main/webapp/demotests", snippets);
 		assertTrue(new File("src/main/webapp/demotests/greetingEndpoint.html").exists());
 	}

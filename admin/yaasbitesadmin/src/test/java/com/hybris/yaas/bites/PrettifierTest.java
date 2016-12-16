@@ -26,6 +26,11 @@ public class PrettifierTest {	// Using https://github.com/google/code-prettify
 			new File("../../essentials/yaasbite100/src/main/java/com/hybris/yaas/bites/GreetingController.java"));
 		pe.saveSnippets(targetDir, snippets);
 		assertTrue(new File( targetDir+"/greetingEndpoint.html").exists());
+		
+		snippets = pe.getSnippets( 
+			new URL("https://raw.githubusercontent.com/KenLomax/tddtrailpoc/master/src/main/java/tddTrail/TrailSetup.java?nocache="+System.currentTimeMillis()));
+		pe.saveSnippets(targetDir, snippets);
+		assertTrue(new File( targetDir+"/greetingEndpoint.html").exists());		
 	}
 
 }

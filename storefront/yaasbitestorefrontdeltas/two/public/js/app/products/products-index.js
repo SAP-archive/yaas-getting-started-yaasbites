@@ -17,6 +17,8 @@ angular.module('ds.products', [
 		'restangular',
     'ds.shared',
     'ds.cart',
+    'ds.fees',
     'ui.bootstrap',
+    'angularMoment',
     'ds.tips'  // ADJUSTED_AS_NEEDED : the 'products' module will be using our 'tips' module; so introduce it as a dependency
 ]);

@@ -25,15 +25,15 @@ app.config(function(RestangularProvider) {
 app.controller('tipsController', function($scope, Restangular, $http ) {
 
 	// NEEDS_ADJUSTING : if using a token from the EU use https://api.eu.yaas.io if not, use https://api.yaas.io as prefix
-	$scope.SERVICES_API_PROXY="https://api.eu.yaas.io/yb0160913/service600/service600" // NEEDS_ADJUSTING TO YOUR SERVICE'S API_PROXY URL, BUT KEEP THE HTTPS PROTOCOL
+	$scope.SERVICES_API_PROXY="https://api.eu.yaas.io/yaascondensed/service1/v1" // NEEDS_ADJUSTING TO YOUR SERVICE'S API_PROXY URL, BUT KEEP THE HTTPS PROTOCOL
 
-	$scope.SERVICES_CLOUD_URI="https://klyaasbite6.cfapps.us10.hana.ondemand.com" // NEEDS_ADJUSTING TO YOUR SERVICE'S CLOUD URL, BUT KEEP THE HTTPS PROTOCOL
+	$scope.SERVICES_CLOUD_URI="https://yb20170420-6.cfapps.io" // NEEDS_ADJUSTING TO YOUR SERVICE'S CLOUD URL, BUT KEEP THE HTTPS PROTOCOL
 
 	// NEEDS_ADJUSTING - DO YOU WANT A TOKEN FOR THE E.U. OR FOR THE U.S.?
-	$scope.OAUTH_URL = "https://api.eu.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE E.U.
-	//$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE U.S.
+	//$scope.OAUTH_URL = "https://api.eu.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE E.U.
+	$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE U.S.
 
-	$scope.CLIENT_ID = "1vMxmq9TjAkwIIvKvTyhNUVgj0Ge7skx"; // NEEDS_ADJUSTING TO THE CLIENT_ID OF YOUR CLIENT
+	$scope.CLIENT_ID = "UKYP0nbfELeJJPoqA6zd4AzB8FIl7WKf"; // NEEDS_ADJUSTING TO THE CLIENT_ID OF YOUR CLIENT
 
 	$scope.loggingIn = function() {
 		var ACCESS_TOKEN_IN_URL_PREFIX = "access_token=";
@@ -44,9 +44,13 @@ app.controller('tipsController', function($scope, Restangular, $http ) {
 		    // Redirect to Yaas' OAuth2 endpoint, passing this page as the redirect_uri so that we come back to this page afterwards
 			var target =
 			// NEEDS_ADJUSTING : if using a token from the EU use https://api.eu.yaas.io/hybris/oauth2/v1/authorize if not, use https://api.yaas.io/hybris/oauth2/v1/authorize
-			"https://api.eu.yaas.io/hybris/oauth2/v1/authorize" +
-
+			"https://api.yaas.io/hybris/oauth2/v1/authorize" +
 			"?response_type=token"+
+
+			// NEEDS_ADJUSTING: if your account (and laptop) is an SAP account, you should enable sap log-in.  
+			//                  If your account (and laptop) is not an SAP account, comment out the next line. More @ https://api.eu.yaas.io/hybris/oauth2/v1/api-console/##authorize
+			"&hybris_id_provider=sap"+
+			
 			"&scope=hybris.tips_vip"+
 			"&client_id="+ $scope.CLIENT_ID +
 			"&redirect_uri="+ $scope.SERVICES_CLOUD_URI+"/index.html";

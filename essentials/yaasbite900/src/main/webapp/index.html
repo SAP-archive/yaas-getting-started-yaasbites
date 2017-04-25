@@ -78,7 +78,7 @@ app.controller('tipsController', function($scope, Restangular, $http ) {
 <h2>YaaS Bite: Handling risky connections with Hystrix</h2>	
 	
 
-	When the network problem is active, the nethod invoked by both riskyConnection and veryRiskyConnection <b>takes 15 seconds to copmlete</b> - an unacceptable user experience.<br>
+	When the network problem is active, the method invoked by both riskyConnection and veryRiskyConnection <b>takes 15 seconds to complete</b> - an unacceptable user experience.<br>
 	One endpoint wraps this method with hystrix to limit the response time to 2 seconds, the other not.<br>
 
 	Toggle Simulated Network/Service Problem @ <a href="#" ng-click="toggleProblem()">/toggleProblem</a>
@@ -89,7 +89,7 @@ app.controller('tipsController', function($scope, Restangular, $http ) {
 
 	Ping the service @ <a href="#" ng-click="ping()">/ping</a><br>
 	
-	When the network problem is 
+	When the network problem is active<br>
 	Call Risky Connection <b>protected by Hystrix</b> @ <a href="#" ng-click="riskyConnection()">/riskyConnection</a><br>
 	Call Risky Connection <b>unprotected by Hystrix</b> @ <a href="#" ng-click="veryRiskyConnection()">/veryRiskyConnection</a><br>
 

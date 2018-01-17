@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<!-- Adapted from: mvn archetype:generate -DgroupId=com.hybris.bites.yaas 
+		-DartifactId=yaasbite1 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -->
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.hybris.bites.yaas</groupId>
+	<artifactId>yaasbiteysdkfrontend</artifactId>
+	<name>yaasbiteysdkfrontend</name>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+   

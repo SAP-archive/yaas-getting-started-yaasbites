@@ -1,0 +1,61 @@
+---
+title: 'The Basics of YaaS'
+type: YaaS in a Nutshell
+---
+
+Welcome to YaaS! Simply put, <%- @partial('generalterm_yaas') %> is a marketplace for services that you can use to design applications and extend the functionality of your existing applications. YaaS services help you accomplish your business and development goals quickly and with low overhead. How does it work? 
+
+As a business user or developer, subscribe to <%- @partial('generalterm_package') %>s in the YaaS Market to use the features provided in the services and Builder modules included with your subscription. 
+
+You can also build friendly interfaces (UIs) for your applications by creating your own <%- @partial('generalterm_buildermodule') %>s with the <%- @partial('generalterm_builder') %> CLI (command line interface). Manage your Builder modules, and the services bundled in the packages you subscribe to, in the Builder. 
+
+To learn how to manage services and Builder modules, use the <%- @partial('generalterm_knowledgehub') %>, which includes configuration guides for non-developers. If you're a developer, use the <%- @partial('generalterm_devportal') %> to learn how to build and document services and Builder modules. 
+
+### YaaS diagram
+
+The following diagram shows how the pieces of YaaS work together. You can see how, as a member of an organization, you can work on projects to build, modify, or configure the services and Builder modules available within packages. You can also see that a <%- @partial('generalterm_client') %> is required to access services, and that YaaS tools like the Service SDK and the Builder SDK further support and extend the functionality contained in packages. The Builder, shown on the side, displays service and Builder module functionality in a sleek, simple-to-use UI. Packages published to the YaaS Market provide subscription-based access to the functionality developed using these components.
+
+<img src="img/YaaS_flow.png" class="img-click-modal" alt="Overview of the YaaS Flow" width="600" vspace="20">
+
+Read on for brief descriptions of packages, services, the Builder, and Builder modules. 
+
+### YaaS functionality lives in packages
+
+In YaaS, **packages** are the main commodity. Each package contains at least one service or Builder module, which are described in the following sections. Subscribe to packages in the YaaS Market or create your own packages using the Builder.
+
+<h4>Services</h4>
+
+The services in YaaS packages are **microservices**. That means they are small, isolated applications that are responsible for a single piece of functionality. When you subscribe to a package, you can use the Builder to configure the included YaaS microservices. Developers can interact with services exposed over a <%- @partial('generalterm_restful') %> API.  For detailed information about the microservice architecture in YaaS, see the <a href="/overview/architecture/index.html">Architecture</a> documentation.
+
+#### The Builder and Builder modules
+
+The difference between the **Builder** and **Builder modules** is simple. The Builder is the main tool you use to manage a YaaS <%- @partial('generalterm_project') %> as a business user or build, manage, and publish packages as a developer. The URL for the Builder is http://builder.yaas.io. 
+
+Builder modules, on the other hand, provide a user interface to easily manage the services in the packages you subscribe to. You can create your Builder modules using the Builder CLI and register those modules in the Builder. For more information and to learn more Builder terminology, see the <a href="/tools/builder/index.html">Builder documentation</a>.
+
+This illustration shows how a package can include at least one service or Builder module, and how Builder modules have runtime dependencies on services.
+
+<img src="img/Package-Diagram.png" class="img-click-modal" alt="Packages in YaaS" width="600" vspace="20">
+
+### The YaaS Market
+
+On the **YaaS Market**, at http://market.yaas.io, you can subscribe to packages. When you subscribe to a package, you can use the service or Builder module functionality it contains. For example, an existing package that SAP Hybris offers in the YaaS Market is the **Site Management** package, which includes services for managing an e-commerce site. You can subscribe to this package in the YaaS Market, and then use the Site Management services in your own projects, which you manage in the Builder. The **Site Management** package includes five services to help you set up shipping methods, manage site settings, create and manage tax codes, calculate taxes for orders, and capture customer payments using Stripe. 
+
+On the YaaS Market, you can select any package to view more detailed information. This image shows the details for the **Site Management** package:
+
+<img src="img/yaas_market_site_pkg_2017.png" class="img-click-modal" alt="Packages in YaaS" width="600" vspace="20">
+
+As another example, the **Product Content** package provides services and Builder modules to support back-office management tasks, the display of product data, and search capabilities within the product data.
+
+To view the packages available in your region, select a region from the **Show packages in** list in the top-right corner of the YaaS Market. When you register to use YaaS for free, you can subscribe to the **Beta** packages on the YaaS Market. Beta packages allow you to try out YaaS functionality on a trial basis. To use YaaS services in a production capacity, you must subscribe to one or more **Standard** packages in your region.
+
+
+### The Knowledge Hub
+The <a href="https://knowledge.yaas.io/" target="_blank">Knowledge Hub</a> is the information portal for YaaS business users. Find easy-to-follow configuration guides, articles about how YaaS services and solutions can help you achieve your business goals, and an <a href="https://knowledge.yaas.io/faq" target="_blank">FAQ</a> with quick answers to the most common YaaS questions. 
+
+### The Dev Portal
+
+Because you are reading this overview, you have already found your way to the **Dev Portal**. All of the YaaS service API documentation lives on the Dev Portal, and is located at http://devportal.yaas.io/services. You can also access the API documentation from any YaaS Market package details page, where you can click the link for any of the included services to read the selected service's in-depth API documentation. For example, referring to the preceding **Site Management** details page image, clicking the **Shipping** service redirects you to the <a href="/services/shipping/latest/index.html">Shipping</a> API documentation. The API Documentation includes the API Console, API Reference, a link to the RAML file, and much more detailed information and tutorials.
+
+Important guidelines and resources such as SDKs and Documentation Guidelines also live on the Dev Portal. Click around and learn all you can about consuming and providing applications in YaaS! 
+

@@ -1,0 +1,140 @@
+---
+type: Security
+title: 'Secure a Service'
+---
+
+Secure your service by assigning <%- @partial('generalterm_scopes') %> for different operations, without having to write any code.
+
+<h3>Declare scopes in the Builder</h3>
+</br>
+Add scopes to your service definition in the Builder:
+<ol>
+ <li>Click <strong>Projects > {My project} > Development > Services > {My service}</strong> and select <strong>MANAGE SCOPES</strong>.</li>
+ <li>Click <strong>+ SCOPE</strong> and add the name and the description of the new scope.</br>
+  <ul>
+    <li>
+    When naming the scopes for your service, follow this convention:
+    <ul><li>`<organization_basepath>.<service_identifier>_<action>`</li></ul>
+    The basepath of your organization is the part of YaaS URL that you defined when you created the organization.</br>
+    For example, the basepath of `https://api.eu.yaas.io/fictionops` is `fictionops`.</br>
+    </br>
+    The following example shows a name for a scope that allows to manage resources, defined within the Hybris organization and the Price service:
+    <ul><li><strong>hybris.price_manage</strong></li></ul>
+    The maximum length for scope names in YaaS is 128 characters. Scope names are case-sensitive.
+    <li>
+    When naming the scopes for your service, follow this convention:
+    <ul><li><strong>Scope Description</strong> - Use this scope to to create, update, or delete a price.</li></ul>
+  </li></ul>
+  <li>Save your changes.</li>
+ </ol>
+
+
+<h3>Authorization rules</h3>
+
+The authorization rules protect specific paths that you define. Enter the path to secure, select the HTTP methods affected by the rule, and specify which scopes access these methods. Use additional options, such as **Skip Subscription Check**, to fine-tune your rule. The <%- @partial('generalterm_apiproxy') %> created for your service verifies the rules.
+<div class="panel note"> The order of the authorization rules is important. Only the first matching rule applies to the resource, so put the most fine-grained rules on the top of the list, and the most general rules on the bottom.</div>
+
+To create a new authorization rule in the Builder:
+<ol>
+  <li>Click <strong>Projects > {My Project} > Development > Services > {My service} > Authorization Rules</strong>.</li>
+  <li>Click <strong>+Authorization Rules</strong> to add a new authorization rule. This screen displays:
+
+<p><img src="/overview/security/img/builder_authorization_rules.png" style="width:400px" class="img-click-modal" alt="Add Authorization Rules."/></p>
+
+Set these parameters to create your authorization rule:
+</br>
+<ul>
+<li><strong>Path</strong> – This is a required field. It specifies the path you want to secure with the authorization rule. Use path expressions and wildcard characters. For example, <code>/resource/\*</code> secures everything below the <code>/resource</code> path.</li>
+
+<li><strong>Methods</strong> – This field defines which of the standard HTTP methods, such as GET or POST, the rule secures. You can also use the `*` wildcard character to secure all methods.</li>
+
+<li><strong>Scopes</strong> – This is a required field. It specifies the scopes that are required to access the resource.</li>
+
+<li><strong>Require all scopes for authorization</strong> – If you enable this option, the caller will need all of the scopes specified in the **Scopes** field in order to access the resource. Use this option if you selected two or more scopes for this rule.</li>
+
+<li><strong><a id="OptionalOAuthCheck"></a>Optional Authorization</strong> - Use this security setting to enable your service to return both anonymous and non-public (restricted) data, from a single endpoint. </br>If you enable this option, the API Proxy checks the call for the authorization header. If the call includes the header, the API Proxy validates the access token and adds the Hybris-headers to the request.</br>
+If the call does not include the authorization header, the API Proxy passes the request to the target service without setting the Hybris-specific headers.</li>
+
+<li><strong><a id="SkipSubscriptionCheck"></a>Skip Subscription Check</strong> - If you select this option, the API Proxy does not check the access token for active subscription to the service.</li>
+
+<li><strong>Skip Authorization</strong> – If you enable this option, the API proxy does not verify the caller's access token. The <strong>Hybris-specific headers</strong> are not sent in the request to the service, and all original headers sent to the API Proxy are forwarded to the service.
+<div class="panel warning">**Skip Authorization** option overrides any other options in the given rule!</div>
+</li>
+</ul>
+
+<li>Click **SAVE** to save your authorization rule.</li>
+</ol>
+
+<h3>Sample authorization rules</h3>
+</br>
+<ol>
+<li>
+**Optional authorization** - Enables your service to return two different sets of resources. A good use case for this rule is a service that manages blog posts.
+<ul>
+<li><strong>Path</strong>: **/myservice/v1/blogposts/**</li>
+<li><strong>Methods</strong>: GET</li>
+<li><strong>Scopes</strong>: myservice.post_manage, myservice.post_create</li>
+<li><strong>Enabled options: Require all scopes for authorization, Optional Authorization</strong></li></ul>
+
+
+This rule secures the GET method on the specified path. The API Proxy checks the call for a valid access token. If the user calls the service without an access token, the service returns public resources, such as all of the published blog posts. If the call includes a valid token with both of the specified scopes, the service returns a restricted set of resources, such as the unpublished posts saved by the given user.
+<hr>
+</li>
+<li>
+**Skip subscription check** - Enables all users to call your service, no matter if they subscribe to it or not.
+</br>
+</br>
+<ul>
+<li><strong>Path</strong>: **/hybrisservice/v1/resource/**</li>
+<li><strong>Methods</strong>: GET, POST, PUT</li>
+<li><strong>Scopes</strong>: hybris.account_view, hybris.org_view</li>
+<li><strong>Enabled options: Skip Subscription Check</strong></li></ul>
+
+This rule secures the GET, POST, and PUT methods on the specified path. The API Proxy checks the call for a valid access token. The system requires either of the two specified scopes, but the API Proxy does not check if the user subscribes to the service. For everyone to have access to your service without the need to subscribe, use this rule.
+<hr>
+</li>
+<li>
+**Skip Authorization** - Override other authorization rules set for the given path and allow unrestricted access to your resources.
+</br>
+</br>
+<ul>
+<li><strong>Path</strong>: **/fictionops/v1/\* **</li>
+<li><strong>Methods</strong>: GET, POST, PUT, DELETE</li>
+<li><strong>Scopes</strong>: hybris.account_view, hybris.org_view</li>
+<li><strong>Enabled options: Skip Authorization</strong></li></ul>
+
+This authorization rule has the <strong>Skip Authorization</strong> option enabled. This means that the system does not verify the access token when performing the GET, POST, or PUT operations on the specified path. Remember that <strong>Skip Authorization</strong> overrides any other options/rules set for the specified path.
+</li>
+
+<div class="panel note"> You can use various URL patterns in your rules. For example, the path <strong>/tutorial/media/\*</strong> is more granular than <strong>/tutorial/media\*</strong>. The optional values <strong>/tutorial/media(/\*)</strong> will secure the defined methods for the path <strong>/tutorial/media</strong> and <strong>/tutorial/media/\*</strong>.</div>
+</ol>
+
+<h3>Default authorization rules</h3>
+If the proxy cannot find any matching entries in the list of the defined rules for a service, it always uses the default settings:
+<ul>
+<li>For the "single-slash" path, or when no path is provided, the <strong>Skip Authorization</strong> parameter is set to `true` for all methods and the API Console.</li>
+<li>For any other path and method, the <strong>Skip Authorization</strong> parameter is set to `false`, and the value in the <strong>Scopes</strong> field is not passed. However, a valid access token is required.</li>
+<li>The <strong>Optional Authorization</strong> parameter is set to `false`.</li>
+</ul>
+
+<h3>Evaluate the `hybris-scopes` header directly in your service</h3>
+If you do not want to set authorization rules in the Builder, you can implement advanced authorization directly in your service. This requires evaluating the `hybris-scopes` header in your service logic.
+
+<a id="LastMileSecurity"></a>
+<h3>Last-mile security</h3>
+
+Make sure that only the API Proxy can access your service directly. The API Proxy shields your services within the YaaS ecosystem, but an attacker who gains access to the internal network can bypass this shield. Mitigate the risk with last-mile security, based on the HTTP basic access authentication method.
+
+<h3>Enable basic authentication in the Builder</h3>
+
+To enable basic authentication in the Builder, click <strong>Projects > {My Project} > Development > Services > {My service}</strong>.</br> Find the <strong>Basic Authentication</strong> toggle in the API Proxy settings section. Click it to enable basic authentication. When you enable basic authentication, define these credentials:
+
+<ul>
+<li><strong>Authorization Username</strong> - The username must be between 8 and 33 characters long (inclusive).</li>
+<li><strong>Password</strong> - The password must be between 8 and 33 characters long (inclusive) and include at least one lowercase character, at least one uppercase character, and at least one digit.</li>
+</ul>
+
+The API proxy uses the HTTP basic access authentication method. You cannot enable service credentials for services that are defined with an insecure protocol (HTTP). Likewise, if there are credentials defined, you cannot update the service definition URL with an insecure protocol URL.
+<div class="panel warning">
+Store these credentials in a safe place. There is no way to retrieve them from the service details.
+</div>

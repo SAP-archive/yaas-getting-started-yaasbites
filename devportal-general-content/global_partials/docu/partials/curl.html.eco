@@ -1,0 +1,7 @@
+<% file = @getFile({relativePath: @document.relativeDirPath + '/apiconsole.html.eco'}) %>
+<% apiconsole = '' %>
+<% if file : %>
+   <% apiconsole = 'You can also use the <a href="/'+file.attributes.relativeOutPath+'">API Console</a> to try out the API.' %>
+<% end %>
+
+<div class="panel tip">All tutorials are designed in a way that you can use them at the same time with the <a href="http://curl.haxx.se/">cURL</a> REST client. <%- apiconsole %></div>

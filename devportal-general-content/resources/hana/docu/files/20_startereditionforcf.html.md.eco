@@ -1,0 +1,15 @@
+---
+title: Use the SAP Cloud Platform, Starter Edition for Cloud Foundry Services (Beta)
+---
+
+The **SAP Cloud Platform, starter edition for Cloud Foundry services (beta)** is based on the open-source Cloud Foundry platform. It is integrated with the <%- @partial('generalterm_builder') %> and available on the <%- @partial('generalterm_yaasmarket') %>. You can use this package to do the following:
+
+* Develop, build, and run business services, which can then be published and sold on the YaaS Market.
+* Run cloud applications, such as a storefront that uses existing YaaS business services.
+
+You can also use the available Cloud Foundry backing services to implement applications or business services, such as the following:
+
+* PostgreSQL as a relational database service
+* MongoDB as a document-oriented NoSQL database
+* RabbitMQ as a messaging service
+* Redis as in-memory key/value store

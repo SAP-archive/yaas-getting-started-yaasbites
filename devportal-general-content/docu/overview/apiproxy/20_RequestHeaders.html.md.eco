@@ -1,0 +1,109 @@
+---
+type: API Proxy
+title: 'Request Headers'
+---
+Hybris-specific headers are added with calls to the service proxy:
+<ul>
+<li>**hybris-client**: This is the identifier of your client.</li>
+<li>**hybris-client-id**: This is the **Client ID** of your client, found in the **Client Authorization** section in the Builder.</li>
+<li>**hybris-client-owner**: This is the identifier of the client's parent <%- @partial('generalterm_tenant') %>. In the Builder, the parent tenant is the proejct that owns the given client.</li>
+<li>**hybris-external-path**: This is the value of the <%- @partial('generalterm_apiproxy') %> YaaS URL that is sent from the client and received at the proxy endpoint.</li>
+<li>**hybris-external-url**: This includes the **Generated Proxy URL** from the Builder.</li>
+<li>**hybris-hop**: This is a number that is incremented by one every time a new service is called, in order to process a single request that is identified by **hybris-request-id**. It has diagnostic purposes, and the service includes it as part of any log message. Your service should propagate it unaltered whenever it makes a subsequent request to another YaaS service.</li>
+<li>**hybris-request-id**:  This is the request identifier. This is generated if not passed. Your service should propagate it unaltered whenever it makes a subsequent request to another YaaS service.</li>
+<li>**hybris-scopes**: This lists the <%- @partial('generalterm_scopes') %> that are requested and granted to the client in the call for an access token. For more information, see <a target="blank" title="Scopes"  href="/overview/security/index.html#Scopes">Scopes</a>.</li>
+<li>**hybris-service-owner**: This is the identifier of the target service owner.</li>
+<li>**hybris-session-id**: This is the session identifier. It is generated if not passed.</li>
+<li>**hybris-target-url**: This consists of the **Generated Proxy URL** from the Builder and a specified endpoint.</li>
+<li>**hybris-tenant**: This is the identifier of the tenant. Use it only for requests made in the context of a tenant.</li>
+<li>**hybris-org**: This is the organization identifier in requests sent in the context of an organization.</li>
+<li>**hybris-user-id**: This is the identifier of the authorized user which takes form of a UUID generated ID.
+<li>**hybris-user**: **DEPRECATED** Identifier of the authorized user.
+<ul>
+    <li>For YaaS-managed and SAP-managed accounts the value of this header is set to the user's email address.</li>
+    <li>For accounts managed by custom identity providers, the value of this header is to the user's identifier - a UUID generated ID.</li>
+</ul>
+</li>
+</ul>
+<br>
+
+For more information, see the <a href="/tools/apiguidelines/index.html#HybrisHeaders">Hybris Headers</a> document.
+
+</br>Please note that only Hybris-specific headers are listed in the examples on this page.
+
+<h3>Example 1</h3>
+In this example, a test project is created in the Builder. The project contains a client whose credentials are used to obtain an access token. A custom echo service reads the headers, and no **Authorization rule** is applied. The following is a list of the headers in the request:
+
+<div class="expand-collapse" data-caption="Click to see the headers">
+<t render="html.md">
+    "hybris-client": "tutorial.tutorialapp",<br>
+    "hybris-client-id": "KTYUcWs1uUSNAxwnhatEjmrn8IpsRGFA",<br>
+    "hybris-client-owner": "tutorial",<br>
+    "hybris-external-path": "/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+    "hybris-external-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+    "hybris-hop": "1",<br>
+    "hybris-request-id": "25845194-9989-4dcf-8cca-f74aca068322",<br>
+    "hybris-scopes": "hybris.tenant=tutorial",<br>
+    "hybris-service-owner": "toad",<br>
+    "hybris-session-id": "1be8ba76-ba91-4503-ab60-6e09db32edce",<br>
+    "hybris-target-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1/headers",<br>
+    "hybris-tenant": "tutorial"<br>
+</t>
+</div>
+
+<h3>Example 2</h3>
+The following is a list of the headers when the access token used in the call is issued without any tenant context:
+
+<div class="expand-collapse" data-caption="Click to see the headers">
+<t render="html.md">
+"hybris-external-path": "/hybris/CUSTOM-ECHO-SERVICE/v1",<br>
+"hybris-external-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+"hybris-hop": "1",<br>
+"hybris-request-id": "0d51d120-8fe8-4810-a0af-035eeba49ccc",<br>
+"hybris-service-owner": "toad",<br>
+"hybris-session-id": "136b3716-698b-4388-b8bd-b855b23856eb",<br>
+"hybris-target-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1/header",<br>
+"hybris-user": "user@hybris.com"<br>
+</t>
+</div>
+
+<h3>Example 3</h3>
+The following headers are sent with the request when the **hybris.org=$organizationID** scope was passed while acquiring the access token with the **Resource Owner Password Credentials Grant**:
+
+<div class="expand-collapse" data-caption="Click to see the headers">
+<t render="html.md">
+  "hybris-external-path": "/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+  "hybris-external-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+  "hybris-hop": "1",<br>
+  "hybris-org": "59cc4b46f5ce83bf493f7h29",<br>
+  "hybris-request-id": "eb2f7303-5d3b-44b3-b8e5-79135eaed718",<br>
+  "hybris-scopes": "hybris.org=59cc4b46f5ce83bf493f7h29",<br>
+  "hybris-service-owner": "toad",<br>
+  "hybris-session-id": "d40bea46-1e68-4b93-8af6-81935d69824e",<br>
+  "hybris-target-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1/headers",<br>
+  "hybris-user": "user@hybris.com"<br>
+</t>
+</div>
+
+<div class="panel note">
+Some Hybris-specific headers, such as **hybris-user** and **hybris-org**, are added under specific circumstances. When following the Implicit Grant and Resource Owner Password Credentials Grant authorization flows, scopes are passed in the request for an access token, and in the applied authorization rules.
+</div>
+
+<h3>Example 4</h3>
+The following headers are sent with the request when the **Skip Authorization** for all paths and methods is applied in the Builder:
+
+<div class="expand-collapse" data-caption="Click to see the headers">
+<t render="html.md">
+  "authorization": "Bearer 001-e3c1d3c6-24d5-4071-b8cf-9cb280b1d36e",<br>
+  "hybris-external-path": "/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+  "hybris-external-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1",<br>
+  "hybris-hop": "1",<br>
+  "hybris-request-id": "a4b0382b-0f92-4070-a56b-aaaee9fd568d",<br>
+  "hybris-service-owner": "toad",<br>
+  "hybris-target-url": "https://api.yaas.io/hybris/CUSTOM_ECHO_SERVICE/v1/headers"<br>
+</t>
+</div>
+
+<div class="panel warning">
+The API Proxy does not process the Hybris-specific headers when the **Skip Authorization** is set on the specified parameters in the **Authorization Rules** of the service.
+</div>

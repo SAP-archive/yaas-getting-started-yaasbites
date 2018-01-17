@@ -1,0 +1,13 @@
+---
+type: Security
+title: 'Data privacy'
+---
+
+Services developed on YaaS must comply with the data protection laws and
+regulations, depending on the country or area where the service is in operation.
+
+If your service collects personal data, or even has the potential to do so, the
+functionality required by law to support data privacy must be implemented.
+See the <a href="/tools/developerguidelinesfordataprivacy/index.html">
+Developer Guidelines for Data Privacy</a> for more information. If your service
+does not process or collect personal data, it is compliant by default.

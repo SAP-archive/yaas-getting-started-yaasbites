@@ -1,0 +1,11 @@
+# Files to ignore in git
+.class
+.classpath
+.settings
+.project
+.DS_Store
+bin/
+**/.DS_Store
+/target/
+/.idea/
+/yaasbite8.iml

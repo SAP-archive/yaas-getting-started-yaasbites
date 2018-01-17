@@ -1,0 +1,64 @@
+---
+type: API Proxy
+title: 'Circuit Breaker'
+---
+
+The architecture of a <%- @partial('generalterm_microservice') %> relies on the successful communication between various software instances. It is important to manage the failing HTTP calls because they use up the resources and may lead to a system failure.
+
+The API Proxy serves as the guardian of the YaaS ecosystem, and it actively monitors the requests. Each call to a target service that passes through the API Proxy increases one of the two values:
++ success count – HTTP codes of **2xx-4xx**
++ failure count – HTTP codes **5xx** or timed-out by the API Proxy.
+
+When a client calls a service that is failing or returning slow responses, the ratio of the failure to success count increases. If it reaches the threshold of 50%, the API Proxy triggers the following pattern called the **circuit breaker**:
+
+<!--
+<p><img src="img/circuit_general.png" class="img-click-modal" width="400" alt="Circuit breaker overview"/></p>
+-->
+
+```
+sequenceDiagram
+Client->>API Proxy: GET /hybris/service/v1/a
+API Proxy->>API Proxy: Circuit breaker check: closed
+API Proxy->>Target Service: GET /a
+Target Service->>API Proxy: HTTP code 500
+API Proxy->>Client: HTTP code 500
+Client->>API Proxy: GET /hybris/service/v1/a
+API Proxy->>API Proxy: Circuit breaker check: open
+API Proxy->>Client: HTTP code 503
+```
+
+During the normal operation, the circuit breaker is closed. When it is open, each call to the failing target service is blocked and results with a response code of `503` from the API Proxy:
+
+```
+{
+   "status": 503,
+   "message": "The circuit breaker for the requested service is currently open. Please try again later.",
+   "type": "circuit_breaker_open",
+   "moreInfo": "https://api.yaas.io/patterns/errortypes.html"
+}
+```
+
+<br />
+The API Proxy collects the statistics in one-minute timeframes that are split into intervals. To activate the circuit breaker, there must be at least 15 requests to a service within this timeframe. This reflects the total number of requests, regardless the response status codes.
+
+The circuit breaker remains open for a few minutes. This depends on how the failure count is distributed within the time intervals. When the error/success ratio drops below 50%, the API Proxy tries to close the circuit breaker. It switches to a **half-opened** state and executes a test call to your service. A **success** response closes the circuit breaker:
+
+<!--
+<p><img src="img/circuit_open.png" class="img-click-modal" width="400" alt="Circuit breaker open"/></p>
+-->
+
+<div class="mermaid">
+graph LR
+    A[Closed]-- Success <br /> or failure under <br /> 50% threshold --> A
+    A-- Failure <br />Threshold reached --> B{Open}
+    B-- Failure --> B
+    B-- Reset Attempt --> C(Half-open)
+    C-- Failure --> B
+    C-- Success --> A
+</div>
+
+For more information about the background of the circuit breaker mechanism, see external documentation, such as Martin Fowler's <a href="http://martinfowler.com/bliki/CircuitBreaker.html">website</a>.
+
+<div class="panel note">
+If your service requires user interaction, it should return the error codes of `40x` for invalid input.
+</div>

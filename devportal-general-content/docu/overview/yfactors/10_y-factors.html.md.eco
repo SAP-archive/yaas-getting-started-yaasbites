@@ -1,0 +1,171 @@
+---
+type: 'y Factors'
+title: 'The y Factors'
+---
+<!-- hero spot -->
+<div class="jumbotron jumbotron--dark text-center">
+  <div class="row">
+    <div class="jumbotron__content--flex">
+      <p class="jumbotron__paragraph jumbotron__paragraph--small">YAAS</p>
+      <h1 class="jumbotron__title jumbotron__title--big">YFACTORS DNA</h1>
+    </div>
+  </div>
+</div>
+
+<!-- [y] factors wrapper -->
+<div class="y-factors">
+
+  <div class="y-factors__nav-wrapper">
+
+    <ul class="y-factors__nav">
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#Y">
+            <span class="a-link--standing-out">Y</span>aaS services (independent)
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#F">
+            <span class="a-link--standing-out">F</span>ully understand your running system
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#A">
+            <span class="a-link--standing-out">A</span>PIs first
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#C">
+            <span class="a-link--standing-out">C</span>omplete ownership
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#T">
+            <span class="a-link--standing-out">T</span>echnology must scale
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#O">
+            <span class="a-link--standing-out">O</span>pen technology landscape
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#R">
+            <span class="a-link--standing-out">R</span>elease early and often
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#S">
+            <span class="a-link--standing-out">S</span>elf sufficient teams
+        </a>
+      </li>
+      <li class="y-factors__nav-item y-factors__nav-item--has-no-padding">
+        <hr class="y-factors__separator" />
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#D">
+            <span class="a-link--standing-out">D</span>esign for failure
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#N">
+            <span class="a-link--standing-out">N</span>o surprises
+        </a>
+      </li>
+      <li class="y-factors__nav-item">
+        <a class="a-link a-link--content-nav" href="#A2">
+            <span class="a-link--standing-out">A</span>rchitect small simple services
+        </a>
+      </li>
+      <li class="y-factors__nav-item y-factors__nav-item--has-no-padding">
+        <hr class="y-factors__separator" />
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="y-factors__content-wrapper">
+    <h2 id="Y">Independent YaaS services</h2>
+
+    <p class="y-factors__paragraph--dot">Don’t depend on others.</p>
+    <p class="y-factors__paragraph--dot">Ideally, design your service with no code dependencies on other teams.</p>
+    <p class="y-factors__paragraph--dot">Developers have independent release cycles for faster delivery and can isolate failures to single components quickly.</p>
+    <p class="y-factors__paragraph--dot">The perfect service has zero dependencies.</p>
+
+
+    <h2 id="F">Fully understand your system</h2>
+
+    <p class="y-factors__paragraph--dot">Don’t guess. Know.</p>
+    <p class="y-factors__paragraph--dot">Know your system inside and out so you can fix downtime, track logs, and predict scaling before it becomes an issue with customers.</p>
+    <p class="y-factors__paragraph--dot">Customers want analytic data, insights into metrics, and a stable product they can trust.</p>
+    <p class="y-factors__paragraph--dot">Know the state of your services and system. Make it visible and easy to observe.</p>
+
+
+    <h2 id="A">APIs first</h2>
+
+    <p class="y-factors__paragraph--dot">Design APIs with your customer in mind.</p>
+    <p class="y-factors__paragraph--dot">Design the API based on an early agreement with your users, and build functionality into it later.</p>
+    <p class="y-factors__paragraph--dot">Customers are happy because they are involved in the design of the product, and the maintenance costs are reduced with fewer revisions.</p>
+    <p class="y-factors__paragraph--dot">Focus on developing rich APIs based on customer needs, and develop the functionality later.</p>
+
+
+    <h2 id="C">Complete ownership</h2>
+
+    <p class="y-factors__paragraph--dot">You own it, in every sense of the word.</p>
+    <p class="y-factors__paragraph--dot">Development teams are also trusted to interact with customers directly and act upon their feedback in a timely matter.</p>
+    <p class="y-factors__paragraph--dot">Valuable customer relationships are built, as is a win-win scenario with happy customers and a high-quality product.</p>
+    <p class="y-factors__paragraph--dot">You build it, run it, release it, scale it, maintain it, support it, and improve it.</p>
+
+
+    <h2 id="T">Technology must scale</h2>
+
+    <p class="y-factors__paragraph--dot">Each component must scale cost-efficiently and without limits.</p>
+    <p class="y-factors__paragraph--dot">Understand the scaling requirements of your solutions, and choose an appropriate technology to meet it.</p>
+
+
+    <h2 id="O">Open technology landscape</h2>
+
+    <p class="y-factors__paragraph--dot">Teams have the freedom to pick the right tool for the job.</p>
+    <p class="y-factors__paragraph--dot">Development teams choose the tools they want, because they know what tool works best for the job. When teams don’t want to choose, they can get input from the community or use the default tools.</p>
+    <p class="y-factors__paragraph--dot">Development teams are more efficient when they can use tools they like and are familiar with, and they are more committed to the project when they are not forced to use certain tools.</p>
+
+
+    <h2 id="R">Release early, release often</h2>
+
+    <p class="y-factors__paragraph--dot">Establish a deployment pipeline to deliver your product without the fear of breaking something.</p>
+    <p class="y-factors__paragraph--dot">The time to market is greatly reduced if you release early, get feedback, and then release again with the added improvements.</p>
+    <p class="y-factors__paragraph--dot">Releasing early reduces the time between development and bug reports. High test coverage and automation are key factors to achieving this.</p>
+    <p class="y-factors__paragraph--dot">Software only provides value when it's out in the market, so get it out there quick.</p>
+
+
+    <h2 id="S">Self-sufficient teams</h2>
+
+    <p class="y-factors__paragraph--dot">Teams own their product from design to delivery.</p>
+    <p class="y-factors__paragraph--dot">Development teams are trusted to work independently from the red tape of a big organization and therefore can develop a product quickly.</p>
+    <p class="y-factors__paragraph--dot">Team members are happy because they are trusted and not frustrated by processes and decisions that are out of their control. In return, teams take more pride and responsibility for the quality of their work.</p>
+    <p class="y-factors__paragraph--dot">You can take a concept to production with limited dependencies outside of your team.</p>
+
+
+    <h2 id="D">Design for failure</h2>
+
+    <p class="y-factors__paragraph--dot">Don’t design on hope.</p>
+    <p class="y-factors__paragraph--dot">Build resilient services that handle failure and recovery gracefully, instead of hoping they will never go offline.</p>
+    <p class="y-factors__paragraph--dot">Developers get to design services in a different way and focus on testing failures.</p>
+    <p class="y-factors__paragraph--dot">If the infrastructure or service can go down, it will go down. Design for failure and recovery.</p>
+
+
+    <h2 id="N">No surprises</h2>
+
+    <p class="y-factors__paragraph--dot">Don't surprise your customers.</p>
+    <p class="y-factors__paragraph--dot">Development teams design UIs with straightforward and predictable interfaces using well-known technologies.</p>
+    <p class="y-factors__paragraph--dot">There are no hidden surprises for the customer, because the APIs and UIs are consistent.</p>
+    <p class="y-factors__paragraph--dot">Use predefined patterns and best practices to ensure a consistent API and UI.</p>
+
+
+    <h2 id="A2">Architect small, simple services</h2>
+
+    <p class="y-factors__paragraph--dot">Keep it simple, yet the possibilities become endless.</p>
+    <p class="y-factors__paragraph--dot">Services are small and simple, which has a lot of advantages. They are easy to exchange, localize, and reuse. Although the services are kept small, they increase the complexity of the entire product landscape.</p>
+    <p class="y-factors__paragraph--dot">For developers, refactoring services becomes a normal task, and this simplifies development and maintenance.</p>
+    <p class="y-factors__paragraph--dot">The perfect service is small and does one thing.</p>
+
+  </div>

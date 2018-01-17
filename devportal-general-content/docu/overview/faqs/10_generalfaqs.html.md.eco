@@ -1,0 +1,80 @@
+---
+type: FAQs
+title: 'General FAQs'
+---
+<table class="table table-striped table-glossary techne-table">
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+    </tr>
+
+    <tr>
+      <td>What is YaaS?</td>
+      <td>Simply put, <%- @partial('generalterm_yaas') %> is a marketplace for services. As a developer, you can create and sell a <%- @partial('generalterm_service') %>, and as a business user, you can consume a service. Additionally, you can create what we call a <%- @partial('generalterm_buildermodule') %> using the <%- @partial('generalterm_builder') %> CLI, and use the Builder to manage these services. On the <%- @partial('generalterm_yaasmarket') %>, you can sell or subscribe to a <%- @partial('generalterm_package') %>, which can contain both services and Builder modules. Developers use the <%- @partial('generalterm_devportal') %> to learn how to build and document their service or Builder module. So in reality, YaaS encompasses all of these things.</td>
+    </tr>
+
+    <tr>
+      <td>How do I get a free YaaS account?</td>
+      <td>It's easy! Click on the yellow register button on the <a href="http://devportal.yaas.io">Home</a> page.
+    </tr>
+
+    <tr>
+      <td>What are the basics of YaaS? What are these packages I keep hearing about?</td>
+      <td>We are glad you asked. YaaS is <i>all about</i> packages. For a high-level overview, go to the <a href="/overview/yaasinanutshell/index.html"> YaaS in a Nutshell</a> page.
+
+    <tr>
+      <td>How do I get started with YaaS?</td>
+      <td>The Dev Portal contains <a href="/gettingstarted/index.html">Getting Started Guides</a>. Use these guides to learn how to take the first steps with APIS, develop a service, write a Builder Module, or even open a Storefront.</td>
+    </tr>
+
+    <tr>
+      <td>How can I file feature requests, bugs, and get help?</td>
+      <td>Check out the <a href="/overview/helpandsupport/index.html">Help and Support</a> page on the Dev Portal.</td>
+    </tr>
+
+    <tr>
+      <td>How can I use the Service SDK?</td>
+      <td>First, learn how to <a href="/gettingstarted/setuptheenvironment/index.html">set up the environment</a>. Then, follow the steps in the <a href="/gettingstarted/createaservice/index.html">Create a Service</a> tutorial in the Getting Started Guides. To download the SDK components, include them in the <code>settings.xml</code> file, and then build your project. For more information, see the <a href="/tools/servicesdk/index.html">Service SDK</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>What is multi-tenancy?</td>
+      <td>In YaaS, a single service running on a server can serve multiple tenants. The same client can be used in single tenant and multi-tenant scenarios. For more information, see the <a href="/services/media/latest/index.html#Multitenancy">Media</a> service documentation.</td>
+    </tr>
+
+    <tr>
+      <td>What is a mixin?</td>
+      <td>A mixin is a simple schema. It is defined by users of the Document service and contains additional attributes for a document. For more information, see the <a href="/services/document/latest/index.html#Mixins">Mixins</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>What is a mashup?</td>
+      <td>In YaaS, a <%- @partial('generalterm_mashup') %> is just that; a combination of two or more service's functions. For example, the **Service Ticket Mashup** service provides additional capabilities on top of the **Service Ticket** service. It provides consistency checks for customer and product master data when creating or updating service tickets. It also reads additional customer and product attributes when retrieving service tickets. Since some existing functionality comes from the **Customer** and **Product** services, it is considered a mashup.</td>
+    </tr>
+
+    <tr>
+      <td>How can I deploy my service?</td>
+      <td>For information about deploying your service or your Builder module, see the <a href="/overview/deployment/index.html">Deployment</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>How can I convert my existing API to YaaS?</td>
+      <td>First, make sure your API is <%- @partial('generalterm_restful') %> and follows the <a href="/tools/apiguidelines">API Guidelines</a>. Second, register your service in the Builder, and then create a package so users can subscribe to it. Lastly, create a Builder module so business users can manage it easily. See the <a href="/gettingstarted/index.html">Getting Started Guides</a> for more instructions.</td>
+    </tr>
+
+    <tr>
+      <td>Can I use my tablet or phone with YaaS?</td>
+      <td>Yes, with a few clarifications. Most aspects of the Getting Started Guides can be completed using a tablet or a phone, although the screen size may be an issue with some of the tutorials, and having a keyboard is more convenient for coding. In addition, tutorials that require moving data from a local file system to the cloud may not be possible depending on the capabilities of your device. For example, if you try to upload a CSV file, your device might not allow you open the file.</td>
+    </tr>
+
+    <tr>
+    <td>Can I get training as a developer in YaaS?</td>
+    <td>Yes! The <a href="https://training.sap.com/learning/journey/sap-hybris-as-a-service-yaas-developer" target="_blank">Learning Journey: SAP Hybris as a Service (YaaS) Developer</a> is a self-guided video course for developers. The videos walk you through the essential components of YaaS, including how to work with the YaaS Market and the Builder, as well as how to get information and guidance from the Dev Portal, the Knowledge Hub, and helpful forums such as Hybris Experts and the YaaS Community. </td>
+    </tr>
+
+    <tr>
+    <td>Where can I learn how to do short, discrete tasks in YaaS?</td>
+    <td><a href="/gettingstarted/yaasbitesessentials/index.html">YaaS Bites</a> in the Getting Started section enable software developers to go from zero-to-YaaS in a couple of days. They are small, focused, incremental coding exercises. Each bite has code, guidelines, and screencasts to ensure your initial journey into YaaS is successful and productive.</td>
+    </tr>
+
+</table>

@@ -1,0 +1,79 @@
+---
+type: FAQs
+title: 'Builder FAQs'
+---
+<table class="table table-striped table-glossary techne-table">
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+    </tr>
+
+    <tr>
+      <td>What is the Builder?</td>
+      <td>The <%- @partial('generalterm_builder') %> is a back-office and management tool of YaaS and its key user interface to manage all the components. With a YaaS account, you can complete the following tasks using the Builder:
+      <ul>
+        <li>Create a development project in the context of a YaaS organization.</li>
+        <li>View all of the projects for which you have a membership.</li>
+        <li>Manage these project's resources, according to your user role, such as services, Builder modules, and packages.</li>
+        <li>Use third-party Builder modules within your projects.</li>
+      </ul></td>
+    </tr>
+
+    <tr>
+      <td>How do I log in to the Builder?</td>
+      <td>When you sign up for a free YaaS account, an email is sent to you. After you confirm your email address, you can use your account to log in to the <a href="http://builder.yaas.io">Builder</a>.</td>
+    </tr>
+
+    <tr>
+      <td>What is the difference between a Builder module and the Builder? How do I understand all of this Builder lingo?!</td>
+      <td>We understand that the verbiage might be a little confusing at first. The Builder is a tool, and a Builder module is a single view in the Builder. Everyone can create Builder modules and extend the core Builder. A good place to start is with the <a href="/gettingstarted/yaasbitesessentials/index.html">YaaS Bites Essentials</a> in the Getting Started section. It quickly orients you to the lingo, and the basics of using the Builder.
+    </tr>
+
+    <tr>
+      <td>What are some of the best practices for setting up organizations, teams, and projects in the Builder?</td>
+      <td>
+        <ul>
+          <li>The use of organizations in YaaS is modeled after the real world. For instance, if you are working for a company, use the organization for your company. Don't create projects and teams in your own organization, but ask your colleagues to invite you to the company organization instead. If your company is gigantic, but neatly split up into several functional areas, then create multiple organizations. For instance, if one company has several brands, each brand can be its own organization. In this scenario, different publishers are displayed on the YaaS Market with different YaaS URLs.</li>
+          <li>The YaaS URL or basepath is used as part of the service proxy's URL. If you create two organizations for one company, they have different basepaths, and all services that are published as a package need to be owned by the same team.</li>
+          <li>If your development organization is split into multiple independent teams, create a YaaS team for each one. This keeps the services, packages, and teams independent, and that is optimal in the world of YaaS.</li>
+          <li>If you work on early prototypes or crazy ideas which might, or might not make it into real products, create teams in the real organization of your company. Also, create your draft packages, services, or Builder modules within your existing teams. Don't create separate teams for testing and publishing because your current work in progress might be your company's next bestselling package. You can test your package in a test project.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>How can I use the Builder SDK?</td>
+      <td>To create your own user interfaces to manage your services in the Builder, use the Builder SDK CLI. For more information, see the <a href="/tools/buildersdk/index.html">Builder SDK</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>How do I register a service in Builder?</td>
+      <td>For information on registering a service in the Builder, see the <a href="/gettingstarted/createaservice/index.html#6">Create a Service</a> tutorial in the Getting Started Guides.</td>
+    </tr>
+
+    <tr>
+      <td>How do I subscribe to unpublished packages?</td>
+      <td>In your own organization, go to your subscriptions and click <strong>Subscribe</strong>. For more information, see the <a href="/gettingstarted/createabuildermodule/index.html#4">Create a Builder Module</a> tutorial in the Getting Started Guides.</td>
+    </tr>
+
+    <tr>
+      <td>What are your best practices for securing services and Builder modules?</td>
+      <td>Secure your service by assigning scopes for different operations, without having to write any code. For more information, see <a href="/overview/security/index.html#SecureaService">Secure a Service</a>.</td>
+    </tr>
+
+    <tr>
+      <td>Why do I need to provide a credit card for my organization in the Builder?</td>
+      <td>Companies using YaaS for commercial purposes must provide a valid credit card. If the free monthly usage limit is exceeded, any additional usage costs are billed to the credit card. Companies using YaaS for non-commercial purposes do not need to provide a credit card.</td>
+    </tr>
+
+    <tr>
+      <td>What are techné components and how can I use them?</td>
+      <td>The techné components are styling components to ensure all Builder modules look consistent. If you write a Builder module, you should use techné components and styles. Follow the instructions on the <a href="https://techne.yaas.io/GettingStarted.html">techné Getting Started</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>How can I extend the Builder?</td>
+      <td>The Builder can be extended using your own plug-ins and modules. For more information, read the <a href="/overview/extensibility/index.html#ExtendingtheBuilder">Extending the Builder</a> documentation.</td>
+    </tr>
+
+</table>

@@ -1,0 +1,34 @@
+---
+type: Architecture
+title: 'YaaS Architecture'
+---
+
+The following content describes a high-level overview about the architecture of SAP Hybris as a Service (YaaS) and the fundamental principles upon which it is built.
+
+### Services in YaaS
+The core design principles of YaaS are based on the <a href="https://en.wikipedia.org/wiki/Microservices">microservice</a> architecture style, which enables you to build a flexible API on the SAP Hybris scalable platform, and then publish it.
+
+Software is often bundled into components that use various technologies. The microservice architecture is another method of partitioning software into smaller and independent manageable artifacts. With this approach, you can develop a single application as a suite of microservices. The advantages of using the microservice architecture is that each application can do the following:
+
+* Run its own processes
+* Communicate with standardized, lightweight HTTP mechanisms
+* Expose its functionality through a <%- @partial('generalterm_restful') %> API
+
+In addition, traditional microservices have the following features that are also beneficial to YaaS users:
+* They serve only a well-defined functional scope.
+* They have a small and easy-to-understand code base. <!--Why should that be important to the reader?-->
+* They have a separate life cycle, so they can be managed and evolve independently.
+* They are loosely coupled, which decreases the impact of failures on the whole system.
+* They are built with a technology stack that meets the business requirements.
+* They are easy to scale, replace, and deploy.
+
+The microservices architecture style is based on standards, widely-accepted technology, and design principles for the interaction between services. The style provides the flexibility to use any technology to implement each specific microservice. Therefore, there is no learning curve for developers to learn new technologies. Instead, every provider of a microservice has the freedom to choose the technology, programming language, and development tools to fulfill their business requirements and find the best fit for their application domain.
+The anatomy of a microservice consists of three simple layers, as described below:
+
+<img src="/overview/architecture/img/Architecture_services.png" class="img-click-modal" width="400" alt="Microservice Anatomy">
+
+<ul>
+  <li>**RESTful APIs** – Implementation that exposes business functionality as a web resource</li>
+  <li>**Business Logic** – The actual implementation of your business requirement</li>
+  <li>**Integration Logic** – Used when the service needs to interact with databases or other services</li>
+</ul>

@@ -1,0 +1,7 @@
+---
+title: Overview
+---
+
+The SAP Cloud Platform is a cloud platform based on open standards that provides access to a feature-rich, easy-to-use development environment in the cloud. It enables you to deploy, run, and manage your web applications in the cloud, and to connect them with a wide range of services. This *platform as a service* frees you from any infrastructure and IT costs, and offers state-of-the art quality of services including availability, scalability, extensibility, and openness.
+
+To deploy your project using the **SAP Cloud Platform**, see the <a href="/overview/deployment/index.html">Deployment</a> documentation.

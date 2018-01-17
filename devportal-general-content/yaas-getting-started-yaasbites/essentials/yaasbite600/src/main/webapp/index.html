@@ -1,0 +1,243 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="mycss.css">
+</head>
+<script src="https://builder.yaas.io/public/js/vendor/jquery/dist/jquery.min.js"></script>
+<script src="https://builder.yaas.io/public/js/vendor/underscore/underscore.js">	</script>
+<script src="https://builder.yaas.io/public/js/vendor/angular/angular.js">	</script>
+<script src="https://builder.yaas.io/public/js/vendor/restangular/dist/restangular.js">	</script>
+<script>
+
+function entryWithEquals(str) {
+	return str.includes("=")
+}
+function entryWithoutEquals(str) {
+	return !str.includes("=")
+}
+var app = angular.module('tipsApp', ['restangular']);
+
+app.config(function(RestangularProvider) {
+	var location = window.location.href.replace("/#", "");
+	location = location.replace("index.html", "");
+	RestangularProvider.setBaseUrl(location);
+});
+
+app.controller('tipsController', function($scope, Restangular, $http ) {
+
+	// NEEDS_ADJUSTING : if using a token from the EU use https://api.eu.yaas.io if not, use https://api.yaas.io as prefix
+	$scope.SERVICES_API_PROXY="https://api.eu.yaas.io/yaascondensed/service1/v1" // NEEDS_ADJUSTING TO YOUR SERVICE'S API_PROXY URL, BUT KEEP THE HTTPS PROTOCOL
+
+	$scope.SERVICES_CLOUD_URI="https://yb20170420-6.cfapps.io" // NEEDS_ADJUSTING TO YOUR SERVICE'S CLOUD URL, BUT KEEP THE HTTPS PROTOCOL
+
+	// NEEDS_ADJUSTING - DO YOU WANT A TOKEN FOR THE E.U. OR FOR THE U.S.?
+	//$scope.OAUTH_URL = "https://api.eu.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE E.U.
+	$scope.OAUTH_URL = "https://api.yaas.io/hybris/oauth2/v1/token";	// NEEDS_ADJUSTING - USE IF YOU REQUIRE A TOKEN FOR THE U.S.
+
+	$scope.CLIENT_ID = "UKYP0nbfELeJJPoqA6zd4AzB8FIl7WKf"; // NEEDS_ADJUSTING TO THE CLIENT_ID OF YOUR CLIENT
+
+	$scope.loggingIn = function() {
+		var ACCESS_TOKEN_IN_URL_PREFIX = "access_token=";
+
+		var location = window.location.href.replace("/#", "").replace("index.html", "");
+
+		if (location.indexOf(ACCESS_TOKEN_IN_URL_PREFIX)==-1){ // The first time to this page, we will not have access_token in the URL
+		    // Redirect to Yaas' OAuth2 endpoint, passing this page as the redirect_uri so that we come back to this page afterwards
+			var target =
+			// NEEDS_ADJUSTING : if using a token from the EU use https://api.eu.yaas.io/hybris/oauth2/v1/authorize if not, use https://api.yaas.io/hybris/oauth2/v1/authorize
+			"https://api.yaas.io/hybris/oauth2/v1/authorize" +
+			"?response_type=token"+
+
+			// NEEDS_ADJUSTING: if your account (and laptop) is an SAP account, you should enable sap log-in.  
+			//                  If your account (and laptop) is not an SAP account, comment out the next line. More @ https://api.eu.yaas.io/hybris/oauth2/v1/api-console/##authorize
+			"&hybris_id_provider=sap"+
+			
+			"&scope=hybris.tips_vip"+
+			"&client_id="+ $scope.CLIENT_ID +
+			"&redirect_uri="+ $scope.SERVICES_CLOUD_URI+"/index.html";
+		    window.open(target );
+		    //=================
+		}
+		else {
+			// If this URL does contain "access_token" it means we have already been redirected back to this page from Yaas' oauth2 service
+			location = location.substring(location.indexOf( ACCESS_TOKEN_IN_URL_PREFIX ) + ACCESS_TOKEN_IN_URL_PREFIX.length);
+			$scope.token = location.substring(0, location.indexOf("&"));
+			$scope.analyzeToken();
+		}
+	}
+
+	$scope.setBaseUrl = function(useTenant){
+		console.log("IN SETBASEURL WITH "+$scope.SERVICES_API_PROXY)
+		Restangular.setBaseUrl($scope.SERVICES_API_PROXY);
+	}
+
+	$scope.getReadyToCall = function( restangular, useTenant ){
+		$scope.responseData=null
+		$scope.errorMessage=null
+		$scope.setBaseUrl(useTenant);
+		if ($scope.includeToken=='YES')
+			restangular.setDefaultHeaders({Authorization:'Bearer '+ $scope.token});
+		else
+			restangular.setDefaultHeaders({});
+	}
+
+	$scope.ping = function(){
+		$scope.getReadyToCall(Restangular, true)
+		Restangular.one("ping").get().then(
+			function(data) {
+				$scope.responseData = data.toString(); //Restangular.stripRestangular(data)
+			},
+			function(response) {
+				$scope.errorMessage = response.status + ' '+response.data.message;
+		  	}
+		);
+	}
+
+	$scope.getTips = function(){
+		$scope.getReadyToCall(Restangular, true)
+
+		Restangular.all("tips").getList().then(
+			function(data) {
+				$scope.responseData = Restangular.stripRestangular(data)
+			},
+			function(response) {
+				$scope.errorMessage = response.status + ' '+response.data.message;
+		  	}
+		);
+	}
+
+	$scope.sensitiveMethodForVIPsOnly = function(){
+		$scope.getReadyToCall(Restangular, false)
+		Restangular.all("tips").remove().then(
+			function(data) {
+				$scope.responseData = Restangular.stripRestangular(data)
+			},
+			function(response) {
+				$scope.errorMessage = response.status + ' '+response.data.message;
+		  	}
+		);
+	}
+
+    $scope.postTip = function(){
+		$scope.getReadyToCall(Restangular, true)
+		if(!$scope.validateText(true))
+			return;
+		var json = { 'tip': ''+$scope.tipText }
+		Restangular.all("tips").post(json).then(
+			function(data) {
+    			$scope.getTips()
+	    	},
+			function(response) {
+				$scope.errorMessage = response.status + ' '+response.data.message;
+		  	}
+		);
+	}
+
+    $scope.putTip = function(){
+		$scope.getReadyToCall(Restangular, true)
+		if(!$scope.validateId(true) || !$scope.validateText(false) )
+			return;
+    	var json = { 'tip': ''+$scope.tipText }
+    	Restangular.one("tips/"+$scope.tipId).customPUT(json).then(
+    		function(data) {
+				$scope.getTips()
+    		},
+			function(response) {
+				$scope.errorMessage = response.status + ' '+response.data.message;
+		  	}
+		);
+	}
+
+    $scope.deleteTip = function(){
+		$scope.getReadyToCall(Restangular, true)
+		if( !$scope.validateId(true))
+			return;
+    	Restangular.one("tips/"+$scope.tipId).remove().then(
+    		function(data) {
+    			$scope.getTips()
+        	},
+			function(response) {
+				$scope.errorMessage = response.status + ' '+response.data.message;
+		  	}
+		);
+	}
+
+	$scope.validateText = function(clearMsg){
+		if(clearMsg)
+			$scope.errorMessage = ""
+		if ($scope.tipText)
+			return true;
+		$scope.errorMessage = "Woops, no Tip Text has been given";
+		return false;
+	}
+
+	$scope.validateId = function( clearMsg){
+		if(clearMsg)
+			$scope.errorMessage = ""
+		if ($scope.tipId && $scope.tipId >-1)
+			return true;
+		$scope.errorMessage = "Woops, the ID is empty or invalid";
+		return false;
+	}
+
+	$scope.analyzeToken = function(){
+		$scope.responseData=null
+		$scope.errorMessage=null
+		$http({
+			url : 'https://api.yaas.io/hybris/echo/v1/get',
+			method : 'GET',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+				'Authorization':'Bearer '+$scope.token}
+		}).success(function(data, status, headers, config) {
+			$scope.tokenDetails = data['hybris-scopes']
+			$scope.tokenDetailsTenant = data['hybris-scopes'].split(" ").filter( entryWithEquals )[0].replace("hybris.tenant=","");
+			$scope.tokenDetailsScopes = data['hybris-scopes'].split(" ").filter( entryWithoutEquals ).toString();
+		}).error(function(data, status, headers, config) {
+			$scope.errorMessage = "ERROR in Analyzing token: "+ data
+		});
+	}
+
+	$scope.token = null;
+	$scope.includeToken='NO'
+	$scope.serverLocation='local'
+	$scope.getReadyToCall(Restangular)
+});
+
+</script>
+
+<body  ng-app=tipsApp ng-controller="tipsController" ng-init="loggingIn()" >
+
+<h2>YaaS Bite 6: Login</h2>
+
+	<div ng-show="!token">
+		If you see this, you have not yet logged in properly.
+		Be sure you are allowing pop-ups for this site, and follow <a href="https://yaasbiteindex.cfapps.us10.hana.ondemand.com/#YaasBite6">YaasBite6</a> to get this working.
+	</div>
+	<div ng-show="token">
+
+		A client-front-end, reached after logging-in with the Implicit Grant Flow.<br>
+
+
+		<h3>Token returned:</h3>
+		Token Value: {{token}}<br>
+		Token Tenant (on whose behalf are these calls being made): {{tokenDetailsTenant}}<br>
+		Token Scopes (which special permissions does this token have): {{tokenDetailsScopes}}<br>
+
+		<h3>Make REST calls to Tips Service</h3>
+		Include Token in headers to Tips webservice?
+		Yes <input ng-disabled="!token" type="radio" ng-model="includeToken" value=YES >
+		No <input ng-disabled="!token" type="radio" ng-model="includeToken " value=NO  >		<br><br>
+
+		Tenant name: {{tokenDetailsTenant}}<br>
+		Ping the service @ <a href="#" ng-click="ping()">/ping</a><br>
+		Get tips for tenant {{tokenDetailsTenant}} <a href="#" ng-click="getTips()">Call GET /tips</a><br>
+		Post tip for tenant {{tokenDetailsTenant}} <a href="#" ng-click="postTip()">Call POST /tips</a> with "{ 'tip': ' <input name=tipText ng-model="tipText"/>' }"<br>
+		Adjust tip for tenant {{tokenDetailsTenant}} <a href="#" ng-click="putTip()">Call PUT /tips/</a> <input name=tipId ng-model="tipId" type="number" /> with "{ 'tip': '<input name=tipText ng-model="tipText"/>' }"<br>
+		Delete tip for tenant {{tokenDetailsTenant}} <a href="#" ng-click="deleteTip()">Call DELETE /tips</a> <input name=tipId ng-model="tipId"  type="number" /> <br>
+		Invoke sensitiveMethodForVIPsOnly: </b><a href="#" ng-click="sensitiveMethodForVIPsOnly()">Call DELETE /tips</a> (Requires scope hybris.tips_vip)<br>
+
+		<h3 ng-show="responseData!=null">Response:</h3><div style="color:green" ng-show="responseData!=null">{{responseData|json}}</div>
+	</div>
+	<p style="color:red" ng-show="errorMessage">{{errorMessage|json}}</p>
+
+</body>
+</html>

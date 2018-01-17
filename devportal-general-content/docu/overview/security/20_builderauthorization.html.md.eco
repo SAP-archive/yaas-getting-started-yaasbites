@@ -1,0 +1,65 @@
+---
+type: Security
+title: 'Authorization Flows in the Builder'
+---
+
+The <a href="/tools/builder/index.html">Builder</a> is a client that uses the OAuth 2.0 Implicit Grant flow to obtain an access token. However, a separate token is required for each use case in terms of the user, <%- @partial('generalterm_tenant') %>, or third-party client. Those tokens are valid for a limited time and do not contain refresh tokens. This means that the Builder authorizes itself for each user and tenant independently.
+
+There are different use cases and authorization flows in the Builder for:
+- Builder clients in terms of the user
+- Builder clients in terms of the tenant and user
+- Builder modules (third-party clients) in terms of the tenant and user
+
+### Authorize the Builder client in terms of the user
+
+If you log in to the Builder as a user, then a home page, a list of projects, and teams in which you have a membership are displayed. The following diagram shows the authorization flow for this example:
+
+<img src="/overview/security/img/builder_client_user_flow.png" style="width:600px" class="img-click-modal" alt="Builder client user flow"/>
+
+In this example:
+
+1. The user opens the Builder home page.
+2. The Builder does not have a token to act upon in terms of the user, so it sends an authentication request as POST form data to the authorization server. In response to the user request, the Builder sends its client ID, a set of required <%- @partial('generalterm_scopes') %>, and the redirect URI, http://builder.yaas.io, as form data parameters.
+3. The authorization server responds with a sign-in form, which the Builder renders as an iframe on the Builder's sign-in page.
+4. The user provides their YaaS credentials in the form provided by the authorization server.
+5. The user submits the form, which sends the credentials as POST form data to the sign-in endpoint of the authorization server.
+6. The authorization server responds with an HTTP 302 redirection to the address of the Builder client, according to the redirect URI that was sent. The response contains an access token and ID token in the hash part of the URL. The access token gives the Builder the authority to act in terms of the user. The ID token represents the user authentication.
+7. The Builder stores the access token and ID token on the client side and uses the access token to fetch the user's projects and teams from the Account service using the YaaS proxy.
+8. The YaaS proxy verifies the authority of the access token with respect to the requested resources. If access is granted, the call is processed by the target YaaS API, and the Builder receives data about the user's teams and projects. If access is denied, the YaaS proxy responds with an HTTP 401 or HTTP 403 error.
+
+### Authorize the Builder client in terms of the tenant and user
+
+The following diagram shows the authorization flow for a user selecting a project in the left navigation tree of the Builder:
+
+<img src="/overview/security/img/builder_tenant_switch_flow.png" style="width:600px" class="img-click-modal" alt="Builder tenant switch flow"/>
+
+1. The user selects a project from the list in the navigation tree.
+2. The Builder checks if it already has a valid access token for the selected tenant in the local cache. If it does, it uses this access token to fetch project details data using the YaaS proxy. If not, it sends an authorization request as POST form data using these parameters:
+ - **ID token** - An ID which satisfies the current user authentication.
+ - **Redirect URI** - A URI that imposes redirection to the Builder's authentication callback, an invisible iframe.
+ - **Scopes** - An authorization scope that the Builder requires to operate in terms of the user and the tenant.
+ - **hybris.tenant** - A special scope to name the tenant for which the Builder needs a token.
+3. The authorization server responds with an HTTP 302 redirection to the address of the Builder's authorization callback address of https://builder.yaas.io/auth/callback.html, with respect to the redirect URI that was sent. The location header of the response contains the access token in the hash part of the URL.
+4. The authentication callback iframe consumes the access token and stores the token on the client side in the token's cache. The access token enables the Builder to act in terms of the user or a requested project.
+5. The Builder uses the access token to fetch project data.
+8. The YaaS proxy verifies the authority of the access token regarding the requested resources. The access token contains encoded information about the user, project, and the user's role in the project (scopes). If access is granted, the call is processed by the target YaaS API, and the Builder receives the project's data back. If access is denied, the YaaS proxy responds with an HTTP 401 or HTTP 403 error.
+
+### Authorize the Builder module (third-party client) in terms of the tenant and user
+
+There is another authorization flow for any Builder module that is developed independently from the Builder application. Acting in terms of a project, the user selects a Builder module from the left navigation tree, such as the **Wishlist** module. In this example, the currently selected project subscribes to a Wishlist <%- @partial('generalterm_package') %>. This package contains a Wishlist service and a Wishlist <%- @partial('generalterm_buildermodule') %>. The Builder does not contain details about the Wishlist API, but it can render a third-party UI module that uses the Wishlist API using the YaaS proxy.
+
+The following diagram shows the authorization flow for this example:
+
+<img src="/overview/security/img/builder_app_switch_flow.png" style="width:600px" class="img-click-modal" alt="Builder app switch flow"/>
+
+1. The user selects the Wishlist module from the navigation tree.
+2. The Builder creates a container iframe for the Wishlist module.
+3. The Builder issues an authorization request as POST form data in terms of the user, project, and Builder module using these parameters:
+ - **Client ID** - An ID that represents the Builder Wishlist module, *not* the Builder.
+ - **ID token** - An ID that satisfies the current user authentication.
+ - **Scopes** - The scopes represent what the module requires to operate in terms of the user and the tenant, such as **wishlist_read** and **wishlist_write**.
+ - **Redirect URI** - A URI that imposes redirection to the Builder's authentication callback, an invisible iframe.
+4. The authorization server responds with an HTTP 302 redirection to the address of the Builder's authorization callback address of https://builder.yaas.io/auth/callback.html, according to the redirect URI that was sent. The location header of the response contains the access token in the hash part of the URL. The authentication callback iframe consumes the access token.
+5. The token is sent to the Builder module's iframe using a client-side messaging event.
+6. The Builder module then uses the access token to communicate with the YaaS API using the proxy. The token enables the Builder module to act in terms of the user and the project, according to the Builder module's scopes and the user's roles in the project.
+7. The YaaS proxy verifies the authority of the access token regarding the requested resources. The access token contains encoded information about the client, such as the Builder module, user, project, and the user's role in the project (scopes). If access is granted, the call is processed by the target YaaS API, and the Builder module receives the requested data back, such as the wishlist data in this example. If access is denied, the YaaS proxy responds with an HTTP 401 or HTTP 403 error.

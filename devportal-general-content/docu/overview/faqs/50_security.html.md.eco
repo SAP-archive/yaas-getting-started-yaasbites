@@ -1,0 +1,27 @@
+---
+type: FAQs
+title: 'Security Token FAQs'
+---
+<table class="table table-striped table-glossary techne-table">
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+    </tr>
+
+    <tr>
+      <td>What authorization service is used in YaaS?</td>
+      <td>We use the <strong>OAuth2</strong> authorization service, which implements the OAuth 2.0 framework to issue access tokens, authenticate resource owners, and revoke an access token. For more information, see the <a href="/services/oauth2/latest/index.html">OAuth2</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>How do I get customer-facing access tokens, such as from the customer's web browser or application?</td>
+      <td>Use the anonymous login method to get a token, which enables you to receive public product information from the Product service. For more information, see the <a href="/services/account/latest/index.html#auth_anonymous_login_post">Account</a> service documentation.</td>
+    </tr>
+
+    <tr>
+      <td>How do I get customer access tokens for a registered user?</td>
+      <td>You can obtain **OAuth2** tokens from the **/login** method using the Customer service. These tokens access the user's data. The data services, such as the Order service in the Commerce package, require a specific scope in order to return the user's data, such as **hybris.order_view_history**. The following scopes are included in the tokens by default: <b> hybris.order_post</b>, <b>hybris.customer_edit_profile</b>, <b>hybris.coupon_redeem</b>, <b>hybris.customer_view_profile</b>, and <b>hybris.order_view_history</b>. For more information, see the <a href="/services/customer/latest/index.html">Customer</a> service documentation.</td>
+    </tr>
+
+
+</table>

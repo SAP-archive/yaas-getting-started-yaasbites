@@ -1,0 +1,11 @@
+{
+    "widgets": [
+        {
+            "id": "yaasbites",
+            "title": "yaasbitesbuildermodule",
+            "settings": {
+                "viewUrl": "index.html"
+            }
+        }
+    ]
+}

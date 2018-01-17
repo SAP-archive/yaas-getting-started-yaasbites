@@ -1,0 +1,89 @@
+---
+type: Security
+title: 'Authorization'
+---
+
+APIs are secured using the OAuth 2.0 protocol, which provides account authentication and authorization with the use of a bearer access token. In order to use the APIs, you need a client ID, which can be found in your <%- @partial('generalterm_project') %> in the Builder.
+
+<a id="APIconsumers"></a>
+<h3>API consumers</h3>
+
+To access APIs in your project and build a client that cannot keep the authorization data confidential, use the <a href="/gettingstarted/yaasbitesessentials/index.html#Yaasbite6">Implicit Grant flow</a>.
+
+To get an access token, make a GET or POST request to an `/authorize` endpoint, which is a part of the <a href="/services/oauth2/latest/index.html">OAuth2</a> service. After being redirected to the sign-in page, enter your e-mail address and password. After successful authentication, the service verifies that you are a project member and grants the required scopes for the project. Verified members are redirected back to the **redirect_uri** provided in the request. The **redirect_uri** is omitted if the registered client has only one callback URL, in which case the callback URL is used for redirection.
+
+A client reads the following information encoded in the URL fragment:
+<ul>
+<li><b>access_token</b> – The value of the access token used in subsequent requests to APIs set in the **Authorization: Bearer ACCESS_TOKEN** header.</li>
+<li><b>id_token</b> – <i>(optional)</i> The ID token is present only when setting `response_type=id_token token` in the request. It is used in subsequent requests for access tokens for the same user as hint (`id_token_hint`) in the following:
+<ul>
+<li>POST request as a form parameter</li>
+<li>GET request as a query parameter</li></ul>
+The user does not need to be redirected to the sign-in page.</li>
+<li><b>scope</b> – A list of granted scopes, which is omitted if it is the same as the requested scopes. For more information, see <a href="#Effectivescopes">Effective Scopes</a>.</li>
+<li><b>state</b> – A parameter that is passed in the request, used to rebuild your client state, and prevent cross-site request forgery.</li>
+<li><b>expires_in</b> – The lifetime, in seconds, of the access token.</li>
+</ul>
+<h3>API providers</h3>
+
+YaaS is a multi-tenant platform, and tenant separation is one of the main design principles that affects API security. Access tokens issued by the authorization server are dedicated for that tenant. With the access token issued for one tenant, you cannot get another tenant's data, even if the user that has the access token is invited to both projects and has the proper roles.
+
+When developing a service, handle multi-tenancy in both aspects: as a service provider, and as a service consumer.
+
+<h4>Get the current tenant for the request</h4>
+
+The services published in YaaS are protected by an <%- @partial('generalterm_apiproxy') %> component, which is responsible for access token validation. Only requests with valid tokens are passed to your service. The API proxy replaces the authorization header in the incoming request with decoded information about the request context with the following headers:
+<ul>
+<li><b>hybris-client</b> – The identifier of the client.</li>
+<li><b>hybris-user</b> – Used for an authenticated user with the Implicit Grant or Resource Owner Password Credentials Grant.</li>
+<li><b>hybris-scopes</b> – The set of scopes granted for an access token, including the identifier of the project, in the form `hybris.tenant=$projectid`, or `hybris.no_tenant`.</li>
+<ol>
+<li>**hybris.tenant** – A tenant to which an access token is issued:
+  <ul>
+  <li>If neither the **scope** nor the **hybris.no_tenant** header is specified, and the user account is associated with multiple tenants, the authorization server displays an additional page to choose a tenant.</li>
+  <li>If both the **scope** and the **hybris.no_tenant** headers are specified, the server responds with a redirection to the **redirect_uri** or to the registered redirect URL with the **error** parameter set to `invalid_scope` and the error details contained in the **error_description**.</li></ul>
+</li>
+<li>**hybris.no_tenant** – To omit a tenant choice:
+  <ul>
+  <li>If neither the **scope** nor the **hybris.tenant** header is specified, and the user account is associated with multiple tenants, the authorization server displays an additional page to choose a tenant.</li>
+  <li>If both the **scope** and the **hybris.tenant** headers are specified, the server responds with a redirection to the **redirect_uri** or to the registered redirect URL with the **error** parameter set to `invalid_scope` and the error details contained in the **error_description**.</li></ul>
+</li></ol></ul>
+
+<a id="GetAccessToken"></a>
+<h4>Get an access token for a tenant</h4>
+
+If your service requires interaction with other services, such as the Document service, acquire an access token for a tenant in the context of the current request. To obtain the access token, use the Client ID and the Client Secret of the client associated with your service in the Builder. Then, request credentials, as described in the <a href="/services/oauth2/latest/index.html#Grants">Grants</a> document.
+A basic authorization header is shown in the example:
+
+```no-highlight
+Authorization: Basic base64(client_id + ':' + client_secret)
+```
+
+In the body, set the **hybris-tenant** parameter to the value extracted from an incoming **hybris-tenant** request header. With this token, post content in the Document service, as described in the <a href="/services/document/latest/index.html">API Documentation</a>.
+
+<div class="panel note"> Acquire the service's Identifier from the Builder. Go to: <strong>Projects > {My Project} > Services > {My service}</strong></div>
+
+<h3>Builder modules</h3>
+
+A <%- @partial('generalterm_buildermodule') %> is a multi-tenant client packaged together with your services. Builder modules use an Implicit Grant flow because the user is required to be signed in. To get an access token for your Builder module, follow the <a href="#APIconsumers">steps</a> above with this additional parameter:
+<ul>
+<li><b>hybris_tenant</b> – The tenant taken from the current project selected in the Builder. For more details about how to obtain information about a current project and get notification about changes, see the <a href="/tools/buildersdk/index.html">Builder SDK</a> documentation.</li></ul>
+
+<h3>Authorization procedure</h3>
+
+<a id="AuthorizationGrantEffectiveScopes"></a>
+After successful authentication, the service performs the authorization grant procedure. This procedure evaluates the effective scopes for the client and the authenticated user. For example, if there is no user in the client credentials grant, only the client scopes are used.
+
+When evaluating the effective scopes, the service determines if the tenant has a current subscription to a <%- @partial('generalterm_package') %> that contains a client with the given identifier. The **Granted Scopes** are a combination of these scopes:
+
+<ul>
+<li>Requested scopes</li>
+<li>Scopes accepted for the client by the tenant <%- @partial('generalterm_owner') %> during subscription</li>
+<li>Scopes assigned for the user, as defined in the user roles</li>
+</ul>
+
+After authorization, a response with an access token is generated that includes the **scope** parameter with the granted scopes.
+
+<div class="panel note">
+Changes in client scopes do not immediately affect scopes accepted for the client by the tenant owner during subscription. Changes are applied after re-creation or confirmation of the subscription by the tenant owner.
+</div>

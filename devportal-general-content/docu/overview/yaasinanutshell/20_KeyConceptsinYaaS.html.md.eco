@@ -1,0 +1,28 @@
+---
+title: 'Key Concepts in YaaS'
+type: YaaS in a Nutshell
+---
+
+To drill down a bit further into YaaS, it is important to understand the key concepts described in the following sections, including security concepts, events, and API management.
+
+### Security concepts
+The following **Authentication and authorization** and **Multi-tenancy** sections describe the layers of security that protect access to your services and data within the system. In addition to the OAuth 2.0 protocol and multi-tenancy, the [API Proxy](/overview/apiproxy/index.html) protects access to YaaS services. You can also view the YaaS [guidelines](/tools/documentationguidelines/index.html#Services) to help you adhere to data protection regulations. 
+
+#### Authentication and authorization
+YaaS secures your APIs using the <a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0</a> protocol, providing authentication and <%- @partial('generalterm_authorization') %> at the service level through the OAuth2 service. The OAuth2 service issues bearer access tokens for authorized <%- @partial('generalterm_client') %>s. Define those clients for each project in the Builder and grant <%- @partial('generalterm_scopes') %> to them. Scopes represent access and permission settings unique to each service.
+
+For more information about authorization, read the <a href="/overview/security/index.html">Security</a> and the <a href="/services/oauth2/latest/index.html">OAuth2</a> service documentation.
+
+#### Multi-tenancy
+**Multi-tenancy** is another key concept in YaaS. In the software industry, it is usually defined as a main principle in architecture where a single instance of the software runs on a server, serving multiple client-organizations, or tenants. On the YaaS platform, which brings developers and business users together, the client-organization concept is redefined as a **project**. When you create a project in the Builder, you are that project's **owner**. You can assign user roles, invite other team members to your project, subscribe to packages or Builder modules, and add clients. 
+
+But when your applications call and receive responses from so many other services, how do you protect access to your application and your data? Multi-tenancy ensures that, even while every service can serve any request, those services and the data contained therein are securely partitioned and not accessible without authorization.   
+
+In practice, that means that to work with services created by a different tenant, you must subscribe, within your project, to the package that includes the service functionality you need. This is multi-tenancy in YaaS. 
+
+<div class="panel note">Services within one package can have their own subscriptions. For more information, see the <a href="/services/document/latest/#Multitenancy">Document</a> service API Doc.</div>
+
+### Events
+In YaaS, <%- @partial('generalterm_event') %>s are created frequently, such as when a customer redeems a coupon, or when you create a tenant. The message channels used to communicate specific events have topic owners, such as **hybris.customer**. Each topic owner can have multiple event types, such as **customer-login**. Therefore, the specific event name is a combination of the topic owner and the event type. For example, when a customer attempts to sign in, the system creates an event named **hybris.customer.customer-login**. The API documentation lists, by topic owner, the events that each service creates. An example is <a href="/services/customer/latest/index.html#Events">Customer events</a>. The PubSub service publishes all of the YaaS events so that other services can consume them.
+
+Read the <a href="/services/pubsub/latest/index.html">PubSub</a> and <a href="/services/events/latest/index.html">Events</a> service documentation to learn how to publish, consume, and commit events.

@@ -1,0 +1,71 @@
+---
+type: API Proxy
+title: 'URL Rewrite'
+---
+
+### Introduction
+The <%- @partial('generalterm_apiproxy') %> provides the **URL Rewrite** mechanism that is essential to services that use self-containing links. When a <%- @partial('generalterm_service') %>  generates paged responses with `link` headers, they encode access to the previous and the next response pages. In YaaS, no external client is able to access the service directly, using its internal address. The only way to access the service is to use the public API Proxy URL in the Builder, called a **Generated Proxy URL**. However, the service only knows its "internal" URL, which is the URL it is deployed to (or the deployment IP address only).
+
+### Use case
+How can a service make use of the generated self-containing link, if it doesn't know its Generated Proxy URL, or public API Proxy URL?
+
+### Solution
+The API Proxy offers the URL Rewrite mechanism to make it easier for service providers to handle such use cases. If you want to generate links that refer to the service itself, use the private deployment URL, regardless of its public API Proxy URL.
+When the API Proxy processes the response from the service, it transparently rewrites the necessary URL parts, and changes the service private deployment URL to its Generated Proxy URL. The proxy only rewrites URLs that match the **Source URL** of the service, as configured in the Builder. During the rewrite, additional URL components beyond the Source URL, such as additional path segments, query, and fragment components (if any) are preserved. The URL Rewrite mechanism scans the entire response body for the following content types:
+- application/JSON
+- text/plain
+- text/HTML
+<br></br>The mechanism also scans for the following two headers:<br></br>
+- link
+- location
+
+The following diagram illustrates the process flow:
+
+<div class="mermaid">
+  graph LR
+      A[Service]-- Incoming </br> Target Service </br> Response --> B{API Proxy}
+      B-- Checks body </br> and headers </br> for URL --> D[Source URL </br>equals </br> Generated </br> Proxy URL]
+      D--Yes--> E[URL is </br> rewritten]
+      D--No-->F[URL is not </br> rewritten]
+</div>
+
+<!--<br/><br/>
+<img src="img/urlRewrite.png" width="400" class="img-click-modal" alt="URL Rewrite Flow"/>
+<br/><br/>
+-->
+
+### Example
+In the following example, the result of the API Proxy rewrite processing is shown:<br/>
+
+Service definition:
+- **Identifier** of a service – `torch`
+- **Source URL** – http://torch-v1.hunt.io
+- **Generated Proxy URL** – https://api.yaas.io/hybris/torch/v1
+
+When a GET request is sent to `https://api.yaas.io/hybris/torch/v1/fire/path?flame=a&burn=b`, assume the service responds with a body containing the following JSON payload:
+
+```json
+{
+ "seeAlso":"http://torch-v1.hunt.io/new/path?myName=Classified",
+ "additionalInfo": "https://www.rfc-editor.org/rfc/rfc20.txt"
+}
+```
+
+The API Proxy processes the response and substitutes the matching URL with the following:
+
+```json
+{
+ "seeAlso":"https://api.yaas.io/hybris/torch/v1/new/path?myName=Classified",
+ "additionalInfo": "https://www.rfc-editor.org/rfc/rfc20.txt"
+}
+```
+
+#### Result
+The source URL, `http://torch-v1.hunt.io` is replaced with the Generated Proxy URL, `https://api.yaas.io/hybris/torch/v1`.
+<br></br>In this example, notice the following:
+ - The protocols of the source and proxy URLs are different.
+ - The additional path and query components are preserved: `"/new/path?myName=Classified"`.
+ - The second `"additionalInfo"` link is NOT rewritten since it doesn't match the service's Source URL.
+
+<div class="panel note">
+The API Proxy rewrite process changes the service response. This can influence your service, for example, when the communication uses digital signatures.</div>

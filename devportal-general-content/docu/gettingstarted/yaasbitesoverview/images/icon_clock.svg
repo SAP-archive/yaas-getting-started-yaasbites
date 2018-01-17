@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <style>
+      .icon__path--clock {
+        fill: #27394f;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path data-name="Clock" class="icon__path icon__path--clock" d="M241,218.992a7,7,0,1,0,7,7A7,7,0,0,0,241,218.992Zm0,12.671A5.661,5.661,0,1,1,246.675,226,5.674,5.674,0,0,1,241,231.663Zm0.608-6.553v-1.791a0.509,0.509,0,0,0-1.018,0v2.036l0.006,0.029,0.02,0.1,0.028,0.093,0.05,0.073,0.069,0.084,0.018,0.021,2.545,2.036a0.509,0.509,0,1,0,.636-0.795Z" transform="translate(-234 -219)"/>
+</svg>

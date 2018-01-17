@@ -1,0 +1,218 @@
+---
+title: Result Service
+---
+
+### Call the Result service to check billing metrics
+
+The Result service is used in the Builder to display metering information.
+
+#### Define metrics
+
+Define metrics as described in the <a href="https://devportal.yaas.io/internal/tools/packageapproval/metricdefinition.html" target="_blank">Metric Definition</a> and <a href="https://devportal.yaas.io/internal/tools/billing/index.html" target="_blank">Billing</a> topics.
+
+#### Metrics for API calls
+
+Provide the following information for API calls:
+<ol>
+	<li>**Service path**, such as: **/hybris/result-service-stage/v0**</li>
+	<li>**Package version**, such as: `57ceeabf83aa82001d33d861`</li>
+	<li>**Metric Key**: The default key name is `CALLS`, but it can be anything as long as you define the rule with the same key name.<li>
+	<li>**CF org**, **space** and **app name**</li>
+</ol>
+<br />
+The API proxy is added by default for every call to your service using the value in the Builder for "**message.log.message.request.service.path**". The value: "**/hybris/result-service-stage/v0**" is used in the following example:
+
+<br />
+<img src="img/result-service1.png" class="img-click-modal" alt="Builder service path" vspace="20"><br>
+
+In the **Builder**, create an **API Calls metrics**, such as in the following example: <br />
+
+<img src="img/result-service2.png" class="img-click-modal" alt="API Calls metric" vspace="20"><br>
+
+An aggregation rule for the example above looks similar to the following:<br />
+
+```json
+  {
+  "version": "2.0",
+  "name": "my-service",
+  "eventType": "yaas-proxy",
+  "filter": {
+    "type": "and",
+   "arguments": {
+    "filters": [
+      {
+        "type": "equals",
+        "arguments": {
+          "path": "source_type",
+          "value": "App"
+        }
+      },
+      {
+        "type": "equals",
+        "arguments": {
+          "path": "message.log.message.request.service.path",
+          "value": "/hybris/result-service-stage/v0"
+        }
+      }
+    ]
+  }
+  },
+  "aggregation": {
+    "function": "count"
+  },
+  "keys": [
+    {
+      "type": "billing",
+      "arguments": {
+        "metric": "CALLS",
+       "packageVersions": [
+        "57ceeabf83aa82001d33d861"
+      ]
+    }
+  }
+  ]
+}
+ ```
+
+#### Metrics for API Calls
+
+Provide the following information for customer metrics calls: <br />
+<ol>
+	<li>**Metric name** logged by the Service SDK. See the details below.</li>
+	<li>**Aggregation functions** such as: **count**, **sum**, **max**, **min**, and **avg**</li>
+	<li>**Metric key** as defined in the Builder. See the example below.</li>
+	<li>**Package version**, such as: `57ceeabf83aa82001d33d861`</li>
+	<li>**CF org**, **space**, and **app name**</li>
+</ol>
+<br />
+You can log custom business metrics by calling the Service SDK as described in the https://devportal.yaas.io/tools/servicesdk/index.html#Logging in **Logging business metrics** documentation. <br />
+
+<br />
+```java
+MetricLogger
+.newBusinessInstance()
+.metric( "myMetricName" )
+.numeric()
+.tenant( "myTenant" )
+.client( "callingClient" )
+.user( "myUser" )
+.clientOwner( "callingClientOwner" )
+.serviceOwner( "calledServiceOwner" )
+.log ( "42" );
+```
+<br />
+Define the metric in the Builder such as in the following example: <br />
+
+<img src="img/result-service3.png" class="img-click-modal" alt="Custom metric" vspace="20"><br>
+
+In the example above, the aggregation rules look similar to the following: <br />
+
+```json
+{
+  "version": "2.0",
+  "name": "billing-rule",
+  "eventType": "metric",
+  "filter": {
+    "type": "and",
+    "arguments": {
+    "filters": [
+      {
+        "type": "equals",
+        "arguments": {
+          "path": "source_type",
+         "value": "App"
+        }
+      },
+      {
+        "type": "equals",
+        "arguments": {
+          "path": "message.metric.metric",
+          "value": "myMetricName"
+        }
+      }
+    ]
+  }
+  },
+  "aggregation": {
+    "function": "sum",
+    "arguments": {
+      "path": "message.metric.numeric_value"
+    }
+  },
+  "keys": [
+    {
+      "type": "billing",
+      "arguments": {
+        "metric": "myMetricKey",
+        "packageVersions": ["578667e8bcdb98001dff6a07"]
+      }
+    }
+  ]
+}
+```
+
+#### Request an aggregation rule
+Request aggregation rules by email to the email address <a href="team-tollans@sap.com">team-tollans@sap.com</a>, or create a JIRA ticket in the **"Tollans - Big Data Analytics (PRED)"** project.<br />
+Log message examples are useful to have for testing the aggregation rules.<br />
+
+#### Check aggregation results in the Builder
+
+After you receive the notification from team Tollans that your aggregation rules are deployed, your subscribers can see the aggregation results in the Builder. Subscribers can navigate to **Project > Administration > Subscriptions > {My Package}** to view the aggregation results. Aggregation results should be similar to those shown:
+
+<img src="img/result_service5.png" class="img-click-modal" alt="Aggregate Results" vspace="20"><br>
+
+<div class="panel warning">Currently, there is a known issue for private subscriptions that displays `INTERNALTEST` instead of the actual metrics names as shown. Please do not open a ticket for this known issue.
+<img src="img/result_service6.png" class="img-click-modal" alt="INTERNALTEST" vspace="20"><br>
+</div>
+
+#### Generate an access token for the Result service
+After you receive the notification from team Tollans that your aggregation rules are deployed, the Result service checks the metric aggregated values. In the Builder, generate an access token in the Clients section, or call these endpoints:<br />
+<br />
+
+**US**:<br />
+```
+curl -X POST -H "Cache-Control: no-cache" -H "Content-Type: application/x-www-form-urlencoded" -d 'client_id=[your_client_id]&client_secret=[your_client_secret]&grant_type=client_credentials&scope=hybris.tenant=[your_tenant] hybris.document_view' " https://api.yaas.io/hybris/oauth2/v1/token "
+```
+<br />
+**EU**:<br />
+```
+curl -X POST -H "Cache-Control: no-cache" -H "Content-Type: application/x-www-form-urlencoded" -d 'client_id=[your_client_id]&client_secret=[your_client_secret]&grant_type=client_credentials&scope=hybris.tenant=[your_tenant] hybris.document_view' " https://api.eu.yaas.io/hybris/oauth2/v1/token "
+```
+<div class="panel warning"> This procedure is currently not working on EU.</div>
+
+#### Call the Result service
+Call the Result service by either using the API Console or a cURL command.
+
+##### API console example
+Use the following filters to call the Result service with the API Console:<br />
+<ol>
+	<li>**aggregationPeriod**: The normal period is 1M (1 month).</li>
+	<li>**key**: packageUsage/[provided_package_version]/[provided_metric_key], for example: packageUsage/56696f7598ceae64c96ab5d8/CALLS</li>
+	<li>**tenant**: provided tenant</li>
+	<li>**Authorization**: Use the following format, without quotes: "Bearer [previously_generated_token]"</li>
+	<li>**Since**: YYYY-mm, for example: 2015-12</li>
+	<li>**Until**: YYYY-mm, for example: 2015-12</li>
+</ol><br />
+**US**: https://api.yaas.io/hybris/result-service/v0/ <br />
+**EU**: https://api.eu.yaas.io/hybris/result-service/v0/ <br />
+
+The filters above is shown in the following example: <br />
+
+<img src="img/result-service4.png" class="img-click-modal" width="400" alt="Result service API console filters" vspace="20"><br>
+
+##### cURL command example
+Use the same filters as in the API console example: <br /><br />
+```
+curl "[api_console_url]/hybris/result-service/v0/[provided_tenant]/timeseries/aggregations/1M/[metric_key]?since=2015-12&until=2015-12" --header "Authorization: Bearer [generated_token]"
+```
+<br />
+**US**:
+```
+curl "https://api.yaas.io/hybris/result-service/v0/tollans/timeseries/aggregations/1M/dummydata/for/uptime?since=2015-12&until=2015-12" --header "Authorization: Bearer dummy_token"
+```
+<br />
+**EU**:
+```
+curl "https://api.eu.yaas.io/hybris/result-service/v0/tollans/timeseries/aggregations/1M/dummydata/for/uptime?since=2015-12&until=2015-12" --header "Authorization: Bearer dummy_token"
+```
+<br />

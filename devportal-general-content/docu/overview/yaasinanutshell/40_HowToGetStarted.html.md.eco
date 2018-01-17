@@ -1,0 +1,20 @@
+---
+title: 'How to Get Started'
+type: YaaS in a Nutshell
+---
+
+### What can I do with my YaaS account?
+
+Use your YaaS account to sign into <a href="https://builder.yaas.io" target="_blank">the Builder</a>, <a href="https://devportal.yaas.io" target="_blank">the Dev Portal</a>, and the <a href="https://knowledge.yaas.io/" target="_blank">Knowledge Hub</a>. You can use your account for different organizations, teams, and projects in which you are a member. Each account can have different roles, so you can use a single account in multiple contexts. 
+
+With one account:
+* You can work on different projects.
+* You can manage multiple projects.
+* Project members can upgrade their roles. For example, developers who grow into managing their own startup organizations can upgrade their roles.
+
+### Where do I start?
+If you're ready to dive in and try out YaaS, check out these resources: 
+
+* The <a href="https://training.sap.com/learning/journey/sap-hybris-as-a-service-yaas-developer" target="_blank">Learning Journey: SAP Hybris as a Service (YaaS) Developer</a> is a guide that helps everyone, from business users to functional leads and developers find their way around YaaS. It walks you through the essential components of YaaS, presenting different learning artifacts that you can look at to learn about YaaS and its packages. 
+* The <a href="/gettingstarted/">Getting Started Guides</a> include step-by-step tutorials for using YaaS, and can help you start creating your own services and Builder modules.
+* The <a href="/gettingstarted/yaasbitesoverview/index.html" target="_blank">YaaS Bites</a> offer short coding exercises that can take you "from zero-to-YaaS" in just a couple of days. 

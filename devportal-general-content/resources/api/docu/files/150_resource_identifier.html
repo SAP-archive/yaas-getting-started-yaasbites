@@ -1,0 +1,356 @@
+---
+title: Resource Identifier
+---
+
+<t render="html.md">
+The nature of an API is that it is adapted to changing requirements, and evolves over time. Resources such as data objects, files, and database entities will probably change their structure during their lifetime as well. For this reason, semantic versioning of APIs is used so that a version number reflects the actual status of the API at any certain point in time. But identifying a certain resource or data object to access it should be independent of the API version, because it provides the information about the current schema, or format of a entity. For example, identifying a customer by its **ID** inside a database should be independent from the used database schemata.
+
+A Uniform Resource Locator (URL) is a subset of the Uniform Resource Identifier (URI) that specifies where an identified resource is available, and the mechanism for retrieving it. Using a URL of a YaaS API, such as `https://api.yaas.io/hybris/account/v1/projects/myProject` always implies the version of that API to identify a resource at later point in time. To persist the resource identifier in version-independent fashion, the resource type and resource identifier should not be saved as a URL.
+
+In contrast, a Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) that uses the URN schema, and does not imply availability of the identified resource. Therefore, a URN identifies a resource by name in a given namespace, but does not define how the resource is obtained. Both URNs (names) and URLs (locators) are URIs.
+
+URL Examples:
+
+``` no-highlight
+- http://www.ietf.org/rfc/rfc2396.txt
+- ldap://[2001:db8::7]/c=GB?objectClass?one
+- mailto:John.Doe@example.com
+- telnet://192.0.2.16:80/
+```
+
+URN Examples:
+
+``` no-highlight
+- urn:oasis:names:specification:docbook:dtd:xml:4.1.2
+- urn:isbn:0451450523
+- urn:ISSN:0167-6423
+- urn:ietf:rfc:2648
+- urn:mpeg:mpeg7:schema:2001
+- urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66
+```
+
+There are two ways to identify a resource in the YaaS API in a versionless way. Depending on the context, you either identify a resource locally within its related resource type, such as specifying a product amongst other products using its **code**, or globally amongst all resource types. Both scenarios are described below with a recommendation on how to handle resource identification without versions.
+
+### Local resource identifier
+A **resource** in the YaaS API usually is identified by an attribute containing an artificial or composed identification value that is unique among all resources of that **resource type**. For example, the **id** attribute of a project in the account service, is unique amongst _all_ project resources of the account service.
+An identifier attribute that uniquely identifies a resource in the context of a resource type, is called a **local resource identifier**. It ensures that the resource has uniqueness in the context of a specific resource type. If the identifier is artificial, then the related attribute in a payload is always **id**. For example:
+
+
+``` json
+"product" :
+{
+  "id" : "12",
+  "name" : "shoe"
+}
+```
+
+### Global YaaS resource name (YRN)
+In YaaS, a global resource identifier is a **Uniform Resource Name** (URN) with a custom YaaS schema and is called a **YaaS Resource Name** (YRN). The `URN` namespace used by YaaS is identified by `yaas`, and is composed of the resource type and the local resource identifier in the following way:
+
+``` no-highlight
+<URN> ::= "urn:yaas:" <RESOURCE_TYPE> ":" <RESOURCE_IDENTIFIER>
+<RESOURCE_TYPE> ::= <ORGANIZATION> ":" <SERVICE> ":" <RESOURCE>
+<RESOURCE_IDENTIFIER> ::=  <ID_PART> { ";" <ID_PART> }
+<ORGANIZATION> ::= <TEXT>
+<SERVICE> ::= <TEXT>
+<RESOURCE> ::= <TEXT>
+<ID_PART> ::= <TEXT>
+<TEXT> ::= [A-Za-z0-9-_.~]*
+```
+
+Or, expressed more concise:
+
+``` no-highlight
+urn:yaas:<organization>:<service>:<resource>:<id_part>{;<id_part>}
+```
+
+In the definition above, `TEXT` must be URL-encoded to ensure that it fits to the following specified pattern:
+
+- **organization** – The organization base path used by the service owning the resource type, such as `hybris` in: `https://api.yaas.io/hybris/account/v1`.
+- **service** – The identifier of the service owning the resource type, such as `account` in: `https://api.yaas.io/hybris/account/v1`.
+- **resource** – The identifier of the resource type to which the resource belongs. Usually it's the singular form of the resource base path, such as `project` in: `https://api.yaas.io/hybris/account/v1/projects/{id}`. For a nested resource, the parent resource type can be used as a prefix separated by a hyphen, such as `product-variant` in: `https://api.yaas.io/hybris/product/v1/products/{id}/variants/{id}`. The usage of a prefix will not imply any structure on the `id_part`.
+- **id_part** – The local resource identifier, which can be multiples, such as with composite keys, or when belonging to a tenant like with `myshop` and `67` in `https://api.yaas.io/hybris/product/v1/myshop/products/67`.
+
+#### Examples of resource URL's and the resulting YRN
+
+|URL|YRN|Comment|
+|-|-|-|
+|https://api.yaas.io/hybris/account/v1/projects/myshop| urn:yaas:hybris:account:project:myshop|No tenant related to a project.|
+|https://api.yaas.io/hybris/product/v1/myshop/products/56|urn:yaas:hybris:product:product:myshop;56|A product is specific, per tenant.|
+|https://api.yaas.io/hybris/cart/v1/myshop/carts/56/items/12|urn:yaas:hybris:cart:cart-item:myshop;56;12|Sub-resource items have a unique resource type identifier `cart-items` assigned, as defined in the RAML definition of the cart service. The composite key lists the tenant, the cart, and the cart item.|
+
+#### General guidelines
+- When a resource is existent per tenant, the tenant must be part of the composite key.
+- The resource type identifier itself is not registered anywhere and must be looked up in the RAML definition of the corresponding service. A resource type identifier should be specified for any resource base path specified.
+- The composite ID and URN must be looked up in the RAML definition of the corresponding service. The composite IDs should be specified for any resource base path specified.
+
+### YaaS resource name creation
+An example YRN which leverages the placeholders used in the resource definitions _should_ be specified in the RAML definition of the related service managing that resource. For example, a cart resource has a URN specification in the RAML file that looks similar to the following:
+
+``` no-highlight
+/{tenant}/carts/{cartId}/items/{itemId}:
+  description: |
+    My description text.
+	YRN: urn:yaas:hybris:cart:cart-item:{tenant};{cartId};{itemId}
+  get:
+    ...
+```
+
+Do not construct a YRN manually, as every resource in YaaS _should_ have the option to include the YRN as part of the response payload. For example:
+
+``` no-highlight
+GET /myshop/products/12
+
+"product":{
+  "yrn":"urn:yaas:hybris:product:product:myshop;12",
+  "id":"12",
+  "name":"shoe"
+}
+```
+
+The attribute type for the payload looks similar to the following:
+
+``` json
+{
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title":"YRN attribute",
+      "type": "string",
+      "format": "URI",
+      "description": "Contains the YaaS Resource Name (YRN) of a specific resource on base of the 'yaas' URN scheme"
+}
+```
+
+### YaaS resource name resolution
+You can transform a URN into a URL at any time by using the URL template of the related resource type. There is no dynamic resource type registry yet. Build a manual mapping registry inside your service instead. For example:
+
+``` no-highlight
+hybris:account:project=https://api.yaas.io/hybris/account/v1/projects/{0}
+hybris:product:product=https://api.yaas.io/hybris/product/v1/{0}/products/{1}
+hybris:cart:cart-item=https://api.yaas.io/hybris/cart/v1/{0}/carts/{1}/items/{2}
+```
+
+You can then parse a given YRN by using the regular expression:
+
+``` no-highlight
+urn:yaas:(?P<res_type>[A-Za-z0-9-_.~]+:[A-Za-z0-9-_.~]+:[A-Za-z0-9-_.~]+):(?P<res_id>[A-Za-z0-9-_.~]+)
+```
+
+Look up the related URL in the template by the parsed `res_type` group. The `res_id` group is split by the `;` character, and filled into the resolved URL template. For example, given the following YRN: `urn:yaas:hybris:product:product:myshop;12` and the example URL template mapping mentioned above, the regular expression results in two groups:
+
+``` no-highlight
+res_type=hybris:product:product
+res_id=myshop;12
+```
+
+With the help of the `res_type`, you can resolve the URL template `https://api.yaas.io/hybris/product/v1/{0}/products/{1}`, split the `res_id` into pieces, and fill-in the template: `https://api.yaas.io/hybris/product/v1/myshop/products/12`.
+
+### Java support
+If you use **Java** and **Jackson** for marshalling `JSON` files, you can marshal YRNs directly into a **POJO** using the following utility class:
+</t>
+<div class="expand-collapse" data-caption="Expand to see the utility class">
+<t render="html.md">
+``` java
+@JsonSerialize(converter = YRNSerializer.class)
+public class YRN
+{
+	private static final String URN_SEP = ":";
+	private static final String URN_GROUP_RESOURCE = "resource";
+	private static final String URN_GROUP_ID = "rid";
+
+	/** The regexp to resolve resource type and id from a YRN. */
+	private static final Pattern URN_PATTERN = Pattern
+			.compile("urn" + URN_SEP + "yaas" + URN_SEP + "(?<" + URN_GROUP_RESOURCE + ">[a-zA-Z]+" + URN_SEP
+					+ "[a-zA-Z]+" + URN_SEP + "[a-zA-Z-]+)" + URN_SEP + "(?<" + URN_GROUP_ID + ">.+)");
+
+	private final String resource;
+	private final String[] ids;
+	private final URI urn;
+
+	private YRN(final String resource, final String[] ids)
+	{
+		this.resource = resource;
+		this.ids = Arrays.copyOf(ids, ids.length);
+		this.urn = constructURN(resource, ids);
+	}
+
+	private static URI constructURN(final String resource, final String[] ids)
+	{
+		final StringBuilder urnBuilder = new StringBuilder();
+		urnBuilder.append("urn").append(URN_SEP).append("yaas").append(URN_SEP);
+		urnBuilder.append(resource).append(URN_SEP);
+		urnBuilder.append(String.join(";", ids));
+		return URI.create(urnBuilder.toString());
+	}
+
+	public String getResource()
+	{
+		return resource;
+	}
+
+	public String getId(final int part)
+	{
+		return ids[part];
+	}
+
+	public String[] getIds()
+	{
+		return ids;
+	}
+
+	public URI toURI()
+	{
+		return urn;
+	}
+
+	/** Method to convert a String into a URN. Used by Jackson automatically. */
+	public static YRN valueOf(final String urn)
+	{
+		final Matcher matcher = URN_PATTERN.matcher(urn);
+		if (!matcher.matches())
+		{
+			throw new IllegalArgumentException("Given URN '" + urn + "' does not match yaas urn scheme");
+		}
+
+		final String resource = matcher.group(URN_GROUP_RESOURCE);
+		final String idRaw = matcher.group(URN_GROUP_ID);
+		return new YRN(resource, idRaw.split(";"));
+	}
+
+	public static YRNBuilder of(final String resource)
+	{
+		return new YRNBuilder(resource);
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.urn.toString();
+	}
+
+	public static class YRNBuilder
+	{
+		private final String resource;
+		private final List<String> ids;
+
+		public YRNBuilder(final String resource)
+		{
+			this.resource = resource;
+			this.ids = new ArrayList<>();
+		}
+
+		public YRNBuilder withId(final String newId)
+		{
+			this.ids.add(newId);
+			return this;
+		}
+
+		public YRN build()
+		{
+			return new YRN(resource, ids.toArray(new String[ids.size()]));
+		}
+	}
+
+	/** A Jackson based converter for converting a YRN into a String. */
+	static class YRNSerializer extends StdConverter<YRN, String>
+	{
+		public YRNSerializer()
+		{
+			super();
+		}
+
+		@Override
+		public String convert(final YRN value)
+		{
+			if (value == null)
+			{
+				return null;
+			}
+			return value.toString();
+		}
+	}
+}
+```
+</t>
+</div>
+
+<t render="html.md">
+Use this utility class in your POJO as an attribute type, and Jackson marshalls it automatically:
+</t>
+<div class="expand-collapse" data-caption="Expand to see the sample POJO">
+<t render="html.md">
+
+``` java
+public class Product
+{
+	private String id;
+	private YaasURN urn;
+
+	public YaasURN getUrn()
+	{
+		return urn;
+	}
+
+	public void setUrn(final YaasURN urn)
+	{
+		this.urn = urn;
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
+	public void setId(final String id)
+	{
+		this.id = id;
+	}
+}
+```
+</t>
+</div>
+<t render="html.md">
+To finish resolving a YRN to a URL, you need a way to map the resource part of a YRN to the related URL template. This is done in a convenient way by defining the mapping itself as properties. For example:
+
+``` no-highlight
+yrn.hybris:product:product=https://api.yaas.io/hybris/product/v1/{0}/products/{1}
+```
+
+Use a convenience mechanism to load properties, such as **Spring** annotations, and use Spring's **URITemplate** to map a URN to a URL:
+</t>
+<div class="expand-collapse" data-caption="Expand to see the sample">
+<t render="html.md">
+``` java
+@Configuration
+@ConfigurationProperties(prefix = "yrn")
+public class YRNMapper
+{
+	private Map<String, String> mappings = new HashMap<>();
+
+	public Map<String, String> getMappings()
+	{
+		return mappings;
+	}
+
+	public void setMappings(final Map<String, String> mappings)
+	{
+		this.mappings = mappings;
+	}
+
+	private UriTemplate resolveURLTemplate(final String resource)
+	{
+		final String entry = mappings.get(resource);
+		if (entry == null)
+		{
+			throw new IllegalArgumentException("Cannot find a URL template for " + resource);
+		}
+		return new UriTemplate(entry);
+	}
+
+	public URI resolveURL(final YaasURN urn)
+	{
+		return resolveURLTemplate(urn.getResource()).expand((Object[]) urn.getIds());
+	}
+}
+```
+</t>
+</div>

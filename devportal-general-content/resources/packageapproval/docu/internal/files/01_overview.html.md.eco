@@ -1,0 +1,10 @@
+---
+title: Overview
+---
+### Prepare your package for the YaaS Market
+
+#### Take your microservice from code to customer
+
+We're pleased that you want to invest your talent and time to develop a <%- @partial('generalterm_microservice') %> for YaaS! Remember, YaaS is all about packages, so you will need to submit your package for approval before you can publish it on the YaaS Market and make money!
+
+It is important that you have a clear understanding of the requirements and the criteria we will be using to evaluate your package. Our guidelines will help you steer clear of issues as you develop your microservice and speed you through the approval process.

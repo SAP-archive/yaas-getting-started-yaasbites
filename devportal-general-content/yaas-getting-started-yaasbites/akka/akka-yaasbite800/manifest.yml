@@ -1,0 +1,9 @@
+# This file is used to push your web application to cloud foundry. 
+---
+applications:
+- name: gauravakkayaasbite8
+  path: target/universal/akka-yaasbite800-1.0-SNAPSHOT.zip
+  domain: cfapps.us10.hana.ondemand.com
+  instances: 1
+  memory: 512M
+ 

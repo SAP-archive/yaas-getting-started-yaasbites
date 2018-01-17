@@ -1,0 +1,108 @@
+---
+title: Hybris Headers
+---
+
+Every request to the system must pass the <%- @partial('generalterm_apiproxy') %> and authenticate using an **OAuth2** header. The request is then authenticated and transfers a token into the related authentication details. The tenant, client, user, and scopes related to that request are accessible for the system components and services. This happens by enriching the request with Hybris-specific headers after it enters into the internal system. These headers are present in every service, for any request. The headers are treated in a specific way, as described below.
+
+### Definition of hybris headers
+
+| Name | Value | Example | Pattern | Length |
+| - | - | - | - | - |
+| **hybris-client** | Logical identifier of the calling client | `myexample.myawesomeclient` | `^[a-z][a-z0-9-]{1,14}[a-z0-9][.][a-z][a-z0-9-]{0,22}[a-z0-9]$` | `6-41` |
+| **hybris-client-id** | OAuth2 based client identifier of the calling client | `C0Kl5Sta1BMiQSqBQyYL5c0yRAwIr94a` | `^.*$` | `-` |
+| **hybris-client-owner** | The ID of the client's parent tenant | `myawesomeproject` | `^[a-z][a-z0-9]+$` | `3-16` |
+| **hybris-external-path** | The public base path the calling client uses to make the request | `/hybris/echo/v1` | `^.*$` | `-` |
+| **hybris-external-url** | The public base URL the calling client uses to make the request | `https://api.yaas.io/hybris/echo/v1/` | `^.*$` | `-` |  
+| **hybris-hop** | Number of hops in the current request chain | `5` | `^[0-9]+$` | `-` |
+| **hybris-org** | The identifier of the organization the caller is acting upon | `59cc4b46f5ce83bf493f7h29` | `^.*$` | `-` |
+| **hybris-request-id** | ID of the request | `Ahd7sGAf5K4d` | `^.*$` | `-` |
+| **hybris-scopes** | Authorization scopes granted to the incoming request | `hybris.email_send` | `^([a-zA-Z0-9._=-]{1,128}( [a-zA-Z0-9._=-]{1,128})*)?$` | `-` |
+| **hybris-service-owner** | The ID of the target service's owner | `myawesomeproject` | `^[a-z][a-z0-9]+$` | `3-16` |
+| **hybris-session-id** | Identifier used across several requests to identify a session | `1234` | `^.*$` | `-` |
+| **hybris-target-url** | The full public URL the calling client uses to make the request | `https://api.yaas.io/hybris/echo/v1/myresource/1?fields=id` | `^.*$` | `-` |
+| **hybris-tenant** | The ID of the project the caller is acting upon | `myexampleshop` | `^[a-z][a-z0-9]+$` | `3-16` |
+| **hybris-user** | The ID of the authenticated user | `mustermann@hybris.com` | `^.*$` | `-` |
+| **hybris-user-id** | The ID of the authenticated user | `13e371a2-0189-4753-ab19-c81e39a` | `^.*$` | `-` |
+
+
+#### hybris-client
+The **hybris-client** header identifies the caller. This header is typically in the format **&lt;projectIdentifier&gt;.&lt;clientdentifier&gt;** where:
+
+- **&lt;projectIdentifier&gt;** is the project identifier that the client belong to. It is 3-16 characters long.
+- **&lt;clientdentifier&gt;** is the local name of the client. It is 2-24 characters long. The header is typically present, and both of these forms are always lowercase.
+
+If the header is not present, and the service requires a header, the service responds with an informative `400` error.
+
+The header might also be in a different format than the one mentioned above.
+
+#### hybris-client-id
+The **hybris-client-id** header identifies the caller by the [OAuth2 client identifier](http://tools.ietf.org/html/rfc6749#section-2.2) used to authorize the request. In contrast to the value of the **hybris-client**, the identifier might change over the lifetime of a caller. For example, when the caller requests a new pair of client credentials.
+
+If the header is not present and the service requires a header, the service responds with an informative `400` error.
+
+#### hybris-client-owner
+The **hybris-client-owner** header identifies the tenant that the caller belongs to. The **hybris-client-owner** is typically the project ID by which the client is published.
+
+#### hybris-external-path
+The **hybris-external-path** indicates the original base path that the client application calls. It is the original path that the client uses before the proxy forwards the request. That path can be different than the path a service provides. Any query parameters or fragments are not included.
+
+#### hybris-external-url
+The **hybris-external-url** indicates the original URL that the client application calls. It is the original URL the client uses, before the proxy forwards the request. With that, the URL is different than the URL a service serves. It does not contain any query parameters or fragments.
+
+#### hybris-hop
+The **hybris-hop** header is a number identifying the level of depth of the current HTTP request chain. It has diagnostic purposes, and the service includes it as part of any log message. The service propagates it, unaltered, whenever it makes a subsequent request to another YaaS service.
+
+#### hybris-org
+The **hybris-org** header contains the organization ID the calling service acts upon. The header can be empty or absent, both of which indicate that there is no organization associated with the request.
+
+If the header is not present and the service requires a header, the service responds with an informative `400` error.
+
+#### hybris-request-id
+The **hybris-request-id** header is a unique identifier of the current HTTP request chain. It has diagnostic purposes, and the service includes it as part of any log message. The service propagates it, unaltered, whenever it makes a subsequent request to another YaaS service.
+
+#### hybris-scopes
+The **hybris-scopes** header contains a list of authorization scopes granted to the incoming request. Distinct scopes are separated by a single space character and are listed in any order. Each scope has a maximum length of 128 characters, and is usually in the format **&lt;org_base_path&gt;.&lt;service_name&gt;_&lt;scope_name&gt;**. Scopes are case-sensitive. If the authorization scopes in the header do not match the required scopes, the service responds with a `403 Unauthorized` error.
+
+#### hybris-service-owner
+The **hybris-service-owner** header identifies the tenant that the called service belongs to. The **hybris-service-owner** is typically the project ID by which the service is published.
+
+#### hybris-session-id
+The **hybris-session-id** introduces the concept of a client-driven session by correlating several requests with a single identifier. A client can specify the ID at token aquisition using the [oauth2 token endpoint](https://devportal.yaas.io/services/oauth2/latest/index.html#RequestHeaders). After the ID is assigned to a token and, with that, to the requests performed together with that token, **hybris-session-id** indicates the related session ID.
+
+#### hybris-target-url
+The **hybris-target-url** indicates the full original URL that the client application calls. It is the original URL the client uses, before the proxy forwards the request. With that, the URL is different than the one a service serves. It contains any query parameters or fragments, in contrast to the **hybris-external-url** header.
+
+#### hybris-tenant
+The **hybris-tenant** header contains the ID of the tenant that the caller acts upon, such as a project ID. The header is typically present and its value is always in lowercase. If the service makes subsequent requests to other YaaS services, it acts upon same tenant ID and acquires authorization for it. If the header is not present and the service requires a header, the service responds with an informative `400` error.
+
+#### hybris-user
+The **hybris-user** header contains the identifier for an authenticated user that obtained the OAuth 2.0 access token. In YaaS, the user identifier is typically an email address. The header can be empty or absent, both of which indicate that no authenticated user is associated with the request. The header can contain any character, and its length is restricted only by the general header length. The header value is case-sensitive. 
+
+<div class="panel note">This header is deprecated. Use **hybris-user-id** instead.</div>
+
+#### hybris-user-id
+The **hybris-user-id** header contains the identifier for an authenticated user that obtained the OAuth 2.0 access token. The user identifier takes the form of a UUID-generated ID. The header can be empty or absent, both of which indicate that no authenticated user is associated with the request. The header can contain any character, and its length is restricted only by the general header length. The header value is case-sensitive.
+
+
+
+### RAML modeling
+Given a collection resource with a GET method, such as the following:
+
+``` no-highlight
+...
+/products:
+  get:
+    description: Gets all products
+```
+
+To specify that the resource supports Hybris-specific headers, use the public **yaas-aware** trait covering the most common Hybris-specific headers:
+
+``` no-highlight
+traits:
+   - !include https://pattern.yaas.io/v2/trait-yaas-aware.yaml
+
+/products:
+  get:
+    is: [yaasAware]
+    description: Gets all products
+```

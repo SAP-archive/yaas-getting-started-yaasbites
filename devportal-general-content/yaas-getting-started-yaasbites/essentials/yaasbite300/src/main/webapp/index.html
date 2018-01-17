@@ -1,0 +1,174 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="mycss.css">
+</head>
+<script src="https://builder.yaas.io/public/js/vendor/jquery/dist/jquery.min.js"></script>
+<script src="https://builder.yaas.io/public/js/vendor/underscore/underscore.js">	</script>
+<script src="https://builder.yaas.io/public/js/vendor/angular/angular.js">	</script>
+<script src="https://builder.yaas.io/public/js/vendor/restangular/dist/restangular.js">	</script>
+<script>
+	var app = angular.module('tipsApp', ['restangular']);
+
+	app.config(function(RestangularProvider) {
+		var location = window.location.href.toString().replace("#", "").replace("/index.html", "");
+		RestangularProvider.setBaseUrl(location);
+	});
+
+	app.controller('tipsController', function($scope, Restangular, $http ) {
+
+		$scope.onOpen = function( ) {
+			var location = window.location.href.toString().replace("#", "").replace("/index.html", "");
+			if(location.charAt(location.length - 1)=='/')
+				location = location.slice(0,-1);
+			$scope.windowLocation = location;
+			$scope.tenantName="SpecifyATenant"
+		}
+
+		$scope.getReadyToCall = function( restangular, useTenant ){
+			$scope.responseData=null
+			$scope.errorMessage=null
+
+			var location = $scope.windowLocation
+			if (useTenant)
+				restangular.setBaseUrl(location+"/"+$scope.tenantName);
+			else
+				restangular.setBaseUrl(location);
+		}
+
+		$scope.ping = function(){
+			$scope.getReadyToCall(Restangular, false)
+			Restangular.one("ping").get().then(
+				function(data) {
+					$scope.responseData = data;
+				},
+				function(response) {
+					$scope.errorMessage = response.status + ' '+response.data.message;
+			  	}
+			);
+		}
+
+		$scope.getAllTips = function(){
+			$scope.getReadyToCall(Restangular, false)
+			Restangular.all("tips").getList().then(
+				function(data) {
+					$scope.responseData = Restangular.stripRestangular(data)
+				},
+				function(response) {
+					$scope.errorMessage = response.status + ' '+response.data.message;
+			  	}
+			);
+		}
+
+		$scope.getTips = function(){
+			$scope.getReadyToCall(Restangular, true)
+			if(!$scope.validateTenantName(false))
+    			return;
+			Restangular.all("tips").getList().then(
+				function(data) {
+					$scope.responseData = Restangular.stripRestangular(data)
+				},
+				function(response) {
+					$scope.errorMessage = response.status + ' '+response.data.message;
+			  	}
+			);
+		}
+
+	    $scope.postTip = function(){
+	    	$scope.getReadyToCall(Restangular, true)
+			if(!$scope.validateTenantName(false))
+    			return ;
+	    	if(!$scope.validateText(true))
+    			return;
+
+    		var json = { 'tip': ''+$scope.tipText }
+    		Restangular.all("tips").post(json).then(
+    			function(data) {
+	    			$scope.getTips()
+    	    	},
+				function(response) {
+					$scope.errorMessage = response.status + ' '+response.data.message;
+			  	}
+			);
+		}
+
+	    $scope.putTip = function(){
+	    	$scope.getReadyToCall(Restangular, true)
+	    	if( !$scope.validateTenantName(false) || !$scope.validateId(false) || !$scope.validateText(false) )
+    			return;
+	    	var json = { 'tip': ''+$scope.tipText }
+	    	Restangular.one("tips/"+$scope.tipId).customPUT(json).then(
+	    		function(data) {
+    				$scope.getTips()
+        		},
+				function(response) {
+					$scope.errorMessage = response.status + ' '+response.data.message;
+			  	}
+			);
+		}
+
+	    $scope.deleteTip = function(){
+	    	$scope.getReadyToCall(Restangular, true)
+	    	if(!$scope.validateTenantName(false) || !$scope.validateId(false))
+    			return;
+	    	Restangular.one("tips/"+$scope.tipId).remove().then(
+	    		function(data) {
+	    			$scope.getTips()
+	        	},
+				function(response) {
+	        		console.log('In deleteTipb'+response)
+					$scope.errorMessage = response.status + ' '+response.data.message;
+			  	}
+			);
+		}
+
+		$scope.validateText = function(clearMsg){
+			if(clearMsg)
+				$scope.errorMessage = ""
+			if ($scope.tipText)
+				return true;
+			$scope.errorMessage = "Woops, please provide a Tip text";
+			return false;
+		}
+
+		$scope.validateId = function( clearMsg){
+			if(clearMsg)
+				$scope.errorMessage = ""
+			if ($scope.tipId && $scope.tipId >-1)
+				return true;
+			$scope.errorMessage = "Woops, please provide an ID ";
+			return false;
+		}
+
+		$scope.validateTenantName = function( clearMsg){
+			if(clearMsg)
+				$scope.errorMessage = ""
+			if ($scope.tenantName)
+				return true;
+			$scope.errorMessage = "Woops, please provide a name for the Tenant field, eg. Adidas, or Nike, ..";
+			return false;
+		}
+
+	});
+</script>
+
+<body ng-app="tipsApp" ng-controller="tipsController" ng-init="onOpen()">
+	<h2>YaaS Bite: Top Tips separated by Tenant</h2>	
+
+
+	A client-front-end to make REST calls to the Multi-tenant Tips Service.<br>
+
+	Ping the service @ <a href="#" ng-click="ping()"> {{windowLocation}}/ping</a><br>
+	Tenant name:<input name=tenantName ng-model="tenantName" /><br>
+	List the tips: call <a href="#" ng-click="getTips()">GET {{windowLocation}}/{{tenantName}}/tips</a><br>
+	Add a tip: call <a href="#" ng-click="postTip()">POST {{windowLocation}}/{{tenantName}}/tips</a> with JSON body: { 'tip': '<input name=tipText ng-model="tipText" value="Don't eat fireworks"/>' } E.g. "Don't eat fireworks"<br>
+	Update an existing tip: call <a href="#" ng-click="putTip()"> PUT {{windowLocation}}/{{tenantName}}/tips/</a> with index: <input name=tipId ng-model="tipId" type="number" /> and JSON body { 'tip': '<input name=tipText ng-model="tipText" value="Don't eat fireworks"/>' }<br>
+	Delete a tip: call <a href="#" ng-click="deleteTip()">DELETE {{windowLocation}}/{{tenantName}}/tips</a> with index <input name=tipId ng-model="tipId"  type="number" /> <br>
+
+	Get all tips from all tenants: </b><a href="#" ng-click="getAllTips()">Call GET {{windowLocation}}/tips</a><br>
+
+
+	<p style="color:red" ng-show="errorMessage">Woops: {{errorMessage|json}}</p>
+	<p style="color:green" ng-show="responseData!=null">Response: {{responseData|json}}</p>
+
+</body>
+</html>

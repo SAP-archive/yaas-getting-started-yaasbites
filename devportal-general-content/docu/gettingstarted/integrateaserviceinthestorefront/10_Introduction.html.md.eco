@@ -1,0 +1,27 @@
+---
+title: Introduction
+---
+
+The purpose of this tutorial is to demonstrate how a connection is established between a service and the <%- @partial('storefronttemplate_YaaSStorefront') %>. By adding the Wishlist service endpoint and creating a Wishlist module, you can then implement the service and controller code to demonstrate the following functionality:
+
+<ul>
+  <li>Create a new wishlist</li>
+  <li>Pass a single item</li>
+  <li>Add a Wishlist button to the storefront</li>
+</ul>
+
+You can observe the outbound REST request from the storefront to the Wishlist service in your browser's developer console.
+
+<div class="panel note">
+  This is only an example service. It does not store any data.
+</div>
+
+### Prerequisites
+
+Before going through this tutorial, follow the guide for <a href="/gettingstarted/createaservice/index.html">Create a Service</a>, and make sure you have the Wishlist service running on http://localhost:8080. Also, follow the guide for <a href="/gettingstarted/setupastorefront/index.html">Set Up a Storefront</a>. Lastly, you need to have a working knowledge of the following technologies:
+
+* AngularJS
+* <a href="https://github.com/mgonto/restangular">Restangular</a>, <a href="http://angular-ui.github.io/ui-router/site/#/api/ui.router">UI Router</a>, and <a href="http://angular-ui.github.io/bootstrap/">Angular Bootstrap</a>
+
+
+Refer to <a href="/gettingstarted/setupaproject/index.html">Set up a Project</a>, the <a href="/tools/storefronttemplate/index.html">YaaS Storefront</a>, and the <a href="/tools/algoliabuildermodule/index.html">Algolia Builder Module</a> documents for more details about the storefront, package subscription, project configurations, and project management.

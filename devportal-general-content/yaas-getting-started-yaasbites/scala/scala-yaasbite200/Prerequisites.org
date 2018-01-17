@@ -1,0 +1,8 @@
+* Basic knowledge of 
+** Play
+** Scala
+** Slick (if exploring bite 2)
+* Softwares to install
+** [[https://www.playframework.com/download][activator]]
+*** download, unzip and add the directory to your system path (*activator* will be available on command line)
+** scala plugin for your favourite IDE (eclipse/Intellij)

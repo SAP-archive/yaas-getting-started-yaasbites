@@ -1,0 +1,40 @@
+---
+title: Overview
+---
+
+### Set up billing for a package
+
+Use these steps to enable billing for a package. This is the interim process until we have something more elegant.
+<ol>
+<li>Identify which metrics you want enabled to create bills. Consider whether you want to have the maximum, total sum, or the average as the aggregation function. Check with Martin Gurney, to make sure those metrics are in the global metrics catalog. If your metric is based on API calls only, go to step 3.</li><br>
+
+<li>Keep in mind that log messages sometimes get lost, and ensure that the loss of any messages does not have a negative impact on the results. The logging should follow the Service SDK <a href="/tools/servicesdk/index.html#Logging">Logging</a> documentation.</li><br>
+
+<li>For the rate plan definitions, see the details in the <a href="/internal/tools/billing/index.html#ResultService">Result service</a> section. Define the aggregate, create a JIRA ticket for Team Tollans, and then send any details to them at <team-tollans@sap.com>. In the correlating documentation, provide some log examples.</li><br>
+
+<li>Specify your rate plan in the Builder by navigating to **Team > Packages > {My package} > PRICING** tab. Choose a **Beta** or **Commercial** package type, as shown in the screenshot:<br>
+
+<img src="img/billing1.png" class="img-click-modal" width="440" alt="Choose a rate plan" vspace="20"><br>
+<ul>
+<li>Click **+ METRIC** to define the metric that the API proxy tracks, or the service for each subscriber of your package, which is shown as usage data to the subscriber.</li><br>
+
+<li>If you chose the **Beta** package type, then you offer a package that companies all over the world, except the USA, can use. You don't earn money, because all the usage included in this rate plan is free, but limited. If you exceed the limit of the included quantity (see below), further usage is blocked. These fields are available for Beta packages:</li><br>
+
+<img src="img/billing2.png" class="img-click-modal" width="440" alt="Fields for Beta packages" vspace="20"><br>
+
+**Metric Name** – The name of the metric measured, which is displayed as usage data to subscriber. In the future, the provider will also see how their services are used.<br>
+**Metric Key** – The metric key as it was defined in the service, such as **storage.data**. This is tracked at the API proxy (calls), or at the service, such as storage.<br>
+**Unit** – The unit of the metric chosen from a list of available units, such as **Calls**, **Categories**, or **Storage**.<br>
+**Included Quantity** – The limit that is included into the Beta package for the subscriber to use for free.<br><br>
+
+<li>If you chose the **Commercial** package type, then you offer a package that can be used by companies located in the US only (for now). The usage is not limited. As soon as the included quantity is reached, then additional usage fees are applied. The following two additional fields are visible in the Builder:</li>
+
+<img src="img/billing3.png" class="img-click-modal" width="440" alt="Fields for Commercial packages" vspace="20"><br>
+
+**Additional Quantity** – How much is included into the price that can be found in the **Volume based price**.<br>
+**Volume based price** – How much the subscriber pays per additional quantity.
+<div class="panel note"> Currently, only SAP Hybris is able to publish packages, but soon partners will be able too. Partners can define the metrics and save them, but cannot use them.</div></li>
+</ul>
+
+<li>After these steps are complete, test the metric collection by creating a project and subscribing to the new draft package. Select the **Add private package** in the **Subscription** view of the Builder. Then, make some API calls, and check your logs to verify everything is working properly. Finally, ensure that the metrics are aggregated as planned by contacting <team-tollans@sap.com>.</li>
+</ol>

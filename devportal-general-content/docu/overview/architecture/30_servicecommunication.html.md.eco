@@ -1,0 +1,36 @@
+---
+type: Architecture
+title: 'Service Communication'
+---
+
+Services in YaaS use two mechanisms to communicate with each other:
+
+* Synchronous HTTP/ REST requests
+* Asynchronous message-based communication
+
+### HTTP/REST
+
+The primary communication channel used in YaaS is pure HTTP.
+Each service exposes its web resources through well-defined RESTful APIs.
+
+All of these APIs are described with <%- @partial('generalterm_raml') %> in a natural and intuitive way.
+In addition to the web resources that implement its API, each service also exposes its own RAML API definition through HTTP.
+It also exposes a RAML API console, which enables API consumers to browse through the API documentation and interact with the service API directly.
+
+The exposed API of a service is not directly accessible by a service consumer.
+Instead, there is always a component called an API proxy in front of it, as shown in the diagram below with the Document service:
+
+<img src="/overview/architecture/img/Architecture_HTTP-REST.png" width="400" class="img-click-modal" alt="API Proxy">
+
+Each request reaches the API proxy, which analyzes and verifies certain request parameters and headers. Then, the API proxy forwards the request to the service implementation. The API proxy serves the following purposes:
+* Enforces security
+* Enables central logging and tracing
+* HTTP header rewriting
+* Ensures platform resiliency by implementing the rate-limiting and circuit-breaker mechanisms
+
+In order to work with YaaS, you should fully understand how the API proxy changes incoming requests and how they are received at the service implementation side. Detailed technical information can be found in the <a href="/overview/security/index.html">security</a> documentation.
+
+
+### Messaging
+
+In addition to synchronous HTTP communication, services in YaaS can also communicate asynchronously using the central Publish and Subscribe (<a href="/services/pubsub/latest/index.html">PubSub</a>) messaging infrastructure service. Services can publish information to specific topics being managed in the central messaging infrastructure, and other services can subscribe to those topics. When a message is published to a specific topic, it is automatically available to subscribers. The messaging provides a high-level and cross-boundary exchange of asynchronous events, which is a fundamental requirement for building flexible, loosely coupled, and highly-saleable solutions.

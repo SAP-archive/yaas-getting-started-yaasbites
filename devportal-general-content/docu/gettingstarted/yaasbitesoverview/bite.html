@@ -1,0 +1,104 @@
+---
+title: 'YaaS Bites Overview'
+service: 'YaaS Bites Overview'
+---
+<style type="text/css">
+ button {
+ background:none!important;
+ border:none;
+ padding:0!important;
+ font: inherit;
+ cursor: pointer;
+ color: #0486e0;
+ text-align: left;
+ }
+ code { color: #0486e0; background:none; }
+ .panel { padding: 0.5em; }
+</style>
+
+<p >
+ The <strong>YaaS Bites</strong> enable software developers to go from zero-to-YaaS in a couple of days. They are small, focused, incremental coding exercises. Each bite has code, guidelines, and screencasts to ensure your initial journey into YaaS is successful and productive.
+</p>
+YaaS Bites makes learning YaaS fast and fun. Explore and learn with small, incremental coding exercises that contain essential information about coding in YaaS. The bites assume only that you know Java and some Spring, and take you quickly into working productively with YaaS.<br></br>
+<ol>
+  <li>
+If you are brand new to YaaS, read <a target="_blank" href="https://www.yaas.io/about.html" >Why YaaS</a> to explore the key business needs that YaaS fulfills, and the enormous potential it unleashes to developers.</li>
+<li>Read <strong>YaaS Bites First Steps</strong> to learn how to make secure calls to YaaS services.</li>
+<li>Work through <strong>YaaS Bites Essentials</strong>, to gain a firm grounding in YaaS development.</li>
+<li>Finally work through <strong>YaaS Bites Sequel</strong> if you would like to explore coding beyond Java.</li>
+</ol>
+Keep in mind that while YaaS Bites focus on JVM languages, you can code YaaS solutions in any language you like. Your imagination and knowledge alone are the only limits.<br><br>
+<hr/>
+
+<strong>YaaS Bites: First Steps</strong>
+<ul style="margin-bottom: 0px;">
+<li><a href="../yaasbitesfirststeps/index.html">Your first steps</a></li>
+</ul><br>
+
+<strong>YaaS Bites: The essentials</strong><br>
+ <ul style="margin-bottom: 0px;">
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite0">Deploy, call and debug your first web service</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite1">Take a service to the cloud</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite2">Code a CRUD web service</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite3">Code a multi-tenant CRUD web service</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite4">Understand YaaS security: tokens, scopes, and the API Proxy</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite5">Code RAML files</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite6">Understand the Implicit Grant Flow</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite7">Build Packages and Builder Modules</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite8">Call other services</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite9">Use Hystrix for resilience</a></li>
+ <li><a href="../yaasbitesessentials/index.html#YaasStoreFront">Extend the storefront</a></li>
+ <li><a href="../yaasbitesessentials/index.html#Yaasbite10">Use the YaaS Service SDK</a></li>
+ </ul><br>
+ <strong>YaaS Bites: The sequel</strong>
+ <ul style="margin-bottom: 0px;">
+ <li><a href="../yaasbitessequel/index.html#Yaasbite11">Take your first <strong>Scala</strong> web service to the cloud</a></li>
+ <li><a href="../yaasbitessequel/index.html#Yaasbite12">Work with a Scala CRUD web service</a></li>
+ <li><a href="../yaasbitessequel/index.html#Yaasbite13">Call other services in Scala</a></li>
+ <li><a href="../yaasbitessequel/index.html#Yaasbite14">Call other services in <strong>Akka</strong></a></li>
+ <li><a href="../yaasbitessequel/index.html#YaasStoreNodeJS">Call services with the <strong>Node.js</strong> Client SDK from Hybris Labs</a></li>
+ </ul><br>
+
+
+ <hr/><a name="Prerequisites"></a>
+ <h3>Prerequisites</h3>
+ To follow YaaS Bites, you need:
+ <ul style="margin-bottom: 0px;">
+ <li><a target="_blank" href="https://maven.apache.org/index.html" >Maven 3.0</a> </li>
+ <li><a target="_blank" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" >Git</a> to clone the examples</li>
+ <li>Java 8 JDK to write and compile the example code, available at <a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" >Oracle JDK</a> or <a target="_blank" href="http://openjdk.java.net/" >OpenJDK</a></li>
+ <li><a target="_blank" href="https://eclipse.org/downloads/" >Eclipse IDE</a> or a similar development environment</li>
+ <li>These bites are aimed at developers who, we assume are working with large screens. The layout of the bites will be suboptimal on small displays.</li>
+ </ul>
+ <hr/>
+ <h3>Clone the code</h3>
+ After you have all of the tools listed in the Prerequisites section, clone the bites code.
+ <ol>
+ <li>Run <button data-clipboard-text="git clone https://github.com/SAP/yaas-getting-started-yaasbites">git clone https://github.com/SAP/yaas-getting-started-yaasbites [Copy Me]</button></li>
+ <li><code>cd</code> into the folder <code>yaas-getting-started-yaasbites</code>, which is referred to in the YaaS Bites as folder <code>(yb)</code>.</li>
+ </ol>
+ <hr/>
+ <h3>Get going</h3>
+ Start with <a href="../yaasbitesessentials/index.html">YaaS Bite Essentials</a> and have fun.
+<br><br>
+<p align="middle">On Github @ <a target="_blank" href="https://github.com/SAP/yaas-getting-started-yaasbites">https://github.com/SAP/yaas-getting-started-yaasbites</a></p>
+<script>
+/*!
+ * clipboard.js v1.5.12
+ * https://zenorocha.github.io/clipboard.js
+ *
+ * Licensed MIT © Zeno Rocha
+ */
+!function(t){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var e;e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,e.Clipboard=t()}}(function(){var t,e,n;return function t(e,n,o){function i(a,c){if(!n[a]){if(!e[a]){var s="function"==typeof require&&require;if(!c&&s)return s(a,!0);if(r)return r(a,!0);var l=new Error("Cannot find module '"+a+"'");throw l.code="MODULE_NOT_FOUND",l}var u=n[a]={exports:{}};e[a][0].call(u.exports,function(t){var n=e[a][1][t];return i(n?n:t)},u,u.exports,t,e,n,o)}return n[a].exports}for(var r="function"==typeof require&&require,a=0;a<o.length;a++)i(o[a]);return i}({1:[function(t,e,n){var o=t("matches-selector");e.exports=function(t,e,n){for(var i=n?t:t.parentNode;i&&i!==document;){if(o(i,e))return i;i=i.parentNode}}},{"matches-selector":5}],2:[function(t,e,n){function o(t,e,n,o,r){var a=i.apply(this,arguments);return t.addEventListener(n,a,r),{destroy:function(){t.removeEventListener(n,a,r)}}}function i(t,e,n,o){return function(n){n.delegateTarget=r(n.target,e,!0),n.delegateTarget&&o.call(t,n)}}var r=t("closest");e.exports=o},{closest:1}],3:[function(t,e,n){n.node=function(t){return void 0!==t&&t instanceof HTMLElement&&1===t.nodeType},n.nodeList=function(t){var e=Object.prototype.toString.call(t);return void 0!==t&&("[object NodeList]"===e||"[object HTMLCollection]"===e)&&"length"in t&&(0===t.length||n.node(t[0]))},n.string=function(t){return"string"==typeof t||t instanceof String},n.fn=function(t){var e=Object.prototype.toString.call(t);return"[object Function]"===e}},{}],4:[function(t,e,n){function o(t,e,n){if(!t&&!e&&!n)throw new Error("Missing required arguments");if(!c.string(e))throw new TypeError("Second argument must be a String");if(!c.fn(n))throw new TypeError("Third argument must be a Function");if(c.node(t))return i(t,e,n);if(c.nodeList(t))return r(t,e,n);if(c.string(t))return a(t,e,n);throw new TypeError("First argument must be a String, HTMLElement, HTMLCollection, or NodeList")}function i(t,e,n){return t.addEventListener(e,n),{destroy:function(){t.removeEventListener(e,n)}}}function r(t,e,n){return Array.prototype.forEach.call(t,function(t){t.addEventListener(e,n)}),{destroy:function(){Array.prototype.forEach.call(t,function(t){t.removeEventListener(e,n)})}}}function a(t,e,n){return s(document.body,t,e,n)}var c=t("./is"),s=t("delegate");e.exports=o},{"./is":3,delegate:2}],5:[function(t,e,n){function o(t,e){if(r)return r.call(t,e);for(var n=t.parentNode.querySelectorAll(e),o=0;o<n.length;++o)if(n[o]==t)return!0;return!1}var i=Element.prototype,r=i.matchesSelector||i.webkitMatchesSelector||i.mozMatchesSelector||i.msMatchesSelector||i.oMatchesSelector;e.exports=o},{}],6:[function(t,e,n){function o(t){var e;if("INPUT"===t.nodeName||"TEXTAREA"===t.nodeName)t.focus(),t.setSelectionRange(0,t.value.length),e=t.value;else{t.hasAttribute("contenteditable")&&t.focus();var n=window.getSelection(),o=document.createRange();o.selectNodeContents(t),n.removeAllRanges(),n.addRange(o),e=n.toString()}return e}e.exports=o},{}],7:[function(t,e,n){function o(){}o.prototype={on:function(t,e,n){var o=this.e||(this.e={});return(o[t]||(o[t]=[])).push({fn:e,ctx:n}),this},once:function(t,e,n){function o(){i.off(t,o),e.apply(n,arguments)}var i=this;return o._=e,this.on(t,o,n)},emit:function(t){var e=[].slice.call(arguments,1),n=((this.e||(this.e={}))[t]||[]).slice(),o=0,i=n.length;for(o;i>o;o++)n[o].fn.apply(n[o].ctx,e);return this},off:function(t,e){var n=this.e||(this.e={}),o=n[t],i=[];if(o&&e)for(var r=0,a=o.length;a>r;r++)o[r].fn!==e&&o[r].fn._!==e&&i.push(o[r]);return i.length?n[t]=i:delete n[t],this}},e.exports=o},{}],8:[function(e,n,o){!function(i,r){if("function"==typeof t&&t.amd)t(["module","select"],r);else if("undefined"!=typeof o)r(n,e("select"));else{var a={exports:{}};r(a,i.select),i.clipboardAction=a.exports}}(this,function(t,e){"use strict";function n(t){return t&&t.__esModule?t:{"default":t}}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}var i=n(e),r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol?"symbol":typeof t},a=function(){function t(t,e){for(var n=0;n<e.length;n++){var o=e[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}return function(e,n,o){return n&&t(e.prototype,n),o&&t(e,o),e}}(),c=function(){function t(e){o(this,t),this.resolveOptions(e),this.initSelection()}return t.prototype.resolveOptions=function t(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];this.action=e.action,this.emitter=e.emitter,this.target=e.target,this.text=e.text,this.trigger=e.trigger,this.selectedText=""},t.prototype.initSelection=function t(){this.text?this.selectFake():this.target&&this.selectTarget()},t.prototype.selectFake=function t(){var e=this,n="rtl"==document.documentElement.getAttribute("dir");this.removeFake(),this.fakeHandlerCallback=function(){return e.removeFake()},this.fakeHandler=document.body.addEventListener("click",this.fakeHandlerCallback)||!0,this.fakeElem=document.createElement("textarea"),this.fakeElem.style.fontSize="12pt",this.fakeElem.style.border="0",this.fakeElem.style.padding="0",this.fakeElem.style.margin="0",this.fakeElem.style.position="absolute",this.fakeElem.style[n?"right":"left"]="-9999px",this.fakeElem.style.top=(window.pageYOffset||document.documentElement.scrollTop)+"px",this.fakeElem.setAttribute("readonly",""),this.fakeElem.value=this.text,document.body.appendChild(this.fakeElem),this.selectedText=(0,i.default)(this.fakeElem),this.copyText()},t.prototype.removeFake=function t(){this.fakeHandler&&(document.body.removeEventListener("click",this.fakeHandlerCallback),this.fakeHandler=null,this.fakeHandlerCallback=null),this.fakeElem&&(document.body.removeChild(this.fakeElem),this.fakeElem=null)},t.prototype.selectTarget=function t(){this.selectedText=(0,i.default)(this.target),this.copyText()},t.prototype.copyText=function t(){var e=void 0;try{e=document.execCommand(this.action)}catch(n){e=!1}this.handleResult(e)},t.prototype.handleResult=function t(e){e?this.emitter.emit("success",{action:this.action,text:this.selectedText,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)}):this.emitter.emit("error",{action:this.action,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)})},t.prototype.clearSelection=function t(){this.target&&this.target.blur(),window.getSelection().removeAllRanges()},t.prototype.destroy=function t(){this.removeFake()},a(t,[{key:"action",set:function t(){var e=arguments.length<=0||void 0===arguments[0]?"copy":arguments[0];if(this._action=e,"copy"!==this._action&&"cut"!==this._action)throw new Error('Invalid "action" value, use either "copy" or "cut"')},get:function t(){return this._action}},{key:"target",set:function t(e){if(void 0!==e){if(!e||"object"!==("undefined"==typeof e?"undefined":r(e))||1!==e.nodeType)throw new Error('Invalid "target" value, use a valid Element');if("copy"===this.action&&e.hasAttribute("disabled"))throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');if("cut"===this.action&&(e.hasAttribute("readonly")||e.hasAttribute("disabled")))throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');this._target=e}},get:function t(){return this._target}}]),t}();t.exports=c})},{select:6}],9:[function(e,n,o){!function(i,r){if("function"==typeof t&&t.amd)t(["module","./clipboard-action","tiny-emitter","good-listener"],r);else if("undefined"!=typeof o)r(n,e("./clipboard-action"),e("tiny-emitter"),e("good-listener"));else{var a={exports:{}};r(a,i.clipboardAction,i.tinyEmitter,i.goodListener),i.clipboard=a.exports}}(this,function(t,e,n,o){"use strict";function i(t){return t&&t.__esModule?t:{"default":t}}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function a(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}function s(t,e){var n="data-clipboard-"+t;if(e.hasAttribute(n))return e.getAttribute(n)}var l=i(e),u=i(n),f=i(o),d=function(t){function e(n,o){r(this,e);var i=a(this,t.call(this));return i.resolveOptions(o),i.listenClick(n),i}return c(e,t),e.prototype.resolveOptions=function t(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];this.action="function"==typeof e.action?e.action:this.defaultAction,this.target="function"==typeof e.target?e.target:this.defaultTarget,this.text="function"==typeof e.text?e.text:this.defaultText},e.prototype.listenClick=function t(e){var n=this;this.listener=(0,f.default)(e,"click",function(t){return n.onClick(t)})},e.prototype.onClick=function t(e){var n=e.delegateTarget||e.currentTarget;this.clipboardAction&&(this.clipboardAction=null),this.clipboardAction=new l.default({action:this.action(n),target:this.target(n),text:this.text(n),trigger:n,emitter:this})},e.prototype.defaultAction=function t(e){return s("action",e)},e.prototype.defaultTarget=function t(e){var n=s("target",e);return n?document.querySelector(n):void 0},e.prototype.defaultText=function t(e){return s("text",e)},e.prototype.destroy=function t(){this.listener.destroy(),this.clipboardAction&&(this.clipboardAction.destroy(),this.clipboardAction=null)},e}(u.default);t.exports=d})},{"./clipboard-action":8,"good-listener":4,"tiny-emitter":7}]},{},[9])(9)});</script>
+<script>// <![CDATA[
+ var btns = document.querySelectorAll('button');
+ var clipboard = new Clipboard(btns);
+ clipboard.on('success',
+ function(event) {
+ event.clearSelection();
+ event.trigger.textContent = event.trigger.textContent.toString().replace('Copy Me','Copied!');
+ window.setTimeout(function() {
+ event.trigger.textContent = event.trigger.textContent.toString().replace('Copied!','Copy Me');
+ }, 2000);
+ })
+// ]]></script>

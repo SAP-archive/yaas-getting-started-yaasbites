@@ -1,0 +1,16 @@
+h1 { font-family: 'Raleway',sans-serif; font-size: 62px; font-weight: 800; line-height: 72px; margin: 0 0 24px; text-align: center; text-transform: uppercase; }
+
+
+h2 { font-family: 'Raleway',sans-serif; font-size: 30px; font-weight: 800; line-height: 36px; margin: 0 0 24px; text-align: center; }
+
+
+p { font-family: 'Raleway',sans-serif; font-size: 12px; font-weight: 500; line-height: 32px; margin: 0 0 24px; }
+
+
+a {  text-decoration: underline; }
+
+
+a:hover {  text-decoration: underline; }
+
+
+body { margin-left: 12px; font-family: 'Raleway',sans-serif; font-size: 12px; font-weight: 500; line-height: 20px;  }

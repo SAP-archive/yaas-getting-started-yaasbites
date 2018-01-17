@@ -1,0 +1,35 @@
+---
+type: Architecture
+title: 'Service Design'
+---
+
+When it comes to the design of these services, SAP Hybris strictly follows the <a href="http://12factor.net/"> Twelve-Factor</a> methodology. The SAP Hybris <a href="/overview/yfactors/index.html">[y] Factors</a> document explains organizational, architectural, and other service design topics.
+
+### Service types
+
+The YaaS architectural approach defines two technical types of services, as described below:
+
+<p>**Independent Services** – These services may still maintain their own backing services, such as native databases. The backing services are not shared across multiple services and are operated by the same team operating the service. These are self-contained services and do not have any dependencies on other services:</p>
+
+<img src="/overview/architecture/img/Architecture_service_types.png" width="200" class="img-click-modal" alt="Independent Services">
+
+<p>**Dependent Services** – These services leverage other services to provide high-level services. To function correctly, these services depend on those other services:</p>
+
+<img src="/overview/architecture/img/Architecture_dependent_services.png" width="400" class="img-click-modal" alt="Dependent Services">
+
+<p>On a larger scale, the service ecosystem of YaaS provides a set of building blocks to create a wide range of applications in an efficient and flexible manner. They are categorized into three clusters:</p>
+
+<img src="/overview/architecture/img/Architecture_service_ecosystem.png" class="img-click-modal" alt="YaaS Service Ecosystem">
+
+<ol>
+  <li>The core functionality cluster, shown in the bottom layer, provides a wide range of reusable services, such as an email service or document repository service. The services in this cluster provide general purpose functionality and are independent from any business domain.</li>
+  <li>The domain cluster, shown in the middle layer, provides services focusing on a specific domain, business, or commerce functionality, such as the product, catalog, or pricing services.</li>
+  <li>The orchestration cluster, shown in the top layer, provides high-level services to build domain-specific applications by leveraging and orchestrating the services from both of the other clusters.</li>
+</ol>
+
+<p>From a technical perspective, all services in the YaaS ecosystem are categorized into multiple types of services, as described below:</p>
+
+* Core services – A set of core services are provided to implement basic functionality, such as a repository, search capabilities, and messaging. All of these services are ready for the cloud and help you speed up your project implementation because you reuse the existing functionality instead of developing your own.
+* Domain-specific business resource services – Every business domain has a well-defined set of domain objects. In the commerce world, these are objects such as carts, products, and prices. Each business domain resource service handles a specific domain entity. These services mostly implement basic CRUD functionality, as well as providing basic functionality related to a domain object.
+* Domain-specific business services – A pure business service focuses on an actual implementation of some concrete business functionality, such as calculation of taxes and shipping price. It’s valid for a business service to also act as a CRUD service.
+* Domain-specific business mashup services – A service that aggregates information from multiple other services, such as a service that relays data to a customer’s browser, or a service that orchestrates a business process across multiple services, such as a checkout process that uses cart, price, and tax services.

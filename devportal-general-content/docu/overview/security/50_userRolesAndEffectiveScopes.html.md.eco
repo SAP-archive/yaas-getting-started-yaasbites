@@ -1,0 +1,65 @@
+---
+type: Security
+title: 'User Roles and Effective Scopes'
+---
+
+<h3>User roles</h3>
+
+In YaaS, developers can define unique scopes in services and in projects. Make the process of managing scopes easier by defining user roles, which bundle several scopes into one set of permissions that can be quickly and easily assigned to a YaaS user.
+<br/>
+
+For example, you can create a <b>shop_manager</b> user role that contains the following scopes:
+<ul>
+<li><b>hybris.category_read_unpublished</b></li>
+<li><b>hybris.product_create</b></li>
+<li><b>hybris.price_manage</b></li>
+</ul>
+You can then assign the **shop_manager** role to users in your <%- @partial('generalterm_project') %>. The user to whom you assign this role gets all of the scopes assosciated with the given user role.
+<br>
+One user can have different user roles assigned in different projects. This means that the same user can have different permissions in different projects.
+
+<div class="panel warning">
+User roles are valid only when you use YaaS as the source of the scopes assigned to users. For more information, see the <a href="/services/identity/latest/#Scopesmanagement">Identity service</a> documentation.
+</div>
+
+<a name="Effectivescopes"></a>
+<h3>Effective scopes</h3>
+
+In the authorization process, the client sends a request to an OAuth 2.0 endpoint to get an access token with the proper scopes. The access token has the effective scopes encoded. The effective scopes are granted at intersections of various conditions, which are different for each authorization flow:
+<ol>
+<li>Client Credentials Grant</li>
+<ul>
+<li>Requested scopes</li>
+<li>Scopes granted to the client by the tenant</li>
+</ul>
+<li>Implicit Grant, Authorization Code Grant and Resource Owner Password Credentials Grant [DEPRECATED]</li>
+<ul>
+<li>Requested scopes</li>
+<li>Scopes granted to the client by the tenant</li>
+<li>User scopes defined by roles assigned to user</li>
+</ul>
+</ol>
+
+<div class="panel tip">
+The source of the scopes assigned to the user can change depending on the user's identity provider. Read the <a href="/services/identity/latest/#Overview">Identity service</a> documentation to find out more about custom identity providers and how to implement them in your solutions.
+</div>
+
+<h4>Example</h4>
+
+In this example, the `<YaaS_URL>` is removed from the scope names for better readability.
+
+Developer A develops Builder Module A that requires the following scopes from the Product Content package:
+
+- **product_create**
+- **price_manage**
+
+User B, and the <%- @partial('generalterm_owner') %> of Project B, subscribes to the Package A that contains this builder module.
+
+User B then invites his fellow, User C, to Project B and assigns him the Product Manager role that contains the **product_create** and **product_update** scopes. When User C uses Builder Module A in the context of Project B, the request for the access token to the OAuth2 `authorize` endpoint is made with the following parameters:
+
+- Client ID of Builder Module A
+- Requested scopes: **product_create**, **product_publish**, **hybris.tenant=projectb**
+
+The user is then prompted to sign in. If the authentication completes successfully, the OAuth2 service issues an access token with the **product_create** scope. This scope is the only one that is present in the configuration of the builder module, is part of the Product Manager user role, and is passed in the request.
+
+For more information about the **hybris.tenant** and **hybris.no_tenant** scopes, see the <a href="/overview/security/index.html#Authorization">Authorization</a> document.

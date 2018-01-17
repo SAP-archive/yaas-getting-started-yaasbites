@@ -1,0 +1,37 @@
+---
+title: Register a Service in the Builder
+---
+
+After you create and try out your service locally, deploy it to a cloud environment where it is accessible for the YaaS <%- @partial('generalterm_apiproxy') %>. You can deploy your service any way you want, or check out the <a href="/overview/deployment/index.html">Deployment</a> documentation for some options.
+
+### Register your service
+
+After you deploy the service, sign in to the <a href="https://builder.yaas.io">Builder</a> and register the service so that it is visible for the API Proxy. While logged in to the Builder, the name of your currently selected _organization_ is in the upper left corner. If you have not been invited to an organization yet, you can create a new one. First, set the YaaS URL for your new organization before creating your first service. This YaaS URL is a base path that becomes part of all of the URLs for your service.
+
+In order to register a service you need to be a member of a _Project_. If you don't have a project yet, select the **+ Project** button on the Builder main page. Complete the details, and then **Save**.
+
+To register your service, click on **Services** from your project's menu, and then add a new service by clicking **+ Service** button. Complete the mandatory details including **Identifier**, **Description**, **Version**, and the **Source URL**. The **Source URL** is the URL of your deployed service, such as <code>http://yourservicehost.internal.yaas.io</code>. After completing all the data click **Save**.
+
+If you plan to call other YaaS services from your service, you need to attach a **client** to your service, to allow it to consume other YaaS APIs. Click the **+ Client** button and then select **New Client** from the drop-down menu. Select the scopes that are relevant to the backing services that your service consumes. You have access only to the YaaS Essential scopes if your project is not subscribed to a package. Select **Next** and complete the required values, such as **Identifier** and **Display name**. The authorization data of the client are now linked with your service.
+
+Now your service has received a generated URL accessible in the YaaS API Proxy.
+
+### Secure your service
+
+After registering your service so that it is accessible for the YaaS API Proxy, it could be accessible by any request that calls your service directly, which bypasses the proxy. To prevent this, go to your service's **Details** page and use the **Basic Authentication** mechanism to secure your service. Generate a username and password and these values are used for any service generated from the YaaS archetype, using the **BASIC_AUTHENTICATION_CREDENTIALS** environment variable. Afterwards, only the YaaS API proxy can call your service directly, using the credentials from the **Basic Authentication**.
+
+### Publish your service
+
+The details of the service have been created, but the service's API is not accessible through the generated public URL until you click on the **Deploy** button, which enables the proxy URL. Afterwards, your service is up and running, and its API is accessible publicly. Who can access the endpoints of your service is controlled by the YaaS API Proxy.
+
+In YaaS, a set of functionally-related services is bundled together as a _package_. Others can subscribe to these packages to use those services. To make your service accessible for others, wrap your service in a package. Click on your team name, click **Packages**, and then click on **+ NEW PACKAGE**. Select your service to include in the package, and complete the other details. You do not have to publish your package yet if you are in the testing phase. It is also possible to leave your package as _private_ and let others subscribe to it by providing them with the **Identifier** of your package. You can test this scenario yourself by following the steps in the following section.
+
+### Test multi-tenant scenarios for your service
+
+To test that others can subscribe to your package, follow these steps:
+1. Create another project, for example, **mytest123**.
+2. Navigate back to your package, and select the **whitelist** option for the **mytest123** project in the **Access Control** section.
+3. Copy the **Version ID** of your package. Navigate to the **mytest123** project, and add a private subscription in the **Subscriptions** option in the project's **Administration** menu. Then paste the ID.
+
+Now you can test it as any other package available in the YaaS market. For example, add service scopes to your client in the **mytest123** project and request access tokens with these scopes, or allow your service to perform operations in the name of the **mytest123**.
+

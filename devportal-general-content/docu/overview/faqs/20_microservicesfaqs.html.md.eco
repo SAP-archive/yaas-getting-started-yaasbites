@@ -1,0 +1,63 @@
+---
+type: FAQs
+title: 'Microservice FAQs'
+---
+<table class="table table-striped table-glossary techne-table">
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+    </tr>
+
+    <tr>
+      <td>What is a microservice?</td>
+      <td>The microservice architectural style is an approach to developing a single application as a suite of smaller services.  The application runs its own processes and communicates with lightweight mechanisms, often an HTTP resource API. For more information about microservices, see the <a href="/overview/architecture/index.html">YaaS Architecture</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>What are some best practices for developing microservices?</td>
+      <td>Read the <a href="/tools/developmentguidelines/index.html">Development Guidelines</a> for detailed guidelines about developing a microservice. Here are some basic best practices for developing many microservices:
+        <ul>
+          <li>Provide a template or SDK so that developers do not have to write boilerplate information.</li>
+          <li>Use domain-driven design principles or something similar to get the correct boundaries.</li>
+          <li>Invest in monitoring, logging, and automated deployments.</li>
+          <li>Invest in infrastructure for decoupled communication.</li>
+          <li>Be your own Operations department.</li>
+          <li>Consider the communication and performance overhead, but don't let this scare you!</li>
+          <li>Use microservices only if the costs of overall setup and service development are balanced.</li>
+          <li>Start with medium-sized services and develop more granularity from there.</li>
+        </ul>
+          Additional information about best practices is available in the <a href="/tools/apiguidelines">API Guidelines</a> and <a href="/overview/yfactors/index.html">SAP Hybris [y] Factors</a> documentation.</td>
+    </tr>
+
+    <tr>
+      <td>Why did SAP Hybris choose the microservice approach?</td>
+      <td>There are four main reasons:
+      <ol>
+        <li><strong>Cloud First</strong> - You can scale different parts of the application independently.</li>
+        <li><strong>Autonomy</strong> - It gives teams and individuals the freedom to choose technologies with which they are familiar.</li>
+        <li><strong>Keep Momentum</strong> - You can independently make new features available as soon as they are done.</li>
+        <li><strong>Share and Grow</strong> - An <%- @partial('generalterm_sappartner') %> can easily add isolated features.</li>
+      </ol></td>
+    </tr>
+
+    <tr>
+      <td>What is the recommended approach for versioning microservices?</td>
+      <td>Our recommendation is that you should not version your microservice. In other words, don't break compatibility, ever. Versioning introduces unnecessary complexity.</td>
+    </tr>
+
+    <tr>
+      <td>What are some recommended informational resources?</td>
+      <td>Here are some resources and further reading about the microservices world:
+      <ul>
+        <li>A book entitled <a href="http://shop.oreilly.com/product/0636920033158.do">Building Microservices</a> by Sam Newman - O'Reilly Media</li>
+        <li>The <a href="http://martinfowler.com/articles/microservices.html">Microservices</a> article by Martin Fowler</li>
+        <li>A video of <a href="https://www.youtube.com/watch?t=28&v=h30ViSEZzW0">Nike's journey into microserices</a></li>
+        <li>The <a href="http://www.pwc.com/us/en/technology-forecast/2014/cloud-computing/features/microservices.jhtml">Agile coding in enterprise IT</a> PwC article on microservices</li>
+        <li>The <a href="http://thenewstack.io/microservices-four-essential-checklists-getting-started/">Microservices: Four Essential Checklists when Getting Started</a> article by Vivek Juneja</li>
+        <li>The <a href="http://martinfowler.com/bliki/MonolithFirst.html">Monolith First</a> article by Martin Fowler</a></li>
+        <li>A book entitled <a href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business-ebook/dp/B00AZRBLHO/ref=sr_1_1?ie=UTF8&qid=1500652743&sr=8-1&keywords=The+Phoenix+Project%3A+A+Novel+About+IT%2C+DevOps%2C+and+Helping+Your+Business+Win">The Phoenix Project: A Novel about IT, DevOps, and Helping Your Business Win</a> by Gene Kim, Kevin Behr, and George Spafford</li>
+        <li>A video of <a href="https://www.youtube.com/watch?v=fXpbHYYvtmg">Securing Microservices</a> by Sam Newman</li>
+      </ul></td>
+    </tr>
+
+</table>

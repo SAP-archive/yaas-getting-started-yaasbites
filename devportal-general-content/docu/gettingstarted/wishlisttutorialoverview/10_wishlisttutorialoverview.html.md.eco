@@ -1,0 +1,26 @@
+---
+title: Wishlist Tutorial Overview
+---
+
+The intended audience for these guides are software developers who are new to YaaS and have already worked through <strong>YaaS Bites</strong>.
+
+### Objectives
+
+These hands-on tutorials give you an opportunity to work with many of the different aspects of YaaS, including creating a <%- @partial('generalterm_service') %>, a <%- @partial('generalterm_buildermodule') %>, and even a <%- @partial('storefronttemplate_YaaSStorefront') %>. They all use a common **Wishlist** example, which can be implemented in a commerce storefront to save some desired items to a wishlist for later purchase. This is just one example of how quick and easy it is to use YaaS to do one thing in a short amount of time.
+
+### Overview
+
+In this **Start Developing** section, you first set up the environment so you can create a Wishlist service. Then, you create a Builder module which can subscribe to and communicate with the Wishlist service. Next, you create your own storefront from the YaaS Storefront template. Lastly, you integrate the Wishlist service into your storefront so that you can pass items to the wishlist, and add a Wishlist button to your storefront. A short summary of the guides is listed below:
+
+1. <a href="/gettingstarted/setuptheenvironment/index.html">Set Up the Environment</a> – Set up your environment with Maven in order to create a service.
+
+2. <a href="/gettingstarted/createaservice/index.html">Create a Service</a> – Create the Wishlist service that is used in the rest of the guides.
+
+3. <a href="/gettingstarted/createabuildermodule/index.html">Create a Builder Module</a> – Create a Builder module that communicates with the Wishlist service.
+
+4. <a href="/gettingstarted/setupastorefront/index.html">Set Up a Storefront</a> – Clone the YaaS Storefront and run it locally.
+
+5. <a href="/gettingstarted/integrateaserviceinthestorefront/index.html">Integrate a Service in the Storefront</a> – Implement the Wishlist functionality by establishing a connection between the Wishlist service and your storefront.
+
+<div class="panel note">If you want to skip the step to <strong>Create a Service</strong> and still continue with the rest of the guides, download the example Wishlist service by following all of the instructions on <a href=" https://github.com/SAP/yaas_java_jersey_wishlist">this page</a>.
+</div>

@@ -1,0 +1,112 @@
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0" metadata-complete="true">
+
+	<display-name>yaasBitesySDK</display-name>
+	<description>yaasBitesySDK</description>
+
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
+
+	<!-- Spring configuration -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/META-INF/applicationContext.xml</param-value>
+	</context-param>
+
+	<!-- Service SDK libraries -->
+	<filter>
+		<filter-name>loggingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<async-supported>true</async-supported> <!-- filter supports asynchronous processing -->
+	</filter>
+
+	<filter-mapping>
+		<filter-name>loggingFilter</filter-name>
+		<servlet-name>jerseyServlet</servlet-name>
+	</filter-mapping>
+
+	<!-- To enable CORS support in your application -->
+	<filter>
+		<filter-name>CORS</filter-name>
+		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+		<async-supported>true</async-supported> <!-- filter supports asynchronous processing -->
+
+		<!-- Enable CORS for REST HTTP methods -->
+		<init-param>
+			<param-name>cors.supportedMethods</param-name>
+			<param-value>GET,PUT,POST,DELETE,HEAD,OPTIONS</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>CORS</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>basicAuthenticationFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<async-supported>true</async-supported> <!-- filter supports asynchronous processing -->
+	</filter>
+	<filter-mapping>
+		<filter-name>basicAuthenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Add RAML rewriting to (almost) static RAML resources -->
+	<filter>
+		<filter-name>ramlRewriterFilter</filter-name>
+		<filter-class>com.sap.cloud.yaas.servicesdk.ramlrewriter.filter.RamlRewriterFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ramlRewriterFilter</filter-name>
+		<url-pattern>/meta-data/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Make sure that static API definition files are being served normally -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/meta-data/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>jerseyServlet</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.hybris.bites.JerseyApplication</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported> <!-- servlet supports asynchronous processing -->
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jerseyServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error500.json</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error404.json</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error500.json</location>
+	</error-page>
+
+</web-app>

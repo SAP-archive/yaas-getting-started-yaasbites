@@ -1,0 +1,11 @@
+---
+title: Introduction
+---
+
+The YaaS Storefront is a ready-to-use template that can be set up as a fully transactional storefront within minutes, or you can use the template as a starting point to customize your own features and functionality. Its architecture makes the YaaS Storefront easy to extend with the creation and implementation of new or existing services.
+
+To set up the storefront, you must clone the <%- @partial('storefronttemplate_YaaSStorefront') %> and then run it on your local machine. You must have `node.js` and `npm` installed locally. (For more information about installing these, see <a href="/gettingstarted/prerequisites/index.html">Prerequisites</a>.) You must also subscribe to the packages described in the <a href="https://knowledge.yaas.io/62638/commerce-as-a-service-guide/">Commerce as a Service</a> guide. For additional information about how to run and use the YaaS Storefront, see the `Readme.md` file in the <a href="https://github.com/SAP/yaas-storefront">public repository</a>.
+
+After your storefront is running locally, you can examine the storefront files on your local drive to familiarize yourself with the cloned storefront directory structure.
+
+<div class="panel info">For more information on customization, see <a href="/overview/extensibility/index.html#ExtendingtheStorefront">Extending the Storefront</a>.</div>

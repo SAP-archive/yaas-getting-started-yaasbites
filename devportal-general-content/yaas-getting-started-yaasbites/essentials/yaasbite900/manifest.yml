@@ -1,0 +1,8 @@
+# This file is used to push your web application to cloud foundry. 
+---
+applications:
+- name: yaasbite9kl # // NEEDS_ADJUSTING
+  domain: cfapps.us10.hana.ondemand.com
+  instances: 1
+  memory: 512M
+  path: target/yaasbite9-1.0-SNAPSHOT.war

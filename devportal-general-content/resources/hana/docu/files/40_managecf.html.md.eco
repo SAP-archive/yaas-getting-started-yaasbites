@@ -1,0 +1,29 @@
+---
+title: Manage Cloud Foundry Organizations
+---
+
+### Manage User Accounts
+
+There are two types of user accounts for Cloud Foundry in YaaS:
+
+* SAP IdP – This user account, identified by the e-mail address, is used to log in to the **Cloud Foundry Cockpit** and to use the Cloud Foundry CLI (cf CLI) interface.
+* <%- @partial('generalterm_yaasaccount') %> – This user account is used to access the <%- @partial('generalterm_builder') %>. You can get a free account <a href="https://devportal.yaas.io/">here</a>.
+
+You also need a YaaS user account to subscribe to the **SAP Cloud Platform, starter edition for Cloud Foundry services (beta)** package on the YaaS Market. Once you subscribe to this package, you can create a **Cloud Foundry organization** using a Builder module. Then, you are automatically added as an **Org Manager** to the Cloud Foundry organization using your email address. Afterwards, an email is sent asking you to either sign up with an SAP IdP account, or if that already happened, agree to the terms and conditions of this package.
+
+Once you have an SAP IdP account, you can use the cockpit to manage users and their roles. You can add and remove users from an organization or a space, and select or deselect roles for them. To add or remove users, they must have an SAP IdP account, but they do not necessarily need a YaaS account. An **Org Manager** has permission to add and remove users for the organization, whereas a **Space Manager** can only add and remove users for a space in the organization.
+
+To manage your space users using the cockpit, do the following:
+
+Go to the <a href="https://account.hanatrial.ondemand.com/cockpit">SAP Cloud Foundry Cockpit</a> and log on.
+Navigate to **Space > Members > Roles**.
+
+### Manage Organizations
+
+The Org Manager can manage the Cloud Foundry organization with help of the cf CLI. A short summary of frequent tasks of an Org Manager are the following:
+
+* Creating and deleting Cloud Foundry spaces: `cf create-space`, `cf delete-space`
+* Creating users and assigning users to roles: `cf create-user`, `cf delete-user`, `cf set-org-role`, `cf set-space-role`
+* Assigning quota limits to a space: `cf create-space-quota`, `cf update-space-quota`, `cf delete-space-quota`
+
+For more options and detailed descriptions of the cf CLI commands, see the <a href="https://docs.cloudfoundry.org/cf-cli/">Cloud Foundry Documentation</a>.

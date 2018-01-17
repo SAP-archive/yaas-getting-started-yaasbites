@@ -1,0 +1,210 @@
+---
+title: 'YaaS Bites Sequel'
+service: 'YaaS Bites Sequel'
+---
+
+  <style type="text/css">
+   button {
+   background:none!important;
+   border:none;
+   padding:0!important;
+   font: inherit;
+   cursor: pointer;
+   color: #0486e0;
+   text-align: left;
+   }
+   code { color: #0486e0; background:none; }
+   .panel { padding: 0.5em; }
+  </style>
+  <p>
+  The <strong>YaaS Bites</strong> enable software developers to go from zero-to-YaaS in a couple of days. They are small, focused, incremental coding exercises. Each bite has code, guidelines, and screencasts to ensure your initial journey into YaaS is successful and productive.
+   These bites go beyond Java, and assume you have already worked through the <a target="_blank" href="../yaasbitesoverview/index.html">YaaS Bites Essentials</a>.
+  </p>
+  <h3>Index</h3>
+   YaaS with Scala
+   <ul style="margin-bottom: 0px;">
+   <li><a href="#Yaasbite11">YaaS Bite: Taking your first scala web service to the cloud</a></li>
+   <li><a href="#Yaasbite12">YaaS Bite: Working with a Scala CRUD web service</a></li>
+   <li><a href="#Yaasbite13">YaaS Bite: Calling other services in Scala</a></li>
+   </ul>
+   YaaS with Akka
+   <ul style="margin-bottom: 0px;">
+   <li><a href="#Yaasbite14">YaaS Bite: Calling other services in Akka</a></li></ul>
+   YaaS with Node.JS
+   <ul style="margin-bottom: 0px;">
+   <li><a href="#YaasStoreNodeJS">YaaS Bite: Node.js Client SDK from hybris Labs</a></li>
+   </ul>
+  <h3>Terminology and Notes</h3>
+   <ul style="margin-bottom: 0px;">
+   <li>You should view these bites on large screens as the layout of the bites is suboptimal on small displays.</li>
+   <li><img src="images/icon_clock.png" style="height:1em;margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;">: The durations given beside each bite are estimates.</li>
+   <li><b>&#9450; &#9312; &#9313;</b>: Encircled numbers are used to label a concept in a bite, that is then referred to later on in the same bite, using the same encircled number.</li>
+   <li>Terminology: The YaaS Landscape has its own set of terms that, including: package, client, service, project, and more. As these terms often mean other things to developers, YaaS entities are prepended with YaaS, for example "YaaS package", "YaaS client", "YaaS service".
+   </li>
+   <li>The screencasts are silent, and show users working through respective bites. They are not stand-alone tutorials, but are there to add clarity, should something be unclear. Double-click the screencasts to expand them to full screen.</li>
+   </ul>
+  <p><a name="Yaasbite11"></a></p>
+  <h3>YaaS Bite: A first Scala micro-service <img src="images/icon_clock.png" style="height:1em;margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;"> ~ 2h<sup>*</sup></h3>
+  (Credit to Gaurav.Abbi@sap.com)
+
+  <h4>Background</h4>
+  The previous bites are all based on Java. This bite explores creating and deploying a micro-service written in Scala. You can use Lightbend's Activator to explore the code, compile, and run the tests.
+  Be sure you understand the initial bites from the <a target="_blank" href="../yaasbitesessentials/index.html">YaaS Bites Essentials</a> before doing this bite.
+  <h4>Steps</h4>
+  <ol style="margin-bottom: 0px;">
+  <li>Download the Play Framework <a target="_blank" href="https://www.playframework.com/download">Activator</a>, then add to your System Path (<code>export PATH="pathToYourActivator/bin:$PATH"</code> on OSX, and <code>set PATH=%PATH%;pathToYourActivator/bin</code> on Windows)</li>
+  <li>For this bite, navigate into the <code>(yb)/scala/scala-yaasbite100</code> folder.</li>
+  <li>Execute <button data-clipboard-text="activator ui">activator ui [Copy Me]</button>, from within <code>scala-yaasbite100</code>, which opens the activator in a browser @ <code>http://127.0.0.1:8888/app/scala-yaasbite100-1</code></li>
+  <li>You need to become familiar with the activator UI elements, labelled in the screencast and below with (a), (b), (c), ...
+  <ol type="i" style="margin-bottom: 0px;">
+  <li>Build the Scala project with the Build Menu Entry (a)</li>
+  <li>Study the code in Code/app/controller and Code/app/model (b)</li>
+  <li>Study the routing logic @ Code/conf/routes (c)</li>
+  <li>Study the tests @ Coder/test/* (d)</li>
+  <li>Run the tests and confirm the tests are passing (e)</li>
+  <li>Run the code (f) and click the url (g) to open the front-end of your solution (h)</li></ol></li>
+  <li>Adjust the name in the <strong>manifest.yml</strong> file to be unique to you.</li>
+  <li>Push to the cloud (<button data-clipboard-text="cf push">cf push [Copy Me]</button>), verify the application's location in the cloud with (<button data-clipboard-text="cf apps">cf apps [Copy Me]</button>) and open that site in the browser</li>
+  <li>You have now compiled and deployed a Scala micro-service and front-end to the cloud.</li>
+  </ol>
+  <table width=100%><tr><td width="33%"></td><td width="33%"><%- @partial('video-kaltura', {video_id:'1_k3tepl8m'}) %></td><td></td></tr></table>
+  <hr/><p><a name="Yaasbite12"></a></p>
+  <h3>YaaS Bite: A CRUD web-service in Scala <img src="images/icon_clock.png" style="height:1em;margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;"> ~ 1h<sup>*</sup></h3>
+  (Credit to Gaurav.Abbi@sap.com)
+
+  <h4>Background</h4>
+  This Bite has the same business behavior as <a target="_blank" href="../yaasbitesessentials#Yaasbite2">Working with a CRUD web service</a>, but is implemented in Scala.
+  Be sure you understand the initial bites from the <a target="_blank" href="../yaasbitesessentials/index.html">YaaS Bites Essentials</a> before doing this bite.
+  <h4>Steps</h4>
+  <ol style="margin-bottom: 0px;">
+  <li>For this bite, navigate into the <code>(yb)/scala/scala-yaasbite200</code> folder and execute <button data-clipboard-text="activator ui">activator ui [Copy Me]</button></li>
+  <li>This opens the activator in a browser @ <code>http://127.0.0.1:8888/app/scala-yaasbite200-1</code> from where you can explore, build, test and run the code locally.</li>
+  </ol>
+  </td>
+  <td valign="top">&nbsp;</td>
+  </tr>
+  </tbody>
+  </table>
+  <hr/><p><a name="Yaasbite13"></a></p>
+  <h3>YaaS Bite: Calling other services in Scala <img src="images/icon_clock.png" style="height:1em;margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;"> ~ 2h<sup>*</sup></h3>
+  (Credit to Gaurav.Abbi@sap.com)
+
+  <h4>Background</h4>
+  This Bite has the same business behavior as <a target="_blank" href="../yaasbitesessentials#Yaasbite8">Calling other services</a>, but is implemented in Scala.
+  Be sure you understand the bites from the <a target="_blank" href="../yaasbitesessentials/index.html">YaaS Bites Essentials</a> before doing this bite.
+
+  <h4>Initial exploration</h4>
+  <ol style="margin-bottom: 0px;">
+  <li>For this bite, navigate into the <code>(yb)/scala/scala-yaasbite800</code> folder and execute <button data-clipboard-text="activator ui">activator ui [Copy Me]</button></li>
+  <li>This opens the activator in a browser @ <code>http://127.0.0.1:8888/app/scala-yaasbite800-1</code> from where you can explore, build, test and run the code locally.</li>
+  </ol>
+  <h4>Steps</h4>
+  <ol style="margin-bottom: 0px;">
+  <li>Navigate into the project-directory <code>scala-yaasbite800</code></li>
+  <li>Adjust the name in the <strong>manifest.yml</strong> to make it unique</li>
+  <li>You need the location of our micro-service in the cloud, but it is not yet adjusted and ready to be deployed. &nbsp;To get around this, you can skip running tests for now. &nbsp;Run the following commands
+  <ol type="i" style="margin-bottom: 0px;">
+  <li><code>activator dist</code></li>
+  <li><code>cf push</code></li>
+  <li><code>cf apps</code></li>
+  </ol>
+  </li>
+  <li>Take a note of the URL &#9312; to where the package has been deployed</li>
+  <li>In your YaaS project
+  <ol type="i" style="margin-bottom: 0px;">
+  <li>Subscribe to the Persistence (Beta) Package in the <a target="_blank" href="https://market.yaas.io/beta">YaaS Market</a>.</li>
+  <li>Wire the micro-service into YaaS: Create a new Service in the YaaS Builder and specify the deployed URL &#9312; in the service's Source URL field.
+   Be sure you use the <strong>https</strong> prefix (protocol) in the Source URL field.</li>
+  <li>Add a YaaS client to your YaaS service, and add the three scopes required by the Document Service (
+   <strong>hybris.document_view</strong>, <strong>hybris.document_manage</strong>, and <strong>hybris.document_admin</strong>) to its list of Required Scopes.
+   This allows you to use its credentials to acquire access-tokens with those scopes.</li>
+  <li>Be sure to deploy the YaaS service with the Deploy Button in the YaaS service's page.</li>
+  </ol>
+  </li>
+  <li>Modify the configurations in your Scala web service: Search for ADJUSTING and modify those entries to match your YaaS project settings.</li>
+  <li>Run the tests with <code>activator clean compile test</code>. If these pass, your Scala service is successfully calling the Deployment Service.
+  <li>Debug through the tests to find how the access-tokens are acquired, and how the document service is being called.</li>
+  <li>Repackage and redeploy with:
+  <ol type="i" style="margin-bottom: 0px;">
+  <li><code>activator dist</code></li>
+  <li><code>cf push</code></li>
+  </ol>
+  </li>
+  <li>Hit your website. You should see that the application works as before but is now using the Document Service for its persistence.</li>
+  </ol>
+
+
+  </td>
+  <td valign="top">&nbsp;</td>
+  </tr>
+  </tbody>
+  </table>
+  <hr/><p><a name="Yaasbite14"></a></p>
+  <h3>YaaS Bite: Calling other services with Akka <img src="images/icon_clock.png" style="height:1em;margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;"> ~ 2h<sup>*</sup></h3>
+  (Credit to Gaurav.Abbi@sap.com)
+
+  <h4>Background</h4>
+  This Bite has the same business behavior as <a target="_blank" href="../yaasbitesessentials#Yaasbite8">Calling other services</a>, but is implemented with Akka.
+
+  <h4>Initial Exploration</h4>
+  <ol style="margin-bottom: 0px;">
+  <li>For this bite, navigate into the <code>(yb)/akka/akka-yaasbite800</code> folder and execute <button data-clipboard-text="activator ui">activator ui [Copy Me]</button></li>
+  <li>This opens the activator in a browser @ <code>http://127.0.0.1:8888/app/akka-yaasbite800/</code> from where you can explore, build, test and run the code locally.</li>
+  </ol>
+  <h4>Steps</h4>
+  <ol style="margin-bottom: 0px;">
+   <li>Navigate into the project-directory <code>(yb)/akka/akka-yaasbite800</code></li>
+   <li>The next steps are identical to those in <a href="#Yaasbite13">Calling other services in Scala</a>.</li>
+  </ol>
+
+  </td>
+  <td valign="top">&nbsp;</td>
+  </tr>
+  </tbody>
+  </table>
+  <hr/>
+  <p><a name="YaasStoreNodeJS"></a></p>
+  <h3>YaaS Bite: Node.JS Client SDK from hybris Labs <img src="images/icon_clock.png" style="height:1em;margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;"> ~ 1h<sup>*</sup></h3>
+  (Credit to <a target="_blank" href="https://labs.hybris.com/">hybris Labs Team</a>)
+
+  <h4>Background</h4>
+  The <a target="_blank" href="https://github.com/SAP/yaas-nodejs-client-sdk">NodeJS Client SDK</a>, from <a target="_blank" href="https://labs.hybris.com/">hybris Labs</a>, makes it almost trivial to call a YaaS service from Javascript.
+  <h4>Steps</h4>
+  <ol style="margin-bottom: 0px;">
+
+  <li>Locate or create a YaaS client with the Product scope <ol type="i">
+     <li>Create a new YaaS project.</li>
+     <li>Create a new YaaS client within that project and take note of the YaaS client's <strong>client_id</strong> and <strong>client_secret</strong>.</li>
+     <li>Subscribe your YaaS project to the <a target="_blank" href="https://market.yaas.io/beta">Product Content (Beta)</a> package.</li>
+     <li>This subscription adds the Product menu to your YaaS Project's Builder page. Use this Product menu to add products to your YaaS project.</li> </ol>
+  </li>
+  <li>Create a client to query your YaaS project for its products. <ol type="i">
+    <li>Clone the Node.js client <button data-clipboard-text="git clone https://github.com/SAP/yaas-nodejs-client-sdk">git clone https://github.com/SAP/yaas-nodejs-client-sdk/tree/master/examples [Copy Me]</button> and change into that directory.</li>
+    <li>Rename the file <code>yaas-nodejs-client-sdk/examples/test-config-TEMPLATE.json</code> to <code>test-config.json</code>, and update the content to suit your scenario.</li>
+    <li>If you have not installed <code>node</code>, download it from the <a target="_blank" href="https://nodejs.org">https://nodejs.org</a> website.</li>
+    <li>Execute the <button data-clipboard-text="node examples/product.js">node examples/product.js [Copy Me]</button> command to list the products in your YaaS project.</li>
+    </ol></li>
+  <li>Examine the code in <code>examples/product.js</code> and see how easy it is to call YaaS services via the Node.JS client.</li>
+  </ol>
+  <p align="middle">On Github @ <a target="_blank" href="https://github.com/SAP/yaas-getting-started-yaasbites">https://github.com/SAP/yaas-getting-started-yaasbites</a></p>
+
+  <script>
+  /*!
+   * clipboard.js v1.5.12
+   * https://zenorocha.github.io/clipboard.js
+   *
+   * Licensed MIT © Zeno Rocha
+   */
+  !function(t){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var e;e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,e.Clipboard=t()}}(function(){var t,e,n;return function t(e,n,o){function i(a,c){if(!n[a]){if(!e[a]){var s="function"==typeof require&&require;if(!c&&s)return s(a,!0);if(r)return r(a,!0);var l=new Error("Cannot find module '"+a+"'");throw l.code="MODULE_NOT_FOUND",l}var u=n[a]={exports:{}};e[a][0].call(u.exports,function(t){var n=e[a][1][t];return i(n?n:t)},u,u.exports,t,e,n,o)}return n[a].exports}for(var r="function"==typeof require&&require,a=0;a<o.length;a++)i(o[a]);return i}({1:[function(t,e,n){var o=t("matches-selector");e.exports=function(t,e,n){for(var i=n?t:t.parentNode;i&&i!==document;){if(o(i,e))return i;i=i.parentNode}}},{"matches-selector":5}],2:[function(t,e,n){function o(t,e,n,o,r){var a=i.apply(this,arguments);return t.addEventListener(n,a,r),{destroy:function(){t.removeEventListener(n,a,r)}}}function i(t,e,n,o){return function(n){n.delegateTarget=r(n.target,e,!0),n.delegateTarget&&o.call(t,n)}}var r=t("closest");e.exports=o},{closest:1}],3:[function(t,e,n){n.node=function(t){return void 0!==t&&t instanceof HTMLElement&&1===t.nodeType},n.nodeList=function(t){var e=Object.prototype.toString.call(t);return void 0!==t&&("[object NodeList]"===e||"[object HTMLCollection]"===e)&&"length"in t&&(0===t.length||n.node(t[0]))},n.string=function(t){return"string"==typeof t||t instanceof String},n.fn=function(t){var e=Object.prototype.toString.call(t);return"[object Function]"===e}},{}],4:[function(t,e,n){function o(t,e,n){if(!t&&!e&&!n)throw new Error("Missing required arguments");if(!c.string(e))throw new TypeError("Second argument must be a String");if(!c.fn(n))throw new TypeError("Third argument must be a Function");if(c.node(t))return i(t,e,n);if(c.nodeList(t))return r(t,e,n);if(c.string(t))return a(t,e,n);throw new TypeError("First argument must be a String, HTMLElement, HTMLCollection, or NodeList")}function i(t,e,n){return t.addEventListener(e,n),{destroy:function(){t.removeEventListener(e,n)}}}function r(t,e,n){return Array.prototype.forEach.call(t,function(t){t.addEventListener(e,n)}),{destroy:function(){Array.prototype.forEach.call(t,function(t){t.removeEventListener(e,n)})}}}function a(t,e,n){return s(document.body,t,e,n)}var c=t("./is"),s=t("delegate");e.exports=o},{"./is":3,delegate:2}],5:[function(t,e,n){function o(t,e){if(r)return r.call(t,e);for(var n=t.parentNode.querySelectorAll(e),o=0;o<n.length;++o)if(n[o]==t)return!0;return!1}var i=Element.prototype,r=i.matchesSelector||i.webkitMatchesSelector||i.mozMatchesSelector||i.msMatchesSelector||i.oMatchesSelector;e.exports=o},{}],6:[function(t,e,n){function o(t){var e;if("INPUT"===t.nodeName||"TEXTAREA"===t.nodeName)t.focus(),t.setSelectionRange(0,t.value.length),e=t.value;else{t.hasAttribute("contenteditable")&&t.focus();var n=window.getSelection(),o=document.createRange();o.selectNodeContents(t),n.removeAllRanges(),n.addRange(o),e=n.toString()}return e}e.exports=o},{}],7:[function(t,e,n){function o(){}o.prototype={on:function(t,e,n){var o=this.e||(this.e={});return(o[t]||(o[t]=[])).push({fn:e,ctx:n}),this},once:function(t,e,n){function o(){i.off(t,o),e.apply(n,arguments)}var i=this;return o._=e,this.on(t,o,n)},emit:function(t){var e=[].slice.call(arguments,1),n=((this.e||(this.e={}))[t]||[]).slice(),o=0,i=n.length;for(o;i>o;o++)n[o].fn.apply(n[o].ctx,e);return this},off:function(t,e){var n=this.e||(this.e={}),o=n[t],i=[];if(o&&e)for(var r=0,a=o.length;a>r;r++)o[r].fn!==e&&o[r].fn._!==e&&i.push(o[r]);return i.length?n[t]=i:delete n[t],this}},e.exports=o},{}],8:[function(e,n,o){!function(i,r){if("function"==typeof t&&t.amd)t(["module","select"],r);else if("undefined"!=typeof o)r(n,e("select"));else{var a={exports:{}};r(a,i.select),i.clipboardAction=a.exports}}(this,function(t,e){"use strict";function n(t){return t&&t.__esModule?t:{"default":t}}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}var i=n(e),r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol?"symbol":typeof t},a=function(){function t(t,e){for(var n=0;n<e.length;n++){var o=e[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}return function(e,n,o){return n&&t(e.prototype,n),o&&t(e,o),e}}(),c=function(){function t(e){o(this,t),this.resolveOptions(e),this.initSelection()}return t.prototype.resolveOptions=function t(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];this.action=e.action,this.emitter=e.emitter,this.target=e.target,this.text=e.text,this.trigger=e.trigger,this.selectedText=""},t.prototype.initSelection=function t(){this.text?this.selectFake():this.target&&this.selectTarget()},t.prototype.selectFake=function t(){var e=this,n="rtl"==document.documentElement.getAttribute("dir");this.removeFake(),this.fakeHandlerCallback=function(){return e.removeFake()},this.fakeHandler=document.body.addEventListener("click",this.fakeHandlerCallback)||!0,this.fakeElem=document.createElement("textarea"),this.fakeElem.style.fontSize="12pt",this.fakeElem.style.border="0",this.fakeElem.style.padding="0",this.fakeElem.style.margin="0",this.fakeElem.style.position="absolute",this.fakeElem.style[n?"right":"left"]="-9999px",this.fakeElem.style.top=(window.pageYOffset||document.documentElement.scrollTop)+"px",this.fakeElem.setAttribute("readonly",""),this.fakeElem.value=this.text,document.body.appendChild(this.fakeElem),this.selectedText=(0,i.default)(this.fakeElem),this.copyText()},t.prototype.removeFake=function t(){this.fakeHandler&&(document.body.removeEventListener("click",this.fakeHandlerCallback),this.fakeHandler=null,this.fakeHandlerCallback=null),this.fakeElem&&(document.body.removeChild(this.fakeElem),this.fakeElem=null)},t.prototype.selectTarget=function t(){this.selectedText=(0,i.default)(this.target),this.copyText()},t.prototype.copyText=function t(){var e=void 0;try{e=document.execCommand(this.action)}catch(n){e=!1}this.handleResult(e)},t.prototype.handleResult=function t(e){e?this.emitter.emit("success",{action:this.action,text:this.selectedText,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)}):this.emitter.emit("error",{action:this.action,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)})},t.prototype.clearSelection=function t(){this.target&&this.target.blur(),window.getSelection().removeAllRanges()},t.prototype.destroy=function t(){this.removeFake()},a(t,[{key:"action",set:function t(){var e=arguments.length<=0||void 0===arguments[0]?"copy":arguments[0];if(this._action=e,"copy"!==this._action&&"cut"!==this._action)throw new Error('Invalid "action" value, use either "copy" or "cut"')},get:function t(){return this._action}},{key:"target",set:function t(e){if(void 0!==e){if(!e||"object"!==("undefined"==typeof e?"undefined":r(e))||1!==e.nodeType)throw new Error('Invalid "target" value, use a valid Element');if("copy"===this.action&&e.hasAttribute("disabled"))throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');if("cut"===this.action&&(e.hasAttribute("readonly")||e.hasAttribute("disabled")))throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');this._target=e}},get:function t(){return this._target}}]),t}();t.exports=c})},{select:6}],9:[function(e,n,o){!function(i,r){if("function"==typeof t&&t.amd)t(["module","./clipboard-action","tiny-emitter","good-listener"],r);else if("undefined"!=typeof o)r(n,e("./clipboard-action"),e("tiny-emitter"),e("good-listener"));else{var a={exports:{}};r(a,i.clipboardAction,i.tinyEmitter,i.goodListener),i.clipboard=a.exports}}(this,function(t,e,n,o){"use strict";function i(t){return t&&t.__esModule?t:{"default":t}}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function a(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}function s(t,e){var n="data-clipboard-"+t;if(e.hasAttribute(n))return e.getAttribute(n)}var l=i(e),u=i(n),f=i(o),d=function(t){function e(n,o){r(this,e);var i=a(this,t.call(this));return i.resolveOptions(o),i.listenClick(n),i}return c(e,t),e.prototype.resolveOptions=function t(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];this.action="function"==typeof e.action?e.action:this.defaultAction,this.target="function"==typeof e.target?e.target:this.defaultTarget,this.text="function"==typeof e.text?e.text:this.defaultText},e.prototype.listenClick=function t(e){var n=this;this.listener=(0,f.default)(e,"click",function(t){return n.onClick(t)})},e.prototype.onClick=function t(e){var n=e.delegateTarget||e.currentTarget;this.clipboardAction&&(this.clipboardAction=null),this.clipboardAction=new l.default({action:this.action(n),target:this.target(n),text:this.text(n),trigger:n,emitter:this})},e.prototype.defaultAction=function t(e){return s("action",e)},e.prototype.defaultTarget=function t(e){var n=s("target",e);return n?document.querySelector(n):void 0},e.prototype.defaultText=function t(e){return s("text",e)},e.prototype.destroy=function t(){this.listener.destroy(),this.clipboardAction&&(this.clipboardAction.destroy(),this.clipboardAction=null)},e}(u.default);t.exports=d})},{"./clipboard-action":8,"good-listener":4,"tiny-emitter":7}]},{},[9])(9)});</script>
+  <script>// <![CDATA[
+   var btns = document.querySelectorAll('button');
+   var clipboard = new Clipboard(btns);
+   clipboard.on('success',
+   function(event) {
+   event.clearSelection();
+   event.trigger.textContent = event.trigger.textContent.toString().replace('Copy Me','Copied!');
+   window.setTimeout(function() {
+   event.trigger.textContent = event.trigger.textContent.toString().replace('Copied!','Copy Me');
+   }, 2000);
+   })
+  // ]]></script>

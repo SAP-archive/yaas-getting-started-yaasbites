@@ -1,0 +1,148 @@
+---
+type: FAQs
+title: 'API Proxy FAQs'
+---
+
+<table class="table table-striped table-glossary techne-table">
+  <tr>
+    <th>Question</th>
+    <th>Answer</th>
+  </tr>
+
+  <tr>
+    <td>What is the API proxy?</td>
+    <td>The API proxy is a YaaS security barrier between services and clients. This is the only component that communicates directly with your service.</td>
+  </tr>
+
+  <tr>
+    <td>What is a generated proxy URL?</td>
+    <td>Your service contributes to a consistent environment of the YaaS platform, and each service needs to be explicitly recognized within the system. This is secured by the API proxy mechanism. It actively monitors the calls between services and rewrites the **source URLs** of all services into **generated proxy URLs** that are not exposed to external clients. The value of the generated proxy URLs can be retrieved from the Builder. It consists of the common domain `https://api.yaas.io` followed by the external path. This is an example of a deployed service: `https://wishlist.cfapps.io`. Its generated proxy URL is `https://api.yaas.io/mybasepath/wishlist/v1`.</td>
+  </tr>
+
+  <tr>
+    <td>As a developer, how can I benefit from the API proxy?</td>
+    <td>The API proxy protects YaaS resources against unauthorized access. It verifies access tokens and rewrites the URL values from the target service response to a generated proxy URL. The API proxy handles the validation of tokens and the complexity of the **OAuth2** implementation. Responses received from services include all security-relevant information delivered in the **Hybris-specific headers**. The headers can be "trusted" by the target service because clients cannot tamper with them. More details about Hybris-specific headers are provided in the next section.</td>
+  </tr>
+
+  <tr>
+    <td>What are the API proxy headers?</td>
+    <td>The API proxy headers are parameters that are added to requests after they enter the internal system. Typical headers are:
+<ul>
+<li>hybris-tenant</li>
+<li>hybris-user</li>
+<li>hybris-client</li>
+<li>hybris-scopes</li>
+</ul>
+    As a result, services can recognize the tenant, client, user, and scopes related to a given request. For more information, see the Hybris Headers section of the <a href="https://devportal.yaas.io/tools/apiguidelines/index.html#HybrisHeaders">API Guidelines</a> documentation.</td>
+  </tr>
+
+  <tr>
+    <td>What is the default security scheme for newly created services in the Builder?</td>
+    <td>For a newly created service, the token is verified and Hybris-specific headers are evaluated for all paths except for root. This allows you to check if the service is accessible to the caller. For more information on how to secure your service, see the <a href="/overview/security/index.html">Security</a> documentation.</td>
+  </tr>
+
+  <tr>
+    <td>What does the URL rewrite mechanism do?</td>
+    <td>The mechanism adds Hybris-specific parameters to the request headers and overrides values from the original call. It actively analyzes the content of the service response and rewrites its source URL to a dedicated proxy URL, which the external clients can access. For more information about the URL rewrite mechanism, see the Details section of the <a href="/services/oauth2/latest/index.html#Details">OAuth2</a> documentation.</td>
+  </tr>
+
+  <tr>
+    <td>Why is the **Skip Authorization** parameter set to `false` by default when I add Authorization Rules in the Builder?</td>
+    <td>This ensures that the issued access token is verified when calling the resource and Hybris-specific headers are forwarded to the service.
+
+    <div class="panel warning"> You cannot trust the response from a service when you skip the authorization because it does not contain any information about the user, client, tenant, or scopes.</div>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>Why should I set Basic Authentication in my service if YaaS uses OAuth 2.0?</td>
+    <td>This ensures that your service is used only from within the proxy environment. Without this last-mile security, your service can receive calls from other resources and you cannot trust the Hybris-specific headers. For more information, see the <a href="/overview/security/index.html#SecureaService">Security</a> documentation.</td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `400` when calling the proxy?</td>
+    <td>You receive an error code of `400` with the message `Invalid host header in the request` and the type `validation_violation` when the request is unauthorized. This means that your request does not include the `host` header, or that the value of this header is invalid. The only allowed values of the host header are URLs that include the **yaas.io** domain, such as **api.yaas.io** or **api.eu.yaas.io**.</td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `401` when calling the proxy?</td>
+    <td>You receive an error code of `401` with the message `Invalid host header in the request` and the type `insufficient_credentials` when the request is unauthorized. This means that no credentials are provided in the token, or that the provided credentials are invalid, or that the provided credentials are invalid, such as a bad or expired token.<br/>
+    If a different error message is displayed, the response most likely does not come from the API Proxy.</td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `403` when calling the proxy?</td>
+    <td>You receive an error code of `403` with the message `Access denied: no subscription to the product` and type `insufficient_credentials` when you are not subscribed to a package. This means that you are a system-known user, but you are not allowed to perform the requested operation. Keep your subscriptions up to date to avoid this issue.</td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `404` when calling the proxy?</td>
+    <td>You receive an error code of `404` with the message `Service does not exist` and type `element_resource_non_existing` when your service is not deployed in the Builder. For undeployed services, the generated proxy URL is not active. Calls to such a service are not routed by the API proxy.</td>
+  </tr>
+
+  <tr>
+    <td>Does the API proxy limit the number of service requests?</td>
+    <td>Yes. This ensures continuous quality of service and protects the YaaS API environment against malicious intentions and programming errors. The API proxy is still processing as many requests as it is capable of with minimum latency.</td>
+  </tr>
+
+  <tr>
+    <td>How does the API proxy handle throttling?</td>
+    <td>There is a two-level rate-limiting mechanism implemented:
+<ul>
+<li>**Per tenant** - This involves all requests for a specific hybris-tenant.</li>
+<li>**Global** - This refers to all incoming requests.</li>
+</ul>
+    When the API proxy reaches its limit, the rule is applied and the service returns a status code of `429` or `503` respectively, along with the error message. Subsequent calls are rejected.
+    </td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `429` when calling the proxy?</td>
+    <td>This depends on the error message:
+<ul>
+<li>`Call is blocked - too many requests` and type `insufficient_resources` - This means that the maximum allowed number of calls per tenant in a specific time interval is exceeded. Your client is sending excessive requests and you need to manage the number of requests.</li>
+<li>`Call is blocked - quota exceeded` and type `insufficient_resources` - This means that the paying-tenant quota in a package rate plan has been reached. The calls are rejected until the new quota is redeemed.</li></ul></td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `502` when calling the proxy?</td>
+    <td>This depends on the error message:
+      <ul>
+        <li>`Proxy is not authorized to call upstream service.` - This means that the upstream service is secured with Basic Authentication and the API Proxy service does not have the relevant data. For more information, see the <a href="/overview/security/index.html#SecureaService">Secure a Service</a> document.</li>
+        <li>`Upstream service is not reachable: Connection refused.` - This means that the hosting server refuses to accept the connection on the default port. There can be a problem with the web server software or the software itself is not running.</li>
+        <li>`Upstream service is not reachable: Can not resolve service address.` - This means that the service source URL is not found or has an invalid value.</li>
+        <li>`Connection to upstream service has been reset by remote peer.` - This means that the service sent a connection reset flag (RST). This usually happens when previous data sent was not received.</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `503` when calling the proxy?</td>
+    <td>This depends on the error message:
+      <ul>
+        <li>`Service temporarily unavailable. Please try again later.` and type `service_temporarily_unavailable` - This means that the maximum allowed global number of calls per service in a specific time interval is exceeded. Superfluous or unnecessary calls are made to the API proxy.</li>
+        <li>`Too many active requests. Please try again later.` and type `service_temporarily_unavailable` - This means that the API proxy has reached the maximum number of calls it can process at the same time. Wait a few moments and call the proxy again.</li>
+        <li>`The circuit breaker for requested service is currently open. Please try again later.` and type `circuit_breaker_open` - This means that the target service is sending response codes of `5xx` and the failure ratio is greater than 50%. When the service stops returning the error codes, the circuit breaker is closed automatically after a few minutes.</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Why do I receive an error code of `504` when calling the proxy?</td>
+    <td>You receive an error code of `504` with the message `Service is not reachable: Upstream service connection timeout.`, when the service did not respond in a timely manner. This means that the service source URL is not reachable, or the response took  too long.</td>
+  </tr>
+
+  <tr>
+    <td>What can I do to prevent issues with throttling?</td>
+    <td>These ideas help reduce the numbers of requests to the API proxy:
+<ul>
+<li>Use a test client for development and take control over the number of requests.</li>
+<li>Design your client for error handling.</li>
+<li>Cache results from previous calls.</li>
+<li>Carefully plan and batch the requests.</li>
+<ul>
+    </td>
+  </tr>
+
+</table>

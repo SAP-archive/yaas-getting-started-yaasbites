@@ -1,0 +1,157 @@
+---
+type: Extensibility
+title: 'Extending the Storefront'
+---
+
+You can extend the storefront application in any number of ways, depending on your requirements. You can create an entire parallel application from the bootstrap, enabling parallel services, views, routes, and controllers to exist. This is primarily due to the modular architecture and separation of concerns provided by the Angular framework. This section provides a high-level overview of each type of extensibility with detailed examples.
+
+### Extensibility
+
+You can extend the storefront in the following ways:
+* **Application** - You can bootstrap an entirely different application in parallel to the Demostore and then move the desired architecture and features to the new application.
+* **Modules** - In a new folder, you can have duplicated component modules to enable feature customization.
+* **Services** – With a new file in a new folder, you can separate new services from existing services but still call them in parallel to validate behavior.
+* **Controllers** – By renaming controllers in the same folder or a separate folder, you can alter business logic that connects with the new services or factories to keep custom controllers thin.
+* **Directives** – With granular architecture, you can turn behaviors on or off. HTML component behaviors are encapsulated by a directive and can be altered or removed.
+* **Routes** – With routes for highly divergent templates, behaviors, and services, you can extend the router to add new views.
+
+#### Extending the application
+
+In the Demostore architecture, the `bootstrap.js` file enables you to load the application from any module:<br><br>
+<img src="/overview/extensibility/img/storefrontEx1.png"><br>
+
+The bootstrap loads the Demostore application through the `ds.app` module:
+
+``` javascript
+angular.element( document ).ready( function () {
+	angular.bootstrap( document, ['ds.app'] );
+});
+```
+
+Then you can clone the entire site into a new folder. In this example, it is with a module called `MyApp`:<br><br>
+<img src="/overview/extensibility/img/storefrontEx3.png"><br>
+
+Rename the `app.js` file to your application name, such as `MyNamespace.MyApp`. Then add that file to the `index.html` file. This enables both versions of the storefront to work in parallel throughout your application development life cycle. Reference your application module instead of the `ds.app` module, and your development site is loaded:
+
+``` javascript
+(function () {
+
+    try {
+        angular.element( document ).ready( function () {
+            angular.bootstrap( document, ['MyNamespace.'] );
+        });
+
+    } catch (exception) {
+        console.error('Unable to invoke angular.bootstrap:');
+        console.error(exception);
+    }
+
+})();
+```
+
+At this level, you have the ability to load the full Demostore framework for comparison or to troubleshoot any feature at any time. Switch the bootstrap to point to the original module:<br><br>
+``` javascript
+angular.element( document ).ready( function () {
+	angular.bootstrap( document, ['ds.app'] );
+});
+```
+
+#### Extending modules
+
+Extending modules is similar to extending an application. It uses the same technique to extend a component or feature for customization. For example, you can customize the Cart module by cloning it into a custom cart module named `cart_custom`:
+<br><br>
+<img src="/overview/extensibility/img/storefrontEx6.png"><br>
+
+<div class="panel note"> Make sure the new module is cloned in the **yaas-storefront/public/js/app/** folder. </div>
+
+In the `index.html` file, update all of the references to the files in the **/cart/** folder and make sure they point to the `cart_custom` folder. 
+
+```
+ <script src="js/app/cart_custom/cart-index.js"></script>
+ <script src="js/app/cart_custom/controllers/cart-ctrl.js"></script>
+ <script src="js/app/cart_custom/controllers/cart-note-mixin-ctrl.js"></script>
+ <script src="js/app/cart_custom/directives/cart-auto-toggle.js"></script>
+ <script src="js/app/cart_custom/services/cart-rest.js"></script>
+ <script src="js/app/cart_custom/services/cart-service.js"></script>
+ <script src="js/app/cart_custom/services/cart-note-mixin-service.js"></script>
+``` 
+Any alterations made in the `cart_custom` module contain your business requirements in the checkout process. If a comparison to the original behavior is required, you can revert back to the original `ds.cart` module.
+
+#### Extending services
+
+You can extend specific behavior, such as changing the Cart service, without any modification to the controllers or directives. Clone the existing cart service and alter it, similar to adding a new service, with the `cart-service-custom.js` file:<br><br>
+<img src="/overview/extensibility/img/storefrontEx9.png"><br>
+
+To inject this service as a dependency, change the inclusion of that file. If they are both named `CartSvc`, no other alteration is required:
+
+``` html
+<script src="js/app/cart/controllers/cart-ctrl.js"></script>
+<script src="js/app/cart/directives/cart-auto-toggle.js"></script>
+<script src="js/app/cart/services/cart-rest.js"></script>
+<!--script src="js/app/cart/services/cart-service.js"></script-->
+<script src="js/app/cart/services/cart-service-custom.js"></script>
+<script src="js/app/checkout/checkout-index.js"></script>
+```
+
+Optionally, you can  rename the service to a new name. Afterward, you have a custom service updated to match your business requirements.
+
+#### Extending controllers
+
+Similar to changing services, you can customize the controller to connect to one or more different services:
+
+``` html
+<!--script src="js/app/cart/controllers/cart-ctrl.js"></script-->
+<script src="js/app/cart/controllers/cart-ctrl-custom.js"></script>
+```
+
+For instance, a cart module is updated with a customized controller and a service, but it still uses the same directive behavior:
+
+``` html
+<!--script src="js/app/cart/controllers/cart-ctrl.js"></script-->
+<script src="js/app/cart/controllers/cart-ctrl-custom.js"></script>
+<script src="js/app/cart/directives/cart-auto-toggle.js"></script>
+<script src="js/app/cart/services/cart-rest.js"></script>
+<!--script src="js/app/cart/services/cart-service.js"></script-->
+<script src="js/app/cart/services/cart-service-custom.js"></script>
+<script src="js/app/checkout/checkout-index.js"></script>
+```
+
+Again, you can name the files anything that makes sense for your <%- @partial('generalterm_project') %>. You can see how to mix your customizations to take place at many levels.
+
+#### Extending directives
+
+The behavior of visual components is also extensible. You can compose and decompose them to meet your business requirements. Using the customer details example, there is a directive called **customerDetails**. Its purpose is to show the details of a customer such as name, email, password and etc. This directive requires customer's account provided to it as an attribute. It can be included in your HTML code with this simple line of code:
+
+``` html
+<customer-details account="account"></customer-details>
+```
+
+Similarly, you can add as many directive behaviors as needed.
+
+#### Extending routes
+
+To add a new view, extend the `router.js` file. The following example is a search result module that links the `search-list.html` file to the **SearchList** controller:
+
+``` javascript
+.state('base.search', {
+    url: '/search/:searchString',
+    views: {
+        'main@': {
+            templateUrl: 'js/app/search/templates/search-list.html',
+            controller: 'SearchListCtrl'
+        }
+    },
+    resolve:{
+        searchString: function ($stateParams) {
+            return $stateParams.searchString;
+        }
+    }
+
+})
+```
+
+The new view can be called from the HTML file with `ui-sref="base.search()` or from the JavaScript with the `$state.go(base.search);` command.
+
+### Conclusion
+
+You can mix and match the extensibility of the storefront at many levels of the architecture. This is optimal because it not only enables you to build out your e-commerce site to meet your acceptance criteria, but it also gives you the proof of concept in composition that can be used to prove a variety of features. In addition, working within this hierarchy gives you the ability to merge with an updated storefront branch at any time in the future if you want to include new features or modules. Once you are satisfied with your customizations, the storefront overrides can be completely removed at any time.

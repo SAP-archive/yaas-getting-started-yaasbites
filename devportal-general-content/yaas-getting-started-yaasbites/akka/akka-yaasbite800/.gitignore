@@ -1,0 +1,8 @@
+logs
+target
+/.idea
+/RUNNING_PID
+.sbtserver*
+/project/play-fork-run.sbt
+/project/sbt-ui.sbt
+project/project/

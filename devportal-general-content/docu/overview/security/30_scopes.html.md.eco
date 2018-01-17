@@ -1,0 +1,27 @@
+---
+type: Security
+title: 'Scopes'
+---
+
+OAuth 2.0 scopes are permission settings that allow you to govern resources managed by a service, and the methods used to access these resources. In YaaS, the limitations can be imposed on a client, a specific user, or a combination of both.
+
+Ideally, scope names should refer to actions they allow. For example, the scope:
+<ul>
+  <li><b>hybris.activity_view</b> – This scopes is required to retrieve a list of entities, like activity campaigns.</li>
+  <li><b>hybris.price_manage</b> – This scope is required to create, update, or delete a price.</li>
+</ul>
+
+Secure your service with scopes and manage access to its functionalities and resources. Find out how in <a href="/overview/security/index.html#SecureaService">this</a> document. Later, when you include scopes in requests for access tokens, the YaaS OAuth2 service validates the requests and grants the appropriate permissions.
+
+Scopes are service-bound. This means that you cannot share scopes between services.
+
+### Scopes and HTTP methods
+Scopes are not mapped to HTTP methods on a one-to-one basis. Instead, scopes are mapped to a collection of methods that are grouped by typical usage scenarios. For example, map the **view** scopes to the GET methods, and the **manage** scopes to the POST, PUT, and DELETE methods. This makes it easier to build user roles. Of course, there are exceptions to this rule, but follow this standard whenever possible.
+
+Carefully plan the level of granularity for the scopes in your service. Balance the least authority principle with the convenience of the user.
+
+Find out how to create user roles in <a href="/overview/security/index.html#UserRolesandEffectiveScopes">this</a> document.
+
+<div class="panel info">
+For more information about scopes, see the <a href="https://tools.ietf.org/html/rfc6749#section-3.3">OAuth 2.0 Specification</a>.
+</div>

@@ -1,0 +1,57 @@
+---
+title: Implement the Service Code
+---
+
+The storefront template follows the convention of creating two factories for each service. There is one file to configure the endpoint, and another file that handles the UI business logic. Open the **public/js/app/cart/services/cart-rest.js** file to examine the REST configuration file for the existing cart service. This file configures a Restangular object named **Cart** by setting the cart's base URL as the endpoint defined for it in the **site-config.js** file. The **CartREST** factory has dependencies on both **Restangular** and **SiteConfigSvc**, as seen in the example below:
+
+``` javascript
+'use strict';
+
+angular.module('ds.cart')
+    .factory('CartREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
+
+        return {
+            /** Endpoint for Main Cart.*/
+            Cart: Restangular.withConfig(function (RestangularConfigurer) {
+                RestangularConfigurer.setBaseUrl(siteConfig.apis.cart.baseUrl);
+            })
+        };
+
+
+    }]);
+```
+
+Add the following code sample to the **wishlist-rest.js** file:
+
+``` javascript
+'use strict';
+
+angular.module('ds.wishlist')
+   .factory('WishlistREST', ['Restangular', 'SiteConfigSvc', function(Restangular, siteConfig){
+       return {
+           /** Endpoint for wishlist.*/
+           Wishlist: Restangular.withConfig(function (RestangularConfigurer) {
+               RestangularConfigurer.setBaseUrl(siteConfig.apis.wishlist.baseUrl);
+           })
+       };
+
+   }]);
+```
+
+Before you implement the client logic in the **wishlist-service.js** file, examine the **cart-service.js** file. This file is a little more complicated because it handles all of the cart-related operations that travel across the wire, and online shopping cart functionality is fairly complex. The top of the file defines some private variables and functions that are only available to the rest of the **cart-service.js** file. The return block contains the **CartSvc** functions that are publicly available to the rest of the application, including the cart's controller. You can get carts, refresh carts, and update the contents or properties of carts. For the purpose of this tutorial, your **WishlistSvc** is much simpler, because you are only implementing the functionality for creating a new wishlist. To create the **WishlistSvc** factory, copy the following code sample into the **wishlist-service.js** file:
+
+``` javascript
+'use strict';
+
+angular.module('ds.wishlist')
+    .factory('WishlistSvc', ['WishlistREST',
+        function(WishlistREST){
+            return {
+                createWishlist: function (newWishlist) {
+                    WishlistREST.Wishlist.all('wishlists').post(newWishlist);
+                }
+            };
+        }]);
+```
+
+Examine the **createWishlist** function to gain an understanding of how the **WishlistREST** Restangular object is used. The `.all('wishlists')` portion of this call specifies to append the string `wishlists` to the end of the wishlist endpoint. The complete URL of this POST request is http://localhost:8080/wishlists/, in accordance with the service's specification. The **newWishlist** object, defined in the wishlist controller, is passed as a JSON-formatted object.

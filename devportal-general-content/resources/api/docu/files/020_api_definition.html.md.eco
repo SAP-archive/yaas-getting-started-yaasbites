@@ -1,0 +1,53 @@
+---
+title: API Definition with RAML
+---
+
+YaaS services use <%- @partial('generalterm_raml') %>, the [RESTful API Modeling Language](http://raml.org), to describe their own API in a natural and intuitive way.
+
+### Exposing the RAML API Definition
+In order to make a service easily accessible to (potential) API consumers, the service itself must expose its API definition as a RAML file.
+The service must expose the RAML API definition through HTTP at a well-defined URL.
+The location can be resolved relative to the base-URL of the service itself, using the following relative URL:
+
+``` no-highlight
+meta-data/api.raml
+```
+
+Consider the following example:
+
+Service Base-URL:        `https://api.beta.yaas.io/hybris/configuration/v1/`
+RAML API Definition URL: `https://api.beta.yaas.io/hybris/configuration/v1/meta-data/api.raml`
+
+Thus the RAML file at `meta-data/api.raml` serves as the entry point to the API definition of a service.
+
+Naturally, this RAML file may reference additional resources, like RAML traits and resource-types, JSON Schemas, or example data.
+While (potential) consumers of the API will process such additional resources, they should not make any unwarranted assumptions about them.
+In particular, **they must not assume that names or contents of particular additional resources remain stable over time**.
+
+### Structuring RAML Resources
+That said, authors of RAML API definitions are encouraged to follow certain conventions for structuring and naming their additional resources.
+According to these conventions, the following relative URL paths and file suffixes should be used:
+
+| Resource | Path | Suffix | Example |
+| - | - | - | - |
+| RAML API Definition | `meta-data` | `api.raml` | `meta-data/api.raml` |
+| RAML Trait | `meta-data/traits/` | `.raml` | `meta-data/traits/colored.raml` |
+| RAML Resource Type | `meta-data/resourceTypes/` | `.raml` | `meta-data/resourceTypes/items.raml` |
+| RAML Security Scheme | `meta-data/securitySchemes` | `.raml` | `meta-data/securitySchemes/oauth_2_0.raml` |
+| JSON Schema | `meta-data/schemas/` | `.json` | `meta-data/schemas/thing.json` |
+| Example Data | `meta-data/examples/` | `-example.json` | `meta-data/examples/thing-example.json` |
+
+References between these resources of the RAML API definition should be made by relative URLs.
+
+### Expansion of RAML Resources
+Optionally, a service may provide **expanded** views of its `meta-data/api.raml` file, which can facilitate processing of the RAML API definition by consumers.
+If supported, these views can be activated by a query parameter named `expand` that supports the following values:
+
+| Value | View Semantics |
+| - | - |
+| `none` | No expansion is performed. That is, the original `meta-data/api.raml` is passed through unchanged. *This is the default.* |
+| `compact` | External RAML resources are inlined transitively. Definitions from traits and resource-types are applied to the respective resources and actions. JSON Schemas are also inlined, but in a shallow manner. That is, references inside the JSON Schemas are not inlined. |
+| `full` | External RAML resources are inlined transitively. Definitions from traits and resource-types are applied to the respective resources and actions. JSON Schemas are also inlined transitively. That is, references inside the JSON Schemas are inlined, too. |
+
+If the service does not support a particular view, it may default to not performing any expansion whatsoever.
+That behavior corresponds to `expand=none`.
